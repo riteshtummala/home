@@ -1,0 +1,103 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0px;
+}
+main{
+    margin: 20px;
+}
+h1{
+    text-align: center;
+}
+.navbar ul{
+    list-style-type: none;
+    background-color: hsl(0, 5%, 30%);
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+.navbar a{
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-align: center;
+}
+.navbar a:hover{
+    background-color: hsl(0, 0%, 50%);
+}
+.navbar li{
+    float:left;
+}
+body{
+    margin: 0px;
+}
+header{
+    background-color: hsl(0, 0%, 86%);
+    text-align: center;
+    padding: 25px;
+}
+.navbar{
+    background-color: hsl(0, 0%, 15%);
+    height: 50px;
+}
+aside{
+    width: 100%;
+    padding: 20px;
+}
+section{
+    width: 100%;
+    padding: 20px;
+}
+article{
+    width: 100%;
+    padding: 20px;
+}
+footer{
+    display: block;
+    clear: both;
+    background-color: hsl(0, 0%, 86%);
+    text-align: center;
+    padding: 25px;
+}
+.Link{
+    text-align: center;
+    margin: 50px;
+}
+.Link a{
+    text-decoration: none;
+    color: hsl(300, 54%, 34%);
+}
+.Link a:hover{
+    color: hsl(300, 54%, 60%);
+    text-decoration: underline;
+}
+.vtop{
+    text-align: center;
+    background-color: hsl(0, 0%, 86%);
+    padding: 40px;
+}
+.schedule{
+    text-align: center;
+    background-color: hsl(0, 0%, 86%);
+    padding: 40px;
+}
+.login{
+    text-align: center;
+    background-color: hsl(0, 0%, 86%);
+    padding: 40px;
+}
+.note{
+    text-align: center;
+    padding: 20px;
+    color: red;
+}
+.image img{
+padding: 20px;
+}
+@media screen and (max-width:600px){
+    aside, section, article{
+        width:100%;
+    }
+}
