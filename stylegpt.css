@@ -10,6 +10,11 @@ main {
 h1 {
     text-align: center;
 }
+header {
+    background-color: hsl(0, 0%, 86%);
+    text-align: center;
+    padding: 25px;
+}
 .navbar {
     background-color: hsl(0, 0%, 15%);
     display: flex;
@@ -41,93 +46,57 @@ h1 {
 .navbar a:hover {
     background-color: hsl(0, 0%, 50%);
 }
-
-/* Responsive Layout */
-@media screen and (max-width: 600px) {
-    .navbar ul {
-        flex-direction: column; /* Stack items vertically */
-        width: 100%;
-        gap: 5px; /* Reduce spacing for compact display */
-    }
-    .navbar a {
-        width: 100%; /* Make links take full width */
-        text-align: center;
-    }
-}
-body{
-    margin: 0px;
-}
-header{
-    background-color: hsl(0, 0%, 86%);
-    text-align: center;
-    padding: 25px;
-}
-.navbar{
-    background-color: hsl(0, 0%, 15%);
-    height: 50px;
-}
-aside{
+aside,
+section,
+article {
     width: 100%;
     padding: 20px;
 }
-section{
-    width: 100%;
-    padding: 20px;
-}
-article{
-    width: 100%;
-    padding: 20px;
-}
-footer{
+footer {
     display: block;
     clear: both;
     background-color: hsl(0, 0%, 86%);
     text-align: center;
     padding: 25px;
 }
-.Link{
+.Link {
     text-align: center;
     margin: 50px;
 }
-.Link a{
+.Link a {
     text-decoration: none;
     color: hsl(300, 54%, 34%);
 }
-.Link a:hover{
+.Link a:hover {
     color: hsl(300, 54%, 60%);
     text-decoration: underline;
 }
-.vtop{
+.vtop,
+.schedule,
+.login {
     text-align: center;
     background-color: hsl(0, 0%, 86%);
     padding: 40px;
 }
-.schedule{
-    text-align: center;
-    background-color: hsl(0, 0%, 86%);
-    padding: 40px;
-}
-.login{
-    text-align: center;
-    background-color: hsl(0, 0%, 86%);
-    padding: 40px;
-}
-.note{
+.note {
     text-align: center;
     padding: 20px;
     color: red;
 }
-.image img{
-padding: 20px;
+.image img {
+    padding: 20px;
 }
+
+/* Responsive Layout */
 @media screen and (max-width: 600px) {
     .navbar ul {
-        flex-direction: column; 
+        flex-direction: column; /* Stack items vertically */
         width: 100%;
-        gap: 5px; 
+        gap: 5px; /* Add compact spacing */
     }
     .navbar a {
-        width: 100%; 
+        width: 100%; /* Make links take full width */
         text-align: center;
     }
 }
+
