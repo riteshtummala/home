@@ -1,0 +1,11 @@
+@media screen and (max-width: 600px) {
+    .navbar ul {
+        flex-direction: column; 
+        width: 100%;
+        gap: 5px; 
+    }
+    .navbar a {
+        width: 100%; 
+        text-align: center;
+    }
+}
