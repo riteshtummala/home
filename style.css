@@ -15,7 +15,7 @@ h1{
     background-color: hsl(0, 5%, 30%);
     padding: 0px;
     margin: 0px;
-    overflow: hidden;
+    overflow: auto;
 }
 .navbar a{
     color: white;
