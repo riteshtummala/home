@@ -1,34 +1,58 @@
-*{
+* {
     box-sizing: border-box;
 }
-body{
+body {
     margin: 0px;
 }
-main{
+main {
     margin: 20px;
 }
-h1{
+h1 {
     text-align: center;
 }
-.navbar ul{
-    list-style-type: none;
-    background-color: hsl(0, 5%, 30%);
-    padding: 0px;
-    margin: 0px;
-    overflow: auto;
+.navbar {
+    background-color: hsl(0, 0%, 15%);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
 }
-.navbar a{
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 10px; /* Add spacing between items */
+    justify-content: center;
+}
+.navbar li {
+    margin: 0;
+}
+.navbar a {
     color: white;
     text-decoration: none;
-    padding: 15px;
+    padding: 10px 15px;
     display: block;
+    border-radius: 5px;
     text-align: center;
 }
-.navbar a:hover{
+.navbar a:hover {
     background-color: hsl(0, 0%, 50%);
 }
-.navbar li{
-    float:left;
+
+/* Responsive Layout */
+@media screen and (max-width: 600px) {
+    .navbar ul {
+        flex-direction: column; /* Stack items vertically */
+        width: 100%;
+        gap: 5px; /* Reduce spacing for compact display */
+    }
+    .navbar a {
+        width: 100%; /* Make links take full width */
+        text-align: center;
+    }
 }
 body{
     margin: 0px;
@@ -96,8 +120,14 @@ footer{
 .image img{
 padding: 20px;
 }
-@media screen and (max-width:600px){
-    aside, section, article{
-        width:100%;
+@media screen and (max-width: 600px) {
+    .navbar ul {
+        flex-direction: column; 
+        width: 100%;
+        gap: 5px; 
+    }
+    .navbar a {
+        width: 100%; 
+        text-align: center;
     }
 }
