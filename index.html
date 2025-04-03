@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Your Products - Sign Up</title>
+    <link rel="icon" type="image/png" href="Picture2.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Preloader styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .preloader img {
+            width: 200px;
+            height: auto;
+            animation: logoFadeOut 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes logoFadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Hide content initially */
+        .main-content {
+            display: none;
+        }
+
+        /* Main Content styles */
+        body {
+            background: url('background-image.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #e1306c;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #c2255a;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Sign Up Form styles */
+        .signup-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none; /* Hidden initially */
+        }
+
+        .signup-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .signup-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .signup-container button {
+            width: 100%;
+            background: #e1306c;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .signup-container button:hover {
+            background: #c2255a;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <img src="Picture2.png" alt="Logo">
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="signup-container" id="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form" action="signup.php" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <h1>Know Your Products</h1>
+            <p>We're launching soon. Stay tuned!</p>
+            <a href="https://www.instagram.com/know_your_products_market?igsh=MXQ2MTBiM2d2OTU4MA==" class="btn" target="_blank">Visit Instagram Page</a>
+        </div>
+    </div>
+
+    <script>
+        // Wait 1 second, then hide preloader and show sign up form
+        setTimeout(() => {
+            document.querySelector(".preloader").style.display = "none";
+            document.getElementById("signup-container").style.display = "block"; // Show sign up form
+        }, 2000);
+    </script>
+
+</body>
+</html>
