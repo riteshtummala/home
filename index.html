@@ -145,7 +145,7 @@
     <!-- Sign Up Form -->
     <div class="signup-container" id="signup-container">
         <h2>Sign Up</h2>
-        <form id="signup-form" action="signup.php" method="POST">
+        <form id="signup-form" action="" method="POST"> <!-- Action set to current file -->
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
@@ -169,6 +169,44 @@
             document.getElementById("signup-container").style.display = "block"; // Show sign up form
         }, 2000);
     </script>
+
+    <?php
+    // Database connection configuration
+    $servername = "localhost"; // Change as necessary
+    $username = "your_db_username"; // Change as necessary
+    $password = "your_db_password"; // Change as necessary
+    $dbname = "products_db"; // Change as necessary
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Check if the form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $email, $password);
+
+        // Set parameters and execute
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password for security
+
+        if($stmt->execute()) {
+            echo "<script>alert('New record created successfully');</script>";
+        } else {
+            echo "<script>alert('Error: " . $stmt->error . "');</script>";
+        }
+
+        $stmt->close();
+    }
+
+    $conn->close();
+    ?>
 
 </body>
 </html>
