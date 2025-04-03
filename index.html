@@ -60,6 +60,7 @@
             align-items: center;
             color: #fff;
             text-align: center;
+            visibility: hidden; /* Hide body initially */
         }
 
         .container {
@@ -163,10 +164,11 @@
     </div>
 
     <script>
-        // Wait 1 second, then hide preloader and show sign up form
+        // Wait 2 seconds, then hide preloader and show main content
         setTimeout(() => {
             document.querySelector(".preloader").style.display = "none";
             document.getElementById("signup-container").style.display = "block"; // Show sign up form
+            document.body.style.visibility = "visible"; // Show body content
         }, 2000);
     </script>
 
