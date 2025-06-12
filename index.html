@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Know Your Products - Sign Up</title>
-  <link rel="icon" type="image/png" href="Picture2.png">
-  <link rel="stylesheet" href="style.css">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Your Products</title>
+    <link rel="icon" type="image/png" href="Picture2.png">
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -26,58 +25,39 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeIn 2s ease-in-out;
         }
 
         .preloader img {
             width: 200px;
             height: auto;
-            animation: logoFadeOut 2s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes logoFadeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        /* Hide content initially */
-        .main-content {
-            display: none;
         }
 
         /* Main Content styles */
         body {
-            background: url('background-image.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
+            background: url('bg.png') no-repeat center center fixed;
+            background-size: cover; /* Ensures the background covers the entire area */
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
             color: #fff;
             text-align: center;
-            visibility: hidden; /* Hide body initially */
         }
 
         .container {
             background: rgba(0, 0, 0, 0.6);
             padding: 20px 40px;
-            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin: auto;
+            flex-grow: 1; /* Allows the container to grow and take available space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
         }
 
         h1 {
             font-size: 3rem;
             margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
         }
 
         .btn {
@@ -89,6 +69,7 @@
             border-radius: 5px;
             font-size: 1rem;
             transition: background 0.3s ease;
+            margin: 5px; /* Add space between buttons */
         }
 
         .btn:hover {
@@ -99,100 +80,114 @@
             transform: scale(0.95);
         }
 
-        /* Sign Up Form styles */
-        .signup-container {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px 40px;
-            border-radius: 15px;
+        /* New section styles */
+        .section {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap; /* Allow blocks to wrap on smaller screens */
+        }
+
+        .block {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            padding: 20px;
+            width: 45%; /* Adjust width as needed */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            display: none; /* Hidden initially */
+            text-align: center;
+            margin: 10px; /* Add margin around blocks */
         }
 
-        .signup-container h2 {
-            margin-bottom: 20px;
+        .block img {
+            max-width: 100%; /* Make images responsive */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 300px; /* Limit height for uniformity, adjust as needed */
+            margin-bottom: 10px;
         }
 
-        .signup-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .signup-container button {
-            width: 100%;
-            background: #e1306c;
+        /* Footer styles */
+        footer {
+            background-color: #000;
             color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
+            padding: 10px 0;
+            position: relative;
         }
 
-        .signup-container button:hover {
-            background: #c2255a;
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .section {
+                flex-direction: column; /* Stack blocks on smaller screens */
+                align-items: center;
+            }
+
+            .block {
+                width: 80%; /* Full width on smaller screens */
+                margin-bottom: 20px; /* Space between blocks */
+            }
         }
-  </style>
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="preloader"><img src="Picture2.png" alt="Logo"></div>
-  <div class="signup-container" id="signup-container">
-    <h2>Sign Up</h2>
-    <form id="signup-form" action="" method="post" name="signup-form">
-      <input type="text" name="username" placeholder="Username" required=""> <input type="email" name="email" placeholder="Email" required=""> <input type="password" name="password" placeholder="Password" required=""> <button type="submit">Sign Up</button>
-    </form>
-  </div>
-  <div class="main-content">
-    <div class="container">
-      <h1>Know Your Products</h1>
-      <p>We're launching soon. Stay tuned!</p><a href="https://www.instagram.com/know_your_products_market?igsh=MXQ2MTBiM2d2OTU4MA==" class="btn" target="_blank">Visit Instagram Page</a>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <img src="Picture2.png" alt="Logo">
     </div>
-  </div>
-  <script>
-        // Wait 2 seconds, then hide preloader and show main content
-        setTimeout(() => {
-            document.querySelector(".preloader").style.display = "none";
-            document.getElementById("signup-container").style.display = "block"; // Show sign up form
-            document.body.style.visibility = "visible"; // Show body content
-        }, 2000);
-  </script> <?php
-    // Database connection configuration
-    $servername = "localhost"; // Change as necessary
-    $username = "your_db_username"; // Change as necessary
-    $password = "your_db_password"; // Change as necessary
-    $dbname = "products_db"; // Change as necessary
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <h1>Know Your Products</h1>
+            <a href="index.html" class="btn">Home</a> <!-- Home button below the heading -->
+        </div>
+        
+        <!-- New Sections for Photo Prize and Shopping Link -->
+        <div class="section">
+            <div class="block">
+                <img src="Mustangg.png" alt="Photo Prize"> <!-- Placeholder image -->
+                <h2>Boult Mustang Gaming Buds</h2>
+                <a href="https://amzn.to/4jHLkBr" class="btn">Buy Now</a> <!-- Buy Now button -->
+                <a href="#" class="btn">Know Product</a> <!-- Know Product button -->
+            </div>
+            <div class="block">
+                <img src="Mouse.png" alt="Shopping Link" href="https://amzn.to/4jHMvkl"> <!-- Placeholder image -->
+                <h2>LYKAN Gaming Mouse</h2>
+                <a href="https://amzn.to/4jHMvkl" class="btn">Buy Now</a> <!-- Buy Now button -->
+                <a href="#" class="btn">Know Product</a> <!-- Know Product button -->
+            </div>
+        </div>
+    </div>
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    <!-- Footer -->
+    <footer>
+        <p>Creator: Tummala Ritesh | Mail: riteshtummala7@gmail.com</p>
+    </footer>
 
-    // Check if the form is submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $password);
+    <script>
+        // Immediately hide preloader and show main content
+        document.querySelector(".preloader").style.display = "none";
+        document.querySelector(".main-content").style.display = "block";
+    </script>
 
-        // Set parameters and execute
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password for security
-
-        if($stmt->execute()) {
-            echo "<script>alert('New record created successfully');</script>";
-        } else {
-            echo "<script>alert('Error: " . $stmt->error . "');</script>";
-        }
-
-        $stmt->close();
-    }
-
-    $conn->close();
-    ?>
 </body>
 </html>
