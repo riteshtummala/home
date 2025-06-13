@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Know Your Products</title>
+<link rel="icon" type="image/png" href="Picture2.png">
+<style>
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+header {
+  background: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.product-image {
+  width: 30%; /* Set width to 70% of the container */
+  height: auto;
+  border-radius: 8px;
+  margin: 0 auto; /* Center the image */
+  display: block; /* Ensure it's a block element for centering */
+}
+.buy-button, .home-button, .return-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+  margin: 10px 0; /* Space between buttons */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Ensure it behaves like a button */
+}
+.buy-button:hover, .home-button:hover, .return-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+.home-button {
+  background-color: #007BFF; /* Home button color */
+}
+.home-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+.reviews {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Space below reviews */
+}
+.star {
+  color: #FFD700; /* Darker gold for stars */
+  margin-right: 5px; /* Space between stars */
+  font-size: 28px; /* Increase star size */
+}
+.rating-text {
+  margin-left: 10px; /* Space between stars and text */
+}
+.description {
+  font-size: 18px; /* Larger text size for description */
+  font-family: 'Verdana', sans-serif; /* Nicer font family */
+  line-height: 1.6; /* Improve readability */
+  margin-top: 15px; /* Space above description */
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Know Your Products</h1>
+<a href="index.html" class="home-button">Home</a>
+</header>
+<div class="container">
+<h2>Dyazo Water Resistant Laptop Sleeve</h2>
+<img src="Laptopc.png" alt="Product Image" class="product-image">
+<div class="reviews">
+  <span class="star">★</span>
+  <span class="star">★</span>
+  <span class="star">★</span>
+  <span class="star">★</span>
+  <span class="star">⯨ </span>
+  <span class="rating-text">(4.3/5)</span>
+</div>
+<p class="description">
+💧 Water-Resistant Fabric: Keeps your laptop safe from splashes, spills, and light rain.<br>
+🎒 Convenient Carry Handle: Carry it comfortably like a briefcase or slip it into your bag.<br>
+💻 Compatible with 15" to 15.6" Laptops & Notebooks: Perfect fit for popular brands like HP, Dell, Lenovo, Asus, and more.<br>
+🧳 Lightweight & Slim Design: Ultra-slim profile for easy portability without bulk.<br>
+🛡️ Shockproof Cushioning: Padded interior for added protection against accidental drops and bumps.<br>
+🧥 Smooth Zipper Closure: Premium quality zipper for hassle-free, secure access.<br>
+🎨 Elegant Grey Finish: A classic, professional look suitable for office, college, or travel.
+</p>
+<a href="https://amzn.to/4kYetcE" class="buy-button">Buy Now</a>
+<a href="index.html" class="return-button">Return Home</a>
+</div>
+</body>
+</html>
