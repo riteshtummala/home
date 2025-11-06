@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Clear: Drug-Free VIT-AP</title>
+    <!-- Load Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for aesthetic components -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 3px; }
+        /* Font setup */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom CSS to hide inactive pages */
+        .page:not(.active) {
+            display: none;
+        }
+        /* Style for the Reflex Reaction Challenge button */
+        #reaction-box {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4f46e5', /* Indigo-600 */
+                        'secondary': '#10b981', /* Emerald-500 */
+                        'dark-bg': '#0f172a', /* Slate-900 */
+                        'card-bg': '#1e293b', /* Slate-800 */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark-bg text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-10 bg-card-bg shadow-lg">
+        <div class="max-w-4xl mx-auto p-4 flex justify-between items-center">
+            <button onclick="showPage('home')" class="text-xl font-extrabold text-primary tracking-tight cursor-pointer focus:outline-none">
+                VIT-AP Clear
+            </button>
+            <button id="menu-toggle" class="md:hidden text-primary focus:outline-none">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+        <nav id="nav-menu" class="max-w-4xl mx-auto md:flex md:items-center transition-all duration-300 overflow-hidden md:h-auto h-0">
+            <div class="flex flex-col md:flex-row md:space-x-4 p-4 md:p-0">
+                <button onclick="showPage('home')" class="nav-btn active-nav-btn">
+                    <i data-lucide="home" class="w-4 h-4 mr-1"></i> Home
+                </button>
+                <button onclick="showPage('facts')" class="nav-btn">
+                    <i data-lucide="info" class="w-4 h-4 mr-1"></i> Drug Facts
+                </button>
+                <button onclick="showPage('games'); showGame('trivia-game')" class="nav-btn">
+                    <i data-lucide="controller" class="w-4 h-4 mr-1"></i> Games & Challenges
+                </button>
+                <button onclick="showPage('resources')" class="nav-btn">
+                    <i data-lucide="life-buoy" class="w-4 h-4 mr-1"></i> Resources
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-4xl mx-auto w-full p-4 sm:p-6 pb-20">
+        
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="text-center py-10 bg-card-bg/50 rounded-xl shadow-xl mb-8">
+                <h2 class="text-4xl sm:text-5xl font-black text-white mb-2">Campus Clear</h2>
+                <p class="text-xl text-primary font-semibold">Your Guide to a Drug-Free Life at VIT-AP</p>
+            </div>
+            <div class="space-y-6">
+                <img src="https://placehold.co/800x200/4f46e5/ffffff?text=Visual+Impact%3A+Strong+Community+Pledge" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/800x200/4f46e5/ffffff?text=Visual+Impact'"
+                     class="w-full rounded-lg shadow-2xl mb-6 object-cover h-40">
+                
+                <p class="text-lg leading-relaxed text-slate-300">
+                    Being drug-free is about making conscious, healthy choices every day. This initiative is designed to provide you with the **facts, resources, and confidence** you need to navigate college life successfully and responsibly. Challenge yourself with our games and explore the resources to be an advocate for a healthy campus.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="showPage('facts')" class="w-full text-left p-4 bg-card-bg rounded-lg shadow-md hover:shadow-primary/50 transition duration-300">
+                        <i data-lucide="check-circle" class="w-8 h-8 text-secondary mb-2"></i>
+                        <h3 class="font-bold text-lg">Know Your Facts</h3>
+                        <p class="text-sm text-slate-400">Accurate, non-judgmental information on risks and consequences.</p>
+                    </button>
+                    <button onclick="showPage('games'); showGame('reflex-game')" class="w-full text-left p-4 bg-card-bg rounded-lg shadow-md hover:shadow-primary/50 transition duration-300">
+                        <i data-lucide="zap" class="w-8 h-8 text-red-500 mb-2"></i>
+                        <h3 class="font-bold text-lg">Test Your Reflexes</h3>
+                        <p class="text-sm text-slate-400">Can you make the right choice when the pressure is on? Try the game!</p>
+                    </button>
+                    <button onclick="showPage('resources')" class="w-full text-left p-4 bg-card-bg rounded-lg shadow-md hover:shadow-primary/50 transition duration-300">
+                        <i data-lucide="message-square" class="w-8 h-8 text-amber-500 mb-2"></i>
+                        <h3 class="font-bold text-lg">Find Support</h3>
+                        <p class="text-sm text-slate-400">Immediate access to on-campus and external helplines.</p>
+                    </button>
+                </div>
+
+                <div class="pt-8">
+                    <h3 class="text-2xl font-bold text-secondary mb-4 border-b border-card-bg pb-2">Start Playing!</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="showPage('games'); showGame('trivia-game')" class="game-link-btn bg-primary hover:bg-indigo-700">
+                            <i data-lucide="brain" class="w-5 h-5 mr-2"></i> Trivia Challenge
+                        </button>
+                        <button onclick="showPage('games'); showGame('reflex-game')" class="game-link-btn bg-red-600 hover:bg-red-700">
+                            <i data-lucide="zap" class="w-5 h-5 mr-2"></i> Reflex Challenge
+                        </button>
+                        <button onclick="showPage('games'); showGame('myth-game')" class="game-link-btn bg-yellow-600 hover:bg-yellow-700">
+                            <i data-lucide="book-open-check" class="w-5 h-5 mr-2"></i> Myth/Fact Sort
+                        </button>
+                        <button onclick="showPage('games'); showGame('coping-game')" class="game-link-btn bg-pink-600 hover:bg-pink-700">
+                            <i data-lucide="puzzle" class="w-5 h-5 mr-2"></i> Coping Match
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drug Facts Page -->
+        <section id="facts" class="page">
+            <h2 class="text-3xl font-bold text-primary mb-6">Drug Facts: What You Must Know</h2>
+            <div class="space-y-6">
+                
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white flex items-center mb-2"><i data-lucide="cigarette" class="w-5 h-5 mr-2 text-red-400"></i> Tobacco & Vaping (Legal & Health Risk)</h3>
+                    <p class="text-slate-300">
+                        Vaping is strictly prohibited on campus. The high level of **nicotine** in vaping liquids is highly addictive and interferes with adolescent brain development. **Myth Buster:** Vaping aerosol is not harmless water vapor; it contains heavy metals and cancer-causing chemicals.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white flex items-center mb-2"><i data-lucide="leaf" class="w-5 h-5 mr-2 text-green-400"></i> Cannabis (Illegal & Academic Risk)</h3>
+                    <p class="text-slate-300">
+                        Cannabis remains **illegal in India** and is banned within VIT-AP premises. Regular use significantly **impairs memory, attention, and coordination**, leading to poor academic results and severe disciplinary/legal action.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white flex items-center mb-2"><i data-lucide="hand" class="w-5 h-5 mr-2 text-yellow-400"></i> Refusal Skills: Dealing with Pressure</h3>
+                    <p class="text-slate-300">
+                        Peer pressure is common, but you have the power to say **No**. Practice simple, firm refusal techniques like: "No thanks, I'm good," or "I don't do that." Your true friends will respect your choice.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white flex items-center mb-2"><i data-lucide="gavel" class="w-5 h-5 mr-2 text-red-500"></i> Strict Policy & Consequences</h3>
+                    <p class="text-red-300">
+                        Possession, consumption, or sale of any illegal substance leads to **immediate disciplinary action** (suspension/expulsion) by the university and potential criminal charges under Indian law (NDPS Act).
+                    </p>
+                </div>
+                
+                <img src="https://placehold.co/800x150/10b981/0f172a?text=Infographic%3A+Impact+on+Student+Life" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/800x150/10b981/0f172a?text=Infographic+Placeholder'"
+                     class="w-full rounded-lg shadow-2xl mb-6 object-cover h-24">
+
+            </div>
+        </section>
+        
+        <!-- Games & Challenges Page -->
+        <section id="games" class="page">
+            <h2 class="text-3xl font-bold text-secondary mb-6">Games & Challenges</h2>
+
+            <div class="flex space-x-2 border-b border-card-bg mb-6 overflow-x-auto pb-1">
+                <button id="tab-trivia" class="tab-btn active-tab-btn" onclick="showGame('trivia-game')">
+                    <i data-lucide="brain" class="w-4 h-4 mr-1"></i> Trivia
+                </button>
+                <button id="tab-reflex" class="tab-btn" onclick="showGame('reflex-game')">
+                    <i data-lucide="zap" class="w-4 h-4 mr-1"></i> Reflex
+                </button>
+                <button id="tab-myth" class="tab-btn" onclick="showGame('myth-game')">
+                    <i data-lucide="book-open-check" class="w-4 h-4 mr-1"></i> Myth/Fact Sort
+                </button>
+                <button id="tab-coping" class="tab-btn" onclick="showGame('coping-game')">
+                    <i data-lucide="puzzle" class="w-4 h-4 mr-1"></i> Coping Match
+                </button>
+            </div>
+
+            <!-- 1. Trivia Challenge Content -->
+            <div id="trivia-game" class="game-content active-game space-y-4">
+                <p class="text-slate-400">Test your knowledge on drug facts, legal consequences, and prevention strategies. Achieve a perfect score!</p>
+                
+                <div id="trivia-container" class="space-y-4">
+                    <div id="quiz-header" class="text-center p-4 rounded-lg bg-card-bg shadow-md">
+                        <p class="text-sm font-medium text-slate-400">Question <span id="current-q-num">1</span> of <span id="total-q-num"></span></p>
+                        <p id="score-display" class="text-xl font-bold text-primary mt-1">Score: 0</p>
+                    </div>
+
+                    <div id="question-card" class="p-6 bg-card-bg rounded-xl shadow-xl border-t-4 border-primary">
+                        <p id="question-text" class="text-xl font-semibold mb-6"></p>
+                        
+                        <div id="options-container" class="space-y-3"></div>
+
+                        <button id="next-btn" class="w-full mt-6 bg-secondary hover:bg-teal-600 text-dark-bg font-bold py-3 rounded-lg shadow-lg transition duration-300" onclick="nextQuestion()" style="display: none;">
+                            Next Question <i data-lucide="arrow-right" class="w-4 h-4 ml-2 inline-block"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="feedback-message" class="hidden p-4 rounded-lg text-center font-bold text-white shadow-lg transition duration-300"></div>
+
+                    <div id="results-screen" class="hidden text-center p-8 bg-card-bg rounded-xl shadow-xl">
+                        <h3 class="text-3xl font-extrabold text-secondary mb-3">Quiz Complete!</h3>
+                        <p class="text-2xl mb-6">Your Final Score: <span id="final-score" class="font-black text-primary">0</span> / <span id="max-score"></span></p>
+                        <p id="results-message" class="text-lg text-slate-300 mb-6"></p>
+                        <button class="bg-primary hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300" onclick="startQuiz()">Play Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Reflex Reaction Challenge Content -->
+            <div id="reflex-game" class="game-content hidden space-y-4 text-center">
+                <h3 class="text-2xl font-bold text-red-400">Reflex Reaction Challenge</h3>
+                <p class="text-slate-400 max-w-xl mx-auto">**Simulate quick decision-making under pressure.** Click the box *immediately* when it turns **GREEN**. A fast reaction time indicates better impulse control.</p>
+                <div class="flex flex-col items-center justify-center pt-8">
+                    <div id="reaction-box" class="bg-gray-500 rounded-lg shadow-2xl flex items-center justify-center mb-6 text-xl font-bold" onclick="handleReactionClick()">
+                        <span id="box-text">Click START</span>
+                    </div>
+
+                    <p id="reaction-time-display" class="text-3xl font-black text-secondary my-4">Time: 0 ms</p>
+                    
+                    <button id="reaction-start-btn" class="bg-primary hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300" onclick="startReactionGame()">START NEW ROUND</button>
+                    
+                    <p id="reaction-score-board" class="mt-4 text-slate-300">Best Time: <span id="best-time">--</span> ms</p>
+                </div>
+            </div>
+
+            <!-- 3. Myth/Fact Sort Content -->
+            <div id="myth-game" class="game-content hidden space-y-4">
+                <h3 class="text-2xl font-bold text-yellow-400 mb-4">Myth/Fact Sort: Debunking Misinformation</h3>
+                <p class="text-slate-400">Sort the statement below as quickly as possible. Every statement is either a common myth or a scientific fact.</p>
+
+                <div id="myth-container" class="space-y-4">
+                    <div id="myth-header" class="text-center p-4 rounded-lg bg-card-bg shadow-md">
+                        <p class="text-sm font-medium text-slate-400">Statement <span id="current-myth-num">1</span> of <span id="total-myth-num"></span></p>
+                        <p id="myth-score-display" class="text-xl font-bold text-yellow-400 mt-1">Score: 0</p>
+                    </div>
+
+                    <div id="myth-statement-card" class="p-6 bg-card-bg rounded-xl shadow-xl border-t-4 border-yellow-400 text-center">
+                        <p id="myth-statement-text" class="text-xl font-semibold mb-6"></p>
+                        
+                        <div class="flex space-x-4 justify-center">
+                            <button id="myth-btn" class="sort-btn flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg shadow-lg transition duration-300 flex items-center justify-center" onclick="checkMythSort(false)">
+                                <i data-lucide="help-circle" class="w-5 h-5 mr-2"></i> MYTH
+                            </button>
+                            <button id="fact-btn" class="sort-btn flex-1 bg-secondary hover:bg-teal-600 text-dark-bg font-bold py-3 rounded-lg shadow-lg transition duration-300 flex items-center justify-center" onclick="checkMythSort(true)">
+                                <i data-lucide="check-circle" class="w-5 h-5 mr-2"></i> FACT
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="myth-feedback-message" class="hidden p-4 rounded-lg text-center font-bold text-white shadow-lg transition duration-300"></div>
+
+                    <div id="myth-results-screen" class="hidden text-center p-8 bg-card-bg rounded-xl shadow-xl">
+                        <h3 class="text-3xl font-extrabold text-yellow-400 mb-3">Sort Complete!</h3>
+                        <p class="text-2xl mb-6">Final Score: <span id="myth-final-score" class="font-black text-primary">0</span> / <span id="myth-max-score"></span></p>
+                        <button class="bg-primary hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300" onclick="startMythSort()">Play Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Coping Match Content -->
+            <div id="coping-game" class="game-content hidden space-y-4">
+                <h3 class="text-2xl font-bold text-pink-400 mb-4">Coping Match: Find the Healthy Alternative</h3>
+                <p class="text-slate-400">Match the stress trigger (left) to the most effective drug-free coping mechanism (right). Click to select a pair.</p>
+                
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div id="coping-triggers" class="space-y-3">
+                        <h4 class="text-lg font-bold text-primary mb-2">Triggers</h4>
+                    </div>
+                    <div id="coping-skills" class="space-y-3">
+                        <h4 class="text-lg font-bold text-secondary mb-2">Coping Skills</h4>
+                    </div>
+                </div>
+
+                <div class="text-center mt-6">
+                    <p id="coping-score-display" class="text-3xl font-black text-pink-400 mt-4">Matches: 0 / 4</p>
+                    <p id="coping-message" class="text-lg text-slate-300 mt-2"></p>
+                    <button id="coping-restart-btn" class="bg-primary hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300 mt-4 hidden" onclick="startCopingMatch()">
+                        Restart Game
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Resources Page -->
+        <section id="resources" class="page">
+            <h2 class="text-3xl font-bold text-primary mb-6">Need Help? Get Support Now.</h2>
+            <p class="mb-6 text-slate-300">If you or a friend are struggling, confidential help is available. Reaching out is the bravest step you can take.</p>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white flex items-center mb-4"><i data-lucide="building-2" class="w-5 h-5 mr-2 text-primary"></i> On-Campus Support (VIT-AP)</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                        <li>**Wellness Center / Counselor:** (Contact details placeholder) - *For confidential mental health support.*</li>
+                        <li>**Student Affairs Office:** (Contact details placeholder) - *For guidance on academic or personal issues.*</li>
+                        <li>**Campus Security:** (Campus Emergency Number placeholder) - *For immediate safety or medical emergencies.*</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white flex items-center mb-4"><i data-lucide="phone-call" class="w-5 h-5 mr-2 text-secondary"></i> External & National Helplines (India)</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                        <li>**KIRAN Helpline (Mental Health):** **1800-599-0019** (Govt. of India, 24/7)</li>
+                        <li>**NIMHANS:** **080-46110007** (Psychological Support, National Institute)</li>
+                        <li>**AASRA Suicide Prevention:** **+91-9820466726** (24/7)</li>
+                    </ul>
+                </div>
+
+                <div class="card bg-red-800/20 border-red-500 border">
+                    <h3 class="text-xl font-semibold text-red-400 flex items-center mb-2"><i data-lucide="alert-triangle" class="w-5 h-5 mr-2"></i> EMERGENCY SITUATION</h3>
+                    <p class="text-red-300">If you suspect an overdose or acute medical emergency, **call local emergency services (108/102) immediately** and then notify campus security. **Do not leave the person alone.**</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer/Script Initialization -->
+    <script>
+        // Load Lucide icons
+        lucide.createIcons();
+
+        // --- Navigation and UI Control ---
+        const navMenu = document.getElementById('nav-menu');
+        const menuToggle = document.getElementById('menu-toggle');
+        const navButtons = document.querySelectorAll('.nav-btn');
+
+        menuToggle.addEventListener('click', () => {
+            if (navMenu.classList.contains('h-0')) {
+                navMenu.classList.remove('h-0');
+                navMenu.style.height = navMenu.scrollHeight + 'px';
+            } else {
+                navMenu.style.height = '0';
+                navMenu.classList.add('h-0');
+            }
+        });
+
+        document.querySelectorAll('.card').forEach(el => {
+            el.classList.add('p-6', 'bg-card-bg', 'rounded-xl', 'shadow-xl');
+        });
+
+        function showPage(pageId) {
+            navMenu.style.height = '0';
+            navMenu.classList.add('h-0');
+
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.getElementById(pageId).classList.add('active');
+
+            navButtons.forEach(btn => {
+                btn.classList.remove('active-nav-btn');
+                if (btn.getAttribute('onclick').includes(pageId)) {
+                    btn.classList.add('active-nav-btn');
+                }
+            });
+
+            lucide.createIcons();
+        }
+
+        navButtons.forEach(btn => {
+            btn.classList.add('flex', 'items-center', 'px-3', 'py-2', 'text-sm', 'font-medium', 'rounded-lg', 'transition', 'duration-200', 'hover:bg-primary/20', 'md:hover:bg-primary/20');
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .active-nav-btn { background-color: rgba(79, 70, 229, 0.4); color: #fff; }
+            .tab-btn { padding: 8px 16px; border-radius: 6px 6px 0 0; font-weight: 500; color: #94a3b8; transition: all 0.2s; display: flex; align-items: center; }
+            .tab-btn:hover { color: #fff; }
+            .active-tab-btn { color: #10b981; border-bottom: 2px solid #10b981; }
+            .game-link-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px;
+                font-weight: 700;
+                color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.1s, box-shadow 0.1s;
+            }
+            .game-link-btn:active {
+                transform: translateY(1px);
+                box-shadow: none;
+            }
+            .coping-btn {
+                background-color: #1e293b;
+                padding: 12px;
+                border-radius: 8px;
+                text-align: left;
+                font-weight: 500;
+                transition: all 0.2s;
+                border: 2px solid transparent;
+            }
+            .coping-btn:hover { background-color: #334155; }
+            .selected-trigger { border-color: #4f46e5 !important; background-color: #4f46e5/20 !important; }
+            .selected-skill { border-color: #10b981 !important; background-color: #10b981/20 !important; }
+            .matched { opacity: 0.5; cursor: default; }
+        `;
+        document.head.appendChild(style);
+
+        window.onload = () => {
+            showPage('home');
+            startQuiz();
+            startMythSort();
+            startCopingMatch();
+            showGame('trivia-game');
+            updateBestTimeDisplay(); 
+        }
+
+        function showGame(gameId) {
+            document.querySelectorAll('.game-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(gameId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active-tab-btn');
+            });
+            document.getElementById('tab-' + gameId.replace('-game', '')).classList.add('active-tab-btn');
+            
+            lucide.createIcons();
+        }
+
+        // --- Trivia Challenge Logic ---
+        const questions = [
+            {
+                question: "What is the only guaranteed way to avoid negative physical, mental, and legal consequences from drug use?",
+                options: ["Use only occasionally", "Know your limit", "Choose not to use them", "Use in a safe setting"],
+                answer: 2, 
+                feedback: "Correct! Prevention is the safest and most effective strategy."
+            },
+            {
+                question: "Which of the following is a symptom of cannabis-induced impairment that directly affects academics?",
+                options: ["Increased appetite", "Impaired short-term memory", "Red eyes", "Dry mouth"],
+                answer: 1,
+                feedback: "That's right. Impaired memory and attention span severely impact learning and retention."
+            },
+            {
+                question: "If a friend is suffering from severe alcohol intoxication or a possible overdose, what is the *most* important first step?",
+                options: ["Give them coffee to sober up", "Let them sleep it off", "Call emergency services immediately", "Take them back to the hostel room"],
+                answer: 2,
+                feedback: "Absolutely! Never delay calling emergency help. The law prioritizes saving a life."
+            },
+            {
+                question: "Taking someone else's prescription medication is legally considered:",
+                options: ["Sharing", "Drug misuse/abuse", "Responsible use", "A minor offense"],
+                answer: 1,
+                feedback: "Correct. Prescription drug misuse is illegal and extremely dangerous, even if the user has similar symptoms."
+            },
+            {
+                question: "Under the NDPS Act in India, drug possession on campus can lead to:",
+                options: ["A simple warning", "Community service only", "Immediate expulsion and criminal charges", "A fine"],
+                answer: 2,
+                feedback: "The correct answer is immediate expulsion and criminal charges. Drug policies at VIT-AP and nationally are very strict."
+            },
+            {
+                question: "What is the highly addictive substance found in most vaping liquids that affects brain development?",
+                options: ["Water vapor", "Propylene Glycol", "Nicotine", "Flavoring agents"],
+                answer: 2,
+                feedback: "Nicotine is highly addictive. Even small amounts can lead to dependence."
+            },
+            {
+                question: "Which office on campus is the primary confidential resource for mental health and counselling?",
+                options: ["Student Affairs Office", "Campus Security", "The Wellness Center / Counselor", "Admissions Office"],
+                answer: 2,
+                feedback: "The Wellness Center or Counselor is your best bet for confidential support."
+            },
+            {
+                question: "Which strategy is most effective for dealing with peer pressure?",
+                options: ["Ignoring the person", "Making an excuse", "Having a firm, rehearsed refusal ready", "Changing the subject awkwardly"],
+                answer: 2,
+                feedback: "Correct! A firm, clear, and rehearsed 'No' is the most effective refusal skill."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        const totalQNumEl = document.getElementById('total-q-num');
+        const currentQNumEl = document.getElementById('current-q-num');
+        const scoreDisplay = document.getElementById('score-display');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const resultsScreen = document.getElementById('results-screen');
+        const questionCard = document.getElementById('question-card');
+        const maxScoreEl = document.getElementById('max-score');
+
+        totalQNumEl.textContent = questions.length;
+        maxScoreEl.textContent = questions.length;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            isAnswered = false;
+            resultsScreen.classList.add('hidden');
+            document.getElementById('quiz-header').classList.remove('hidden');
+            questionCard.classList.remove('hidden');
+            feedbackMessage.classList.add('hidden');
+            updateScoreDisplay();
+            loadQuestion();
+        }
+
+        function updateScoreDisplay() {
+            currentQNumEl.textContent = currentQuestionIndex + 1;
+            scoreDisplay.textContent = `Score: ${score}`;
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const q = questions[currentQuestionIndex];
+            questionTextEl.textContent = q.question;
+            optionsContainer.innerHTML = '';
+            nextBtn.style.display = 'none';
+            feedbackMessage.classList.add('hidden');
+            isAnswered = false;
+
+            q.options.forEach((optionText, index) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.textContent = optionText;
+                optionBtn.classList.add('option-btn', 'w-full', 'text-left', 'p-3', 'rounded-lg', 'bg-card-bg', 'hover:bg-primary/50', 'transition', 'duration-200', 'shadow-md', 'border', 'border-transparent');
+                optionBtn.onclick = () => checkAnswer(index, q.answer, q.feedback);
+                optionsContainer.appendChild(optionBtn);
+            });
+            
+            updateScoreDisplay();
+        }
+
+        function checkAnswer(selectedIndex, correctIndex, feedback) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const allOptions = optionsContainer.querySelectorAll('.option-btn');
+            let isCorrect = (selectedIndex === correctIndex);
+            
+            allOptions.forEach((btn, index) => {
+                btn.classList.remove('hover:bg-primary/50');
+                btn.disabled = true;
+
+                if (index === correctIndex) {
+                    btn.classList.add('bg-secondary', 'text-dark-bg', 'font-bold');
+                } else if (index === selectedIndex) {
+                    btn.classList.add('bg-red-600', 'text-white', 'border-red-700');
+                } else {
+                    btn.classList.add('text-slate-500', 'bg-slate-700/50');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                feedbackMessage.textContent = `✅ Correct! ${feedback}`;
+                feedbackMessage.classList.remove('bg-red-600/20', 'text-red-400', 'border-red-700');
+                feedbackMessage.classList.add('bg-secondary/20', 'border-secondary', 'text-secondary');
+            } else {
+                feedbackMessage.textContent = `❌ Incorrect. The correct answer is highlighted in green.`;
+                feedbackMessage.classList.remove('bg-secondary/20', 'text-secondary');
+                feedbackMessage.classList.add('bg-red-600/20', 'border-red-700', 'text-red-400');
+            }
+
+            updateScoreDisplay();
+            feedbackMessage.classList.remove('hidden');
+            nextBtn.style.display = 'block';
+            nextBtn.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function showResults() {
+            document.getElementById('quiz-header').classList.add('hidden');
+            questionCard.classList.add('hidden');
+            feedbackMessage.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+
+            document.getElementById('final-score').textContent = score;
+
+            let resultMsg = "";
+            if (score === questions.length) {
+                resultMsg = "Outstanding! You are highly knowledgeable and ready to be an advocate for a drug-free campus.";
+            } else if (score >= questions.length * 0.75) {
+                resultMsg = "Excellent! You have strong knowledge. Keep learning and advocating for healthy choices.";
+            } else if (score >= questions.length / 2) {
+                resultMsg = "Good effort! You have a solid foundation of knowledge. Review the 'Drug Facts' page to improve your score.";
+            } else {
+                resultMsg = "Needs Improvement. Take some time to review the facts in the 'Drug Facts' section to learn more.";
+            }
+            document.getElementById('results-message').textContent = resultMsg;
+        }
+
+        // --- Reflex Reaction Challenge Logic ---
+        const reactionBox = document.getElementById('reaction-box');
+        const boxText = document.getElementById('box-text');
+        const reactionTimeDisplay = document.getElementById('reaction-time-display');
+        const reactionStartBtn = document.getElementById('reaction-start-btn');
+        const bestTimeEl = document.getElementById('best-time');
+
+        let timeoutId;
+        let startTime;
+        let bestTime = localStorage.getItem('bestReactionTime') ? parseFloat(localStorage.getItem('bestReactionTime')) : Infinity;
+
+        function updateBestTimeDisplay() {
+            if (bestTime === Infinity) {
+                bestTimeEl.textContent = '--';
+            } else {
+                bestTimeEl.textContent = `${bestTime.toFixed(0)}`;
+            }
+        }
+
+        updateBestTimeDisplay();
+
+        function handleReactionClick() {
+            if (reactionBox.classList.contains('bg-green-600')) {
+                clearTimeout(timeoutId);
+                const reactionTime = Date.now() - startTime;
+                reactionTimeDisplay.textContent = `Time: ${reactionTime} ms`;
+                reactionBox.classList.remove('bg-green-600');
+                reactionBox.classList.add('bg-secondary/70');
+                boxText.textContent = 'Success!';
+
+                if (reactionTime < bestTime) {
+                    bestTime = reactionTime;
+                    localStorage.setItem('bestReactionTime', bestTime); 
+                    updateBestTimeDisplay();
+                }
+
+                reactionStartBtn.disabled = false;
+            } else if (reactionBox.classList.contains('bg-red-600')) {
+                clearTimeout(timeoutId);
+                reactionTimeDisplay.textContent = `Time: FAIL (Too Early)`;
+                reactionBox.classList.remove('bg-red-600');
+                reactionBox.classList.add('bg-red-700/70');
+                boxText.textContent = 'Wait for GREEN';
+                reactionStartBtn.disabled = false;
+            } else {
+                reactionBox.classList.remove('bg-gray-500');
+                reactionBox.classList.add('bg-red-600');
+                boxText.textContent = 'Too Early!';
+                reactionTimeDisplay.textContent = `Time: FAIL (Too Early)`;
+                clearTimeout(timeoutId);
+                reactionStartBtn.disabled = false;
+            }
+        }
+
+        function startReactionGame() {
+            reactionStartBtn.disabled = true;
+            reactionBox.classList.remove('bg-red-600', 'bg-green-600', 'bg-secondary/70', 'bg-red-700/70', 'bg-gray-500');
+            reactionBox.classList.add('bg-red-600');
+            boxText.textContent = 'Wait...';
+            reactionTimeDisplay.textContent = `Time: ...`;
+
+            const delay = Math.floor(Math.random() * 2500) + 1500; 
+
+            timeoutId = setTimeout(() => {
+                reactionBox.classList.remove('bg-red-600');
+                reactionBox.classList.add('bg-green-600');
+                boxText.textContent = 'GO!';
+                startTime = Date.now();
+            }, delay);
+        }
+
+        // --- Myth/Fact Sort Logic ---
+        const mythStatements = [
+            { statement: "Vaping is just flavored water vapor and is harmless.", isFact: false, explanation: "Vaping aerosol contains nicotine, heavy metals, and carcinogens, making it far from harmless." },
+            { statement: "Cannabis is addictive for only a small percentage of users.", isFact: true, explanation: "While not everyone becomes addicted, around 1 in 10 cannabis users develop a dependency, and the risk is higher for young users." },
+            { statement: "Mixing alcohol with energy drinks cancels out the effects of being drunk.", isFact: false, explanation: "This is a dangerous myth. The caffeine hides the signs of intoxication, leading people to drink more, increasing the risk of alcohol poisoning." },
+            { statement: "If you are stressed about exams, using a study pill (without a prescription) will improve your grades.", isFact: false, explanation: "Unprescribed use of these drugs carries severe risks of anxiety, heart problems, and academic penalties, outweighing any perceived benefit." },
+            { statement: "If a friend is unconscious due to drug use, it is best to call for medical help immediately.", isFact: true, explanation: "Yes. Getting immediate help is critical and legally prioritized over any campus disciplinary action." },
+            { statement: "Occasional use of illegal drugs only results in a warning from campus authorities.", isFact: false, explanation: "False. Possession or use of illegal substances on campus leads to immediate suspension/expulsion and serious legal consequences under the NDPS Act." }
+        ];
+
+        let currentMythIndex = 0;
+        let mythScore = 0;
+        let mythAnswered = false;
+
+        const totalMythNumEl = document.getElementById('total-myth-num');
+        const currentMythNumEl = document.getElementById('current-myth-num');
+        const mythScoreDisplay = document.getElementById('myth-score-display');
+        const mythStatementTextEl = document.getElementById('myth-statement-text');
+        const mythFeedbackMessage = document.getElementById('myth-feedback-message');
+        const mythResultsScreen = document.getElementById('myth-results-screen');
+        const mythStatementCard = document.getElementById('myth-statement-card');
+        const mythMaxScoreEl = document.getElementById('myth-max-score');
+        const sortBtns = document.querySelectorAll('.sort-btn');
+        
+        totalMythNumEl.textContent = mythStatements.length;
+        mythMaxScoreEl.textContent = mythStatements.length;
+
+        function startMythSort() {
+            currentMythIndex = 0;
+            mythScore = 0;
+            mythAnswered = false;
+            mythResultsScreen.classList.add('hidden');
+            document.getElementById('myth-header').classList.remove('hidden');
+            mythStatementCard.classList.remove('hidden');
+            mythFeedbackMessage.classList.add('hidden');
+            updateMythScoreDisplay();
+            loadMythStatement();
+        }
+
+        function updateMythScoreDisplay() {
+            currentMythNumEl.textContent = currentMythIndex + 1;
+            mythScoreDisplay.textContent = `Score: ${mythScore}`;
+        }
+
+        function loadMythStatement() {
+            if (currentMythIndex >= mythStatements.length) {
+                showMythResults();
+                return;
+            }
+
+            const statement = mythStatements[currentMythIndex];
+            mythStatementTextEl.textContent = statement.statement;
+            mythFeedbackMessage.classList.add('hidden');
+            mythAnswered = false;
+
+            sortBtns.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'bg-secondary', 'bg-red-600', 'hover:bg-teal-600', 'hover:bg-red-700', 'text-dark-bg');
+                if (btn.id === 'myth-btn') {
+                     btn.classList.add('bg-red-600', 'hover:bg-red-700');
+                } else {
+                     btn.classList.add('bg-secondary', 'hover:bg-teal-600', 'text-dark-bg');
+                }
+            });
+            
+            updateMythScoreDisplay();
+        }
+
+        function checkMythSort(isFactSelected) {
+            if (mythAnswered) return;
+            mythAnswered = true;
+
+            const statement = mythStatements[currentMythIndex];
+            const isCorrect = (isFactSelected === statement.isFact);
+            
+            sortBtns.forEach(btn => {
+                btn.disabled = true;
+            });
+
+            if (isCorrect) {
+                mythScore++;
+                mythFeedbackMessage.textContent = `✅ Correct! This is a ${statement.isFact ? 'FACT' : 'MYTH'}. ${statement.explanation}`;
+                mythFeedbackMessage.classList.remove('bg-red-600/20', 'text-red-400');
+                mythFeedbackMessage.classList.add('bg-secondary/20', 'text-secondary');
+            } else {
+                const correctType = statement.isFact ? 'FACT' : 'MYTH';
+                mythFeedbackMessage.textContent = `❌ Incorrect. This is a ${correctType}. ${statement.explanation}`;
+                mythFeedbackMessage.classList.remove('bg-secondary/20', 'text-secondary');
+                mythFeedbackMessage.classList.add('bg-red-600/20', 'text-red-400');
+            }
+
+            updateMythScoreDisplay();
+            mythFeedbackMessage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                currentMythIndex++;
+                loadMythStatement();
+            }, 2500);
+        }
+
+        function showMythResults() {
+            document.getElementById('myth-header').classList.add('hidden');
+            mythStatementCard.classList.add('hidden');
+            mythFeedbackMessage.classList.add('hidden');
+            mythResultsScreen.classList.remove('hidden');
+
+            document.getElementById('myth-final-score').textContent = mythScore;
+        }
+
+        // --- Coping Match Logic ---
+        const copingPairs = [
+            { trigger: "Feeling overwhelmed by exam stress and pressure.", skill: "Practice 10 minutes of guided meditation or deep breathing." },
+            { trigger: "Experiencing social anxiety in a large group setting.", skill: "Find a trusted friend and talk privately about how you feel." },
+            { trigger: "Boredom in the hostel during a long weekend.", skill: "Join an on-campus club or start a new fitness routine." },
+            { trigger: "Having a massive argument with a roommate or friend.", skill: "Go for a brisk walk or run to burn off negative energy." }
+        ];
+
+        let currentTriggers = [];
+        let currentSkills = [];
+        let matchesFound = 0;
+        let selectedTrigger = null;
+        let selectedSkill = null;
+
+        const triggersContainer = document.getElementById('coping-triggers');
+        const skillsContainer = document.getElementById('coping-skills');
+        const copingScoreDisplay = document.getElementById('coping-score-display');
+        const copingMessage = document.getElementById('coping-message');
+        const copingRestartBtn = document.getElementById('coping-restart-btn');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startCopingMatch() {
+            matchesFound = 0;
+            selectedTrigger = null;
+            selectedSkill = null;
+            copingMessage.textContent = "Select a stress trigger and then select its healthy coping skill.";
+            copingRestartBtn.classList.add('hidden');
+            
+            currentTriggers = shuffle(copingPairs.map(p => ({ text: p.trigger, key: p.trigger })));
+            currentSkills = shuffle(copingPairs.map(p => ({ text: p.skill, key: copingPairs.find(cp => cp.skill === p.skill).trigger })));
+
+            triggersContainer.innerHTML = '<h4 class="text-lg font-bold text-primary mb-2">Triggers</h4>';
+            currentTriggers.forEach((item, index) => {
+                const btn = document.createElement('button');
+                btn.textContent = item.text;
+                btn.classList.add('coping-btn', 'trigger-btn', 'w-full');
+                btn.dataset.key = item.key;
+                btn.dataset.index = index;
+                btn.onclick = () => selectTrigger(btn);
+                triggersContainer.appendChild(btn);
+            });
+
+            skillsContainer.innerHTML = '<h4 class="text-lg font-bold text-secondary mb-2">Coping Skills</h4>';
+            currentSkills.forEach((item, index) => {
+                const btn = document.createElement('button');
+                btn.textContent = item.text;
+                btn.classList.add('coping-btn', 'skill-btn', 'w-full');
+                btn.dataset.key = item.key;
+                btn.dataset.index = index;
+                btn.onclick = () => selectSkill(btn);
+                skillsContainer.appendChild(btn);
+            });
+
+            updateCopingScore();
+        }
+
+        function clearSelections() {
+            if (selectedTrigger) selectedTrigger.classList.remove('selected-trigger');
+            if (selectedSkill) selectedSkill.classList.remove('selected-skill');
+            selectedTrigger = null;
+            selectedSkill = null;
+        }
+
+        function selectTrigger(btn) {
+            if (btn.classList.contains('matched')) return;
+            clearSelections();
+            selectedTrigger = btn;
+            btn.classList.add('selected-trigger');
+            copingMessage.textContent = "Now select the matching coping skill.";
+            checkMatch();
+        }
+
+        function selectSkill(btn) {
+            if (btn.classList.contains('matched')) return;
+            if (selectedSkill === btn) {
+                 clearSelections();
+                 return;
+            }
+            if (selectedSkill) selectedSkill.classList.remove('selected-skill');
+            selectedSkill = btn;
+            btn.classList.add('selected-skill');
+            copingMessage.textContent = "Now select the matching coping skill.";
+            checkMatch();
+        }
+
+        function checkMatch() {
+            if (selectedTrigger && selectedSkill) {
+                if (selectedTrigger.dataset.key === selectedSkill.dataset.key) {
+                    matchesFound++;
+                    copingMessage.textContent = "✅ Match Found! That's a healthy choice.";
+                    selectedTrigger.classList.add('matched');
+                    selectedSkill.classList.add('matched');
+                    selectedTrigger.disabled = true;
+                    selectedSkill.disabled = true;
+                    clearSelections();
+                    updateCopingScore();
+                } else {
+                    copingMessage.textContent = "❌ Mismatch. Try again!";
+                    setTimeout(() => {
+                        clearSelections();
+                        copingMessage.textContent = "Select a stress trigger and then select its healthy coping skill.";
+                    }, 800);
+                }
+            }
+        }
+
+        function updateCopingScore() {
+            copingScoreDisplay.textContent = `Matches: ${matchesFound} / ${copingPairs.length}`;
+            if (matchesFound === copingPairs.length) {
+                copingMessage.textContent = "Game Complete! You know your healthy alternatives.";
+                copingRestartBtn.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
