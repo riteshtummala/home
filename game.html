@@ -2,395 +2,403 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Campus Defender — Smooth & Sound</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Campus Defender — Mobile Friendly with Emoji Fix</title>
+
 <style>
-html, body {
-  height: 100%; 
-  margin: 0; 
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(#e8f7ef, #dff0e2);
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-}
-#wrap {
-  width: 95%; 
-  max-width: 900px; 
-  text-align: center;
-}
-canvas {
-  width: 100%; 
-  height: auto; 
-  border-radius: 12px;
-  background: linear-gradient(to bottom, #f6fff7 70%, #dff2de);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  display: block; 
-  margin: 0 auto;
-  touch-action: none;
-}
-.hud {
-  display: flex; 
-  gap: 8px; 
-  align-items: center; 
-  justify-content: space-between; 
-  margin-top: 10px;
-}
-.bar {
-  flex: 1; 
-  height: 14px; 
-  background: #eee; 
-  border-radius: 8px; 
-  overflow: hidden; 
-  border: 1px solid #d1d1d1;
-}
-.fill {
-  height: 100%; 
-  width: 100%; 
-  background: linear-gradient(90deg, #66bb6a, #2e7d32); 
-  transition: width .25s;
-}
-button {
-  background: #2e7d32;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-}
-#msg {
-  margin-top: 10px;
-  color: #1b421f;
-  font-weight: 700;
-  min-height: 20px;
-}
-#loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  color: #2e7d32;
-  display: none;
-}
+  :root{
+    --bg1:#e8f7ef; --bg2:#dff0e2; 
+    --accent:#2e7d32; 
+    --hudbg:rgba(255,255,255,0.9);
+  }
+  html,body{
+    margin:0; padding:0;
+    height:100%;
+    background:linear-gradient(var(--bg1),var(--bg2));
+    font-family:Arial,Helvetica,sans-serif;
+    overscroll-behavior:none;
+    -webkit-user-select:none;
+    user-select:none;
+  }
+  #wrap{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:10px;
+  }
+  .game-holder{
+    position:relative;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    background:linear-gradient(to bottom,#f6fff7 70%,#dff2de);
+  }
+  canvas{
+    display:block;
+    width:100%;
+    height:auto;
+    touch-action:none;
+  }
+
+  /* Centered HUD (Option C) */
+  .topHud{
+    position:absolute;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--hudbg);
+    padding:10px 20px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    backdrop-filter:blur(6px);
+    z-index:50;
+    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+  }
+  .scoreText{
+    font-weight:800;
+    font-size:18px;
+  }
+  .levelText{
+    font-size:14px;
+    font-weight:700;
+    opacity:0.8;
+  }
+  .hpWrap{
+    width:160px; height:14px;
+    background:#eee;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid #ccc;
+  }
+  .hpFill{
+    height:100%;
+    background:linear-gradient(90deg,#66bb6a,#2e7d32);
+    transition:width 0.2s;
+  }
+
+  .controls{
+    margin-top:12px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+  }
+  .btn{
+    background:var(--accent);
+    color:#fff;
+    padding:10px 16px;
+    border:none;
+    border-radius:10px;
+    font-weight:700;
+    font-size:15px;
+  }
+  #msg{
+    margin-top:10px;
+    text-align:center;
+    font-weight:700;
+    color:#0f3d26;
+  }
 </style>
 </head>
 <body>
-<div id="loading">Loading...</div>
+
 <div id="wrap">
-  <canvas id="game" width="960" height="540"></canvas>
-  <div class="hud">
-    <div class="bar"><div id="hp" class="fill"></div></div>
-    <div style="display:flex; gap:8px;">
-      <button id="pauseBtn" aria-label="Pause the game">Pause</button>
-      <button id="restartBtn" aria-label="Restart the game">Restart</button>
+  <div class="game-holder">
+
+    <!-- HUD -->
+    <div class="topHud">
+      <div style="text-align:center;">
+        <div class="scoreText" id="scoreText">Score: 0</div>
+        <div class="levelText" id="levelText">Level: 1</div>
+      </div>
+
+      <div class="hpWrap">
+        <div id="hpFill" class="hpFill"></div>
+      </div>
     </div>
+
+    <canvas id="game" width="960" height="540"></canvas>
   </div>
-  <div id="msg">Tap canvas once to start. Swipe on mobile or use ← → on keyboard.</div>
+
+  <div class="controls">
+    <button id="pauseBtn" class="btn">Pause</button>
+    <button id="restartBtn" class="btn">Restart</button>
+  </div>
+
+  <div id="msg">Tap canvas to start • Swipe to move • or use ← → keys</div>
 </div>
+
 
 <script>
 (() => {
-const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
-const hpEl = document.getElementById('hp');
-const msgEl = document.getElementById('msg');
-const pauseBtn = document.getElementById('pauseBtn');
-const restartBtn = document.getElementById('restartBtn');
-const loadingEl = document.getElementById('loading');
+  const LOG_W = 960, LOG_H = 540;
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
 
-const LOG_W = 960;
-const LOG_H = 540;
-let audioCtx = null;
+  const scoreText = document.getElementById("scoreText");
+  const levelText = document.getElementById("levelText");
+  const hpFill = document.getElementById("hpFill");
+  const msgEl = document.getElementById("msg");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const restartBtn = document.getElementById("restartBtn");
 
-let items = [];
-let score = 0;
-let health = 100;
-let level = 1;
-let running = false;
-let paused = false;
-let lastT = 0;
+  let audioCtx = null;
 
-const player = {
-  x: LOG_W / 2 - 25,
-  y: LOG_H - 50,
-  w: 50,
-  h: 50,
-  vx: 0,
-  ax: 0,
-  maxSpeed: 5,
-};
+  let items = [];
+  let score = 0;
+  let health = 100;
+  let level = 1;
+  let running = false;
+  let paused = false;
+  let lastT = 0;
 
-// Ensure audio context is created
-function ensureAudio() {
-  if (!audioCtx) {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    try { audioCtx = new AC(); } catch(e) { audioCtx = null; }
+  const player = {
+    x: LOG_W/2 - 25,
+    y: LOG_H - 80,
+    w: 50,
+    h: 50,
+    vx: 0,
+    ax: 0,
+    maxSpeed: 6
+  };
+
+  // ---------- RESIZE CANVAS (MOBILE FRIENDLY) ----------
+  function resizeCanvas(){
+    const wrap = document.getElementById("wrap");
+    const W = Math.min(wrap.clientWidth, LOG_W);
+    const scale = W / LOG_W;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.style.width = (LOG_W * scale) + "px";
+    canvas.style.height = (LOG_H * scale) + "px";
+
+    canvas.width = LOG_W * dpr;
+    canvas.height = LOG_H * dpr;
+    ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
   }
-}
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
 
-// Play sound based on the type
-function playSound(type) {
-  if (!audioCtx) { ensureAudio(); if (!audioCtx) return; }
-  const o = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  switch(type) {
-    case 'good':
-      o.type = 'sine'; o.frequency.value = 880; g.gain.value = 0.02; o.start(); o.stop(audioCtx.currentTime + 0.09);
-      break;
-    case 'bad':
-      o.type = 'triangle'; o.frequency.value = 200; g.gain.value = 0.035; o.start(); o.stop(audioCtx.currentTime + 0.14);
-      break;
-    case 'gameOver':
-      o.type = 'sawtooth'; o.frequency.value = 140; g.gain.value = 0.04; o.start(); o.stop(audioCtx.currentTime + 0.25);
-      break;
-  }
-  o.connect(g); g.connect(audioCtx.destination);
-}
 
-// Resize canvas
-function resizeCanvas() {
-  const clientW = Math.min(window.innerWidth - 24, LOG_W);
-  const scale = clientW / LOG_W;
-  canvas.style.width = Math.round(LOG_W * scale) + 'px';
-  canvas.style.height = Math.round(LOG_H * scale) + 'px';
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.round(LOG_W * dpr);
-  canvas.height = Math.round(LOG_H * dpr);
-  ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
-}
-
-// Show and hide loading
-function showLoading() {
-  loadingEl.style.display = 'block';
-}
-
-function hideLoading() {
-  loadingEl.style.display = 'none';
-}
-
-// Reset game
-function resetGame() {
-  items = [];
-  score = 0;
-  health = 100;
-  level = 1;
-  player.x = LOG_W / 2 - player.w / 2;
-  player.vx = 0;
-  player.ax = 0;
-  running = true;
-  paused = false;
-  hpEl.style.width = '100%';
-  msgEl.textContent = 'Collect healthy items — avoid drugs!';
-  pauseBtn.textContent = 'Pause';
-}
-
-// Draw background
-function drawBackground(t) {
-  const g = ctx.createLinearGradient(0, 0, 0, LOG_H);
-  g.addColorStop(0, '#f2fbff');
-  g.addColorStop(0.7, '#f7fff7');
-  g.addColorStop(1, '#e8f6ea');
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, LOG_W, LOG_H);
-  
-  ctx.fillStyle = 'rgba(8,20,16,0.04)';
-  for (let i = 0; i < 7; i++) {
-    const bx = i * 130 + 20;
-    const bh = 30 + (i % 3) * 22;
-    ctx.fillRect(bx, LOG_H - 100 - bh, 80, bh);
-  }
-  
-  const offset = (t * 0.03) % (LOG_W + 200);
-  ctx.fillStyle = 'rgba(255,255,255,0.85)';
-  roundRect(ctx, -80 + offset, 50, 160, 28, 14); ctx.fill();
-  roundRect(ctx, -240 + offset, 80, 220, 28, 14); ctx.fill();
-}
-
-// Round rectangle function
-function roundRect(c, x, y, w, h, r) {
-  c.beginPath();
-  c.moveTo(x + r, y);
-  c.arcTo(x + w, y, x + w, y + h, r);
-  c.arcTo(x + w, y + h, x, y + h, r);
-  c.arcTo(x, y + h, x, y, r);
-  c.arcTo(x, y, x + w, y, r);
-  c.closePath();
-}
-
-// Draw player
-function drawPlayer() {
-  ctx.fillStyle = 'rgba(8,16,12,0.06)';
-  ctx.beginPath();
-  ctx.ellipse(player.x + player.w / 2, player.y + player.h + 12, player.w * 0.7, 10, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.font = (player.w - 6) + 'px Arial';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#0d4d2e';
-  ctx.fillText('👤', player.x + player.w / 2, player.y + player.h / 2 + 2);
-}
-
-// Draw items (drugs)
-function drawItems() {
-  for (let o of items) {
-    o.wob += 0.04;
-    const wob = Math.sin(o.wob) * 6;
-    ctx.save();
-    ctx.translate(o.x + wob, o.y);
-    ctx.rotate(o.rot);
-    ctx.font = Math.round(o.size) + 'px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(o.emoji, 0, 0);
-    ctx.restore();
-  }
-}
-
-// Update game state
-function update(t) {
-  if (!running || paused) { lastT = t; return; }
-  const dt = Math.min(40, t - lastT) / 16.6667; // scale per frame (approx)
-  lastT = t;
-
-  player.vx += player.ax * 1.0 * dt;
-  player.vx *= 0.88; // friction
-  if (Math.abs(player.vx) > player.maxSpeed) player.vx = player.maxSpeed * Math.sign(player.vx);
-  player.x += player.vx * dt;
-
-  if (player.x < 8) player.x = 8;
-  if (player.x + player.w > LOG_W - 8) player.x = LOG_W - player.w - 8;
-
-  if (Math.random() < 0.028 + (level - 1) * 0.002) spawnItem();
-
-  for (let i = items.length - 1; i >= 0; i--) {
-    const o = items[i];
-    o.y += o.vy * dt;
-    o.rot += (Math.random() - 0.5) * 0.01 * dt;
-    if (rectCircleCollide(player.x, player.y, player.w, player.h, o.x, o.y, o.r)) {
-      if (o.good) {
-        score += 12;
-        playSound('good');
-      } else {
-        health -= 18;
-        playSound('bad');
-      }
-      items.splice(i, 1);
-      continue;
+  // ---------- AUDIO ----------
+  function ensureAudio(){
+    if (!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AC();
     }
-    if (o.y > LOG_H + 80) items.splice(i, 1);
+  }
+  function playSound(type){
+    if (!audioCtx) return;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    if (type==="good") { o.type="sine"; o.frequency.value=900; g.gain.value=0.04; }
+    else if (type==="bad") { o.type="triangle"; o.frequency.value=180; g.gain.value=0.05; }
+    else { o.type="sawtooth"; o.frequency.value=140; g.gain.value=0.06; }
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + 0.15);
   }
 
-  if (score >= level * 150) {
-    level++;
-    health = Math.min(100, health + 12);
-    msgEl.textContent = 'Level ' + level + ' — Keep choosing health.';
-    paused = true;
-    setTimeout(() => { msgEl.textContent = ''; paused = false; }, 1400);
+
+  // ---------- DRAW BACKGROUND ----------
+  function drawBackground(){
+    const g = ctx.createLinearGradient(0,0,0,LOG_H);
+    g.addColorStop(0,"#f2fbff");
+    g.addColorStop(1,"#e8f6ea");
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,LOG_W,LOG_H);
   }
 
-  if (health <= 0) {
-    health = 0;
-    running = false;
-    msgEl.textContent = 'Game Over — Stay Drug-Free';
-    playSound('gameOver');
+  // ---------- DRAW PLAYER ----------
+  function drawPlayer(){
+    ctx.font = player.w + "px 'Segoe UI Emoji','Noto Color Emoji','Apple Color Emoji',sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("👤", player.x + player.w/2, player.y + player.h/2);
   }
 
-  hpEl.style.width = Math.max(0, health) + '%;
-}
 
-// Draw the game scene
-function draw(t) {
-  ctx.clearRect(0, 0, LOG_W, LOG_H);
-  drawBackground(t);
-  drawItems();
-  drawPlayer();
-
-  ctx.fillStyle = '#184a1f';
-  ctx.font = '18px Arial';
-  ctx.textAlign = 'left';
-  ctx.fillText('Score: ' + score, 16, 28);
-  ctx.textAlign = 'right';
-  ctx.fillText('Level: ' + level, LOG_W - 16, 28);
-}
-
-// Game loop
-function loop(t) {
-  update(t);
-  draw(t);
-  requestAnimationFrame(loop);
-}
-
-// Event listeners for keyboard and touch controls
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') { player.ax = -0.9; ensureAudio(); running = true; msgEl.textContent = ''; }
-  if (e.key === 'ArrowRight') { player.ax = 0.9; ensureAudio(); running = true; msgEl.textContent = ''; }
-  if (e.key === ' ') { ensureAudio(); running = true; msgEl.textContent = ''; }
-});
-
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') player.ax = 0;
-});
-
-let touchStartX = null;
-canvas.addEventListener('touchstart', (ev) => {
-  if (ev.touches && ev.touches.length === 1) {
-    touchStartX = ev.touches[0].clientX;
+  // ---------- DRAW ITEMS (WITH EMOJI FIX) ----------
+  function drawItems(){
+    for (const o of items){
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      ctx.rotate(o.rot);
+      ctx.font = o.size + "px 'Segoe UI Emoji','Noto Color Emoji','Apple Color Emoji',sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(o.emoji, 0, 0);
+      ctx.restore();
+    }
   }
-  ensureAudio(); running = true; msgEl.textContent = '';
-}, { passive: true });
 
-canvas.addEventListener('touchmove', (ev) => {
-  if (!touchStartX || !ev.touches || ev.touches.length !== 1) return;
-  const touchX = ev.touches[0].clientX;
-  const dx = touchX - touchStartX;
-  const screenW = canvas.getBoundingClientRect().width;
-  const scale = screenW / LOG_W;
-  player.x += dx / scale;
-  touchStartX = touchX;
-}, { passive: true });
 
-canvas.addEventListener('touchend', () => { touchStartX = null; });
+  // ---------- SPAWN ITEMS ----------
+  function spawnItem(){
+    const bad = ["💊","💉","🚬"];
+    const good = ["🍏","🥗","🥦"];
 
-pauseBtn.addEventListener('click', () => {
-  paused = !paused;
-  pauseBtn.textContent = paused ? '▶ Resume' : '⏸ Pause';
-  if (!paused && health > 0) running = true;
-});
+    const isGood = Math.random() < 0.5;
+    const emoji = isGood ?
+      good[Math.floor(Math.random()*good.length)] :
+      bad[Math.floor(Math.random()*bad.length)];
 
-restartBtn.addEventListener('click', () => {
-  resetGame();
-});
+    items.push({
+      x: Math.random()*(LOG_W-40)+20,
+      y: -40,
+      emoji,
+      size: 40 + Math.random()*20,
+      vy: 2 + Math.random()*2,
+      rot: Math.random()*Math.PI,
+      r: 24,
+      good: isGood
+    });
+  }
 
-// Function to spawn items (drugs)
-function spawnItem() {
-  const emojis = ['💊', '💉', '🚬']; // Drug emojis
-  const goodItems = ['🍏', '🥗', '🥦']; // Healthy items
-  const isGood = Math.random() < 0.5; // 50% chance for healthy or drug
-  const emoji = isGood ? goodItems[Math.floor(Math.random() * goodItems.length)] : emojis[Math.floor(Math.random() * emojis.length)];
-  
-  items.push({
-    x: Math.random() * (LOG_W - 40) + 20,
-    y: -20,
-    rot: Math.random() * Math.PI,
-    wob: Math.random() * Math.PI,
-    size: 30 + Math.random() * 30,
-    emoji: emoji,
-    good: isGood,
-    vy: 1 + Math.random() * 2, // Falling speed
-    r: 20, // Radius for collision
+
+  // ---------- COLLISION ----------
+  function collide(px,py,pw,ph,cx,cy,r){
+    const dx = Math.max(px, Math.min(cx, px+pw)) - cx;
+    const dy = Math.max(py, Math.min(cy, py+ph)) - cy;
+    return (dx*dx + dy*dy) < r*r;
+  }
+
+
+  // ---------- RESET GAME ----------
+  function resetGame(){
+    items = [];
+    score = 0;
+    health = 100;
+    level = 1;
+    running = true;
+    paused = false;
+    scoreText.textContent = "Score: 0";
+    levelText.textContent = "Level: 1";
+    hpFill.style.width = "100%";
+    msgEl.textContent = "Collect healthy items — avoid drugs!";
+  }
+
+
+  // ---------- UPDATE ----------
+  function update(t){
+    if (!running || paused){ lastT = t; return; }
+    const dt = (t - lastT) / 16;
+    lastT = t;
+
+    // Move player
+    player.vx += player.ax * dt;
+    player.vx *= 0.9;
+    if (player.vx > player.maxSpeed) player.vx = player.maxSpeed;
+    if (player.vx < -player.maxSpeed) player.vx = -player.maxSpeed;
+    player.x += player.vx * dt;
+
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.w > LOG_W) player.x = LOG_W - player.w;
+
+    // Spawn
+    if (Math.random() < 0.03 + level*0.002) spawnItem();
+
+    // Items update
+    for (let i = items.length-1; i>=0; i--){
+      const o = items[i];
+      o.y += o.vy * dt;
+      o.rot += 0.01;
+
+      if (collide(player.x,player.y,player.w,player.h,o.x,o.y,o.r)){
+        if (o.good){
+          score += 10;
+          playSound("good");
+        } else {
+          health -= 15;
+          playSound("bad");
+        }
+        items.splice(i,1);
+
+        scoreText.textContent = "Score: " + score;
+        hpFill.style.width = Math.max(0,health) + "%";
+        continue;
+      }
+      if (o.y > LOG_H + 60) items.splice(i,1);
+    }
+
+    // Level up
+    if (score >= level * 120){
+      level++;
+      levelText.textContent = "Level: " + level;
+      msgEl.textContent = "Level " + level + " — Keep choosing health!";
+      paused = true;
+      setTimeout(()=>{paused=false; msgEl.textContent="";}, 1200);
+    }
+
+    // Game Over
+    if (health <= 0){
+      running = false;
+      msgEl.textContent = "Game Over — Stay Drug-Free";
+      playSound("gameOver");
+    }
+  }
+
+
+  // ---------- DRAW ----------
+  function draw(){
+    ctx.clearRect(0,0,LOG_W,LOG_H);
+    drawBackground();
+    drawItems();
+    drawPlayer();
+  }
+
+
+  // ---------- LOOP ----------
+  function loop(t){
+    update(t);
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+
+  // ---------- CONTROLS ----------
+  window.addEventListener("keydown", (e)=>{
+    if (e.key==="ArrowLeft") player.ax = -1.0;
+    if (e.key==="ArrowRight") player.ax = 1.0;
+    ensureAudio();
+    running = true;
   });
-}
+  window.addEventListener("keyup", ()=> player.ax = 0 );
 
-// Start game
-showLoading();
-resetGame();
-hideLoading();
-requestAnimationFrame(loop);
+  // Touch
+  let touchX = null;
+  canvas.addEventListener("touchstart", e=>{
+    ensureAudio();
+    running = true;
+    if (e.touches.length===1)
+      touchX = e.touches[0].clientX;
+  });
+  canvas.addEventListener("touchmove", e=>{
+    if (e.touches.length!==1) return;
+    const nx = e.touches[0].clientX;
+    const dx = nx - touchX;
+    touchX = nx;
+    const scale = canvas.clientWidth / LOG_W;
+    player.x += dx / scale;
+  });
+  canvas.addEventListener("touchend", ()=> touchX=null );
+
+
+  // Buttons
+  pauseBtn.addEventListener("click", ()=>{
+    paused = !paused;
+    pauseBtn.textContent = paused ? "Resume" : "Pause";
+  });
+  restartBtn.addEventListener("click", resetGame);
+
+
+  // START GAME
+  resetGame();
+  requestAnimationFrame(loop);
+
 })();
 </script>
+
 </body>
 </html>
 
