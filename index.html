@@ -1,309 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Know Your Products</title>
-  <link rel="icon" type="image/png" href="Picture2.png">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Know Your Products</title>
+<link rel="icon" href="Picture2.png">
 
-    /* Preloader */
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
+<style>
+:root{
+  --bg1:#0f2027;--bg2:#203a43;--bg3:#2c5364;
+  --card-bg:rgba(255,255,255,0.15);
+  --accent:#00e5c0;--buy:#ff5f6d;--know:#00c9a7;
+  --fav:#ffd700;--text:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",sans-serif;}
+html{scroll-behavior:smooth;}
+body{
+  background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+  color:var(--text);
+}
 
-    .preloader img {
-      width: 200px;
-      height: auto;
-    }
+/* ================= PRELOADER ================= */
+#preloader{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  z-index:9999;transition:.6s;
+}
+#preloader.hide{opacity:0;visibility:hidden;}
+.preloader-logo{width:150px;animation:pulse 1.5s infinite;}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.05);filter:drop-shadow(0 0 12px var(--accent))}
+  100%{transform:scale(1)}
+}
+.loader-bar{width:180px;height:5px;background:#ffffff40;border-radius:10px;margin-top:15px;overflow:hidden;}
+.loader-fill{height:100%;width:0;background:var(--accent);animation:load .5s forwards;}
+@keyframes load{to{width:100%}}
 
-    /* Body */
-    body {
-      background: linear-gradient(to right, #141e30, #243b55);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-    }
+/* ================= NAVBAR ================= */
+nav{
+  position:sticky;top:0;z-index:1000;
+  background:#0b1c23e6;backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;
+}
+nav .logo{font-weight:700;font-size:1.1rem;}
+nav ul{list-style:none;display:flex;gap:15px;align-items:center;}
+nav a{color:white;text-decoration:none;font-size:.9rem;cursor:pointer;}
+nav a:hover{color:var(--accent);}
+.dropdown{position:relative;}
+.dropdown-content{
+  position:absolute;top:30px;left:0;
+  background:#122b35;border-radius:8px;
+  display:none;flex-direction:column;min-width:170px;
+}
+.dropdown-content a{padding:10px;font-size:.85rem;}
+.dropdown:hover .dropdown-content{display:flex;}
 
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      margin: auto;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-radius: 10px;
-    }
+/* ================= HEADER ================= */
+header{text-align:center;padding:20px;}
+header h1{font-size:2.2rem;}
+header p{opacity:.8;font-size:.9rem;}
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
+/* ================= SEARCH ================= */
+.search-container{max-width:600px;margin:10px auto;padding:0 15px;}
+.search-container input{
+  width:100%;padding:12px;border-radius:30px;border:none;outline:none;
+}
 
-    /* Buttons */
-    .btn {
-      display: inline-block;
-      background: #e1306c;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      transition: background 0.3s ease, transform 0.2s ease;
-      margin: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
+/* ================= CATEGORY ================= */
+.category{padding:25px 15px;}
+.category h2{
+  margin-bottom:15px;border-left:4px solid var(--accent);
+  padding-left:10px;
+}
 
-    .btn:hover {
-      background: #c2255a;
-      transform: translateY(-2px);
-    }
+/* ================= GRID ================= */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
 
-    /* Search Bar */
-    .search-bar {
-      margin: 20px auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
+/* ================= CARD ================= */
+.card{
+  background:var(--card-bg);backdrop-filter:blur(10px);
+  border-radius:16px;padding:15px;
+  box-shadow:0 10px 30px #0006;
+  transition:.3s;
+}
+.card:hover{transform:translateY(-6px);}
+.card img{
+  width:100%;height:150px;object-fit:contain;
+  background:white;border-radius:12px;padding:10px;
+}
+.card h3{text-align:center;margin-top:8px;font-size:.95rem;}
 
-    .search-bar input {
-      width: 60%;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      font-size: 1rem;
-      outline: none;
-    }
+/* ================= BUTTONS ================= */
+.btn-group{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+.btn{
+  padding:9px;border-radius:10px;
+  text-decoration:none;text-align:center;
+  font-size:.78rem;font-weight:600;
+  cursor:pointer;border:none;
+}
+.buy{background:var(--buy);color:white;}
+.know{background:var(--know);color:white;}
+.fav-btn{background:#333;color:white;}
+.fav-btn.active{background:var(--fav);color:black;}
 
-    .search-bar button {
-      background: #00b894;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+/* ================= FOOTER ================= */
+footer{text-align:center;padding:12px;opacity:.8;}
 
-    .search-bar button:hover {
-      background: #019870;
-    }
-
-    /* Product Section */
-    .section {
-      display: flex;
-      justify-content: space-around;
-      margin: 20px 0;
-      flex-wrap: wrap;
-    }
-
-    .block {
-      background: rgba(255, 255, 255, 0.9);
-      color: #000;
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      text-align: center;
-      margin: 10px;
-      border-radius: 10px;
-      transition: transform 0.3s ease, background 0.3s ease;
-      cursor: pointer;
-    }
-
-    .block:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 1);
-    }
-
-    .block img {
-      max-width: 100%;
-      height: auto;
-      max-height: 250px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
-
-    footer {
-      background-color: #000;
-      color: #fff;
-      padding: 10px 0;
-      position: relative;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    @media (max-width: 768px) {
-      h1 { font-size: 2.5rem; }
-      .btn { padding: 8px 16px; font-size: 0.9rem; }
-      .section { flex-direction: column; align-items: center; }
-      .block { width: 80%; margin-bottom: 20px; }
-    }
-
-    @media (max-width: 480px) {
-      h1 { font-size: 2rem; }
-      .btn { padding: 6px 12px; font-size: 0.8rem; }
-      .search-bar input { width: 80%; }
-    }
-  </style>
+@media(max-width:480px){
+  header h1{font-size:1.9rem;}
+  .btn-group{grid-template-columns:1fr;}
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Preloader -->
-  <div class="preloader">
-    <img src="Picture2.png" alt="Logo">
-  </div>
+<!-- PRELOADER -->
+<div id="preloader">
+  <img class="preloader-logo" src="Picture2.png">
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
 
-  <!-- Main Content -->
-  <div class="main-content" style="display: none;">
-    <div class="container">
-      <h1>Know Your Products</h1>
-      <a href="index.html" class="btn">Home</a>
-
-      <!-- Search Bar -->
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search for a product...">
-        <button id="searchBtn">Search</button>
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">KYP</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li class="dropdown">
+      <a>Categories ▾</a>
+      <div class="dropdown-content">
+        <a onclick="showAll()">All</a>
+        <a onclick="scrollToCategory('electronics')">Electronics & Gaming</a>
+        <a onclick="scrollToCategory('wearables')">Wearables</a>
+        <a onclick="scrollToCategory('accessories')">Accessories</a>
+        <a onclick="scrollToCategory('education')">Education & Lifestyle</a>
+        <a onclick="scrollToCategory('decor')">Home & Decor</a>
       </div>
-    </div>
+    </li>
+    <li><a onclick="showFavourites()">⭐ Favourites</a></li>
+    <li><a onclick="shareSite()">📤 Share</a></li>
+  </ul>
+</nav>
 
-    <!-- Products -->
-    <div class="section" id="productSection">
+<div id="content" style="display:none">
 
-      <div class="block" data-name="Boult Mustang Gaming Buds">
-        <a href="https://amzn.to/4jHLkBr"><img src="Mustangg.png" alt="Boult Mustang Gaming Buds"></a>
-        <h2>Boult Mustang Gaming Buds</h2>
-        <a href="https://amzn.to/4jHLkBr" class="btn">Buy Now</a>
-        <a href="Mustangg.html" class="btn">Know Product</a>
-      </div>
+<header>
+  <h1>Know Your Products</h1>
+  <p>Smart choices. Honest recommendations.</p>
+</header>
 
-      <div class="block" data-name="LYKAN Gaming Mouse">
-        <a href="https://amzn.to/4jHMvkl"><img src="Mouse.png" alt="LYKAN Gaming Mouse"></a>
-        <h2>LYKAN Gaming Mouse</h2>
-        <a href="https://amzn.to/4jHMvkl" class="btn">Buy Now</a>
-        <a href="Mouse.html" class="btn">Know Product</a>
-      </div>
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Search products...">
+</div>
 
-      <div class="block" data-name="Ambrane Power Bank">
-        <a href="https://amzn.to/4jKzF4P"><img src="Powerbank.png" alt="Ambrane Power Bank"></a>
-        <h2>Ambrane Power Bank</h2>
-        <a href="https://amzn.to/4jKzF4P" class="btn">Buy Now</a>
-        <a href="Powerbank.html" class="btn">Know Product</a>
-      </div>
+<p id="noResults" style="display:none;text-align:center">🤖 No matching products found</p>
 
-      <div class="block" data-name="Noise Colorfit Smart Watch">
-        <a href="https://amzn.to/45hGHuo"><img src="Noisew.png" alt="Noise Colorfit Smart Watch"></a>
-        <h2>Noise Colorfit Smart Watch</h2>
-        <a href="https://amzn.to/45hGHuo" class="btn">Buy Now</a>
-        <a href="Noisew.html" class="btn">Know Product</a>
-      </div>
+<!-- ================= PRODUCTS ================= -->
 
-      <div class="block" data-name="Noise Diva Smartwatch">
-        <a href="https://amzn.to/4dXynSM"><img src="Noisewatch.png" alt="Noise Diva Smartwatch"></a>
-        <h2>Noise Diva Smartwatch</h2>
-        <a href="https://amzn.to/4dXynSM" class="btn">Buy Now</a>
-        <a href="Noisewatch.html" class="btn">Know Product</a>
-      </div>
+<!-- 🎮 Electronics & Gaming -->
+<section class="category" id="electronics">
+<h2>🎮 Electronics & Gaming</h2>
+<div class="products">
 
-      <div class="block" data-name="Dyazo Water Resistant Laptop Sleeve">
-        <a href="https://amzn.to/4kYetcE"><img src="Laptopc.png" alt="Dyazo Water Resistant Laptop Sleeve"></a>
-        <h2>Dyazo Water Resistant Laptop Sleeve</h2>
-        <a href="https://amzn.to/4kYetcE" class="btn">Buy Now</a>
-        <a href="Laptopc.html" class="btn">Know Product</a>
-      </div>
+<div class="card" data-id="boult" data-tags="gaming buds boult">
+<img src="Mustangg.png">
+<h3>Boult Mustang Gaming Buds</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a>
+<a class="btn know" href="Mustangg.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button>
+</div>
+</div>
 
-      <div class="block" data-name="FX-991ES Scientific Calculator">
-        <a href="https://amzn.to/3ZEJ6f8"><img src="Calculator.png" alt="FX-991ES Scientific Calculator"></a>
-        <h2>FX-991ES Scientific Calculator</h2>
-        <a href="https://amzn.to/3ZEJ6f8" class="btn">Buy Now</a>
-        <a href="Calculator.html" class="btn">Know Product</a>
-      </div>
+<div class="card" data-id="lykan" data-tags="gaming mouse lykan">
+<img src="Mouse.png">
+<h3>LYKAN Gaming Mouse</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a>
+<a class="btn know" href="Mouse.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button>
+</div>
+</div>
 
-      <div class="block" data-name="Sherlock Holmes Book Set">
-        <a href="https://amzn.to/3HQkgTj"><img src="Book.png" alt="Sherlock Holmes (Set of 2 Books)"></a>
-        <h2>Sherlock Holmes (Set of 2 Books)</h2>
-        <a href="https://amzn.to/3HQkgTj" class="btn">Buy Now</a>
-        <a href="Book.html" class="btn">Know Product</a>
-      </div>
+</div>
+</section>
 
-      <div class="block" data-name="Tied Ribbons Decorative Abstract">
-        <a href="https://amzn.to/4k2NFar"><img src="Decor.png" alt="Tied Ribbons Decorative Abstract"></a>
-        <h2>Tied Ribbons Decorative Abstract</h2>
-        <a href="https://amzn.to/4k2NFar" class="btn">Buy Now</a>
-        <a href="Decor.html" class="btn">Know Product</a>
-      </div>
-    </div>
-  </div>
+<!-- ⌚ Wearables -->
+<section class="category" id="wearables">
+<h2>⌚ Wearables</h2>
+<div class="products">
 
-  <!-- Footer -->
-  <footer>
-    <p>Creator: Tummala Ritesh | Mail: riteshtummala7@gmail.com</p>
-  </footer>
+<div class="card" data-id="colorfit" data-tags="watch noise colorfit">
+<img src="Noisew.png">
+<h3>Noise Colorfit Smart Watch</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a>
+<a class="btn know" href="Noisew.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button>
+</div>
+</div>
 
-  <script>
-    // Preloader
-    window.onload = function() {
-      setTimeout(() => {
-        document.querySelector(".preloader").style.display = "none";
-        document.querySelector(".main-content").style.display = "block";
-      }, 2000);
-    };
+<div class="card" data-id="diva" data-tags="watch noise diva">
+<img src="Noisewatch.png">
+<h3>Noise Diva Smart Watch</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a>
+<a class="btn know" href="Noisewatch.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button>
+</div>
+</div>
 
-    // Simple AI-powered search simulation
-    const searchInput = document.getElementById("searchInput");
-    const searchBtn = document.getElementById("searchBtn");
-    const products = document.querySelectorAll(".block");
+</div>
+</section>
 
-    function aiSearch(query) {
-      query = query.toLowerCase().trim();
-      let found = false;
+<!-- 🔋 Accessories -->
+<section class="category" id="accessories">
+<h2>🔋 Accessories</h2>
+<div class="products">
 
-      products.forEach(block => {
-        const name = block.getAttribute("data-name").toLowerCase();
-        if (name.includes(query)) {
-          block.style.display = "block";
-          found = true;
-        } else {
-          block.style.display = "none";
-        }
-      });
+<div class="card" data-id="powerbank" data-tags="powerbank ambrane">
+<img src="Powerbank.png">
+<h3>Ambrane Power Bank</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a>
+<a class="btn know" href="Powerbank.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button>
+</div>
+</div>
 
-      if (!found) {
-        alert("🤖 AI: Sorry, no matching product found. Try another keyword like 'watch' or 'buds'.");
-      }
+<div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo">
+<img src="Laptopc.png">
+<h3>Dyazo Laptop Sleeve</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a>
+<a class="btn know" href="Laptopc.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- 📚 Education & Lifestyle -->
+<section class="category" id="education">
+<h2>📚 Education & Lifestyle</h2>
+<div class="products">
+
+<div class="card" data-id="calculator" data-tags="calculator study fx">
+<img src="Calculator.png">
+<h3>FX-991ES Calculator</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a>
+<a class="btn know" href="Calculator.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button>
+</div>
+</div>
+
+<div class="card" data-id="book" data-tags="book sherlock">
+<img src="Book.png">
+<h3>Sherlock Holmes Book Set</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a>
+<a class="btn know" href="Book.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- 🏠 Home & Decor -->
+<section class="category" id="decor">
+<h2>🏠 Home & Decor</h2>
+<div class="products">
+
+<div class="card" data-id="decor" data-tags="decor wall art">
+<img src="Decor.png">
+<h3>Decorative Abstract Art</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a>
+<a class="btn know" href="Decor.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<footer>© Know Your Products | Tummala Ritesh</footer>
+
+</div>
+
+<script>
+/* PRELOADER */
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    document.getElementById("preloader").classList.add("hide");
+    document.getElementById("content").style.display="block";
+    loadFavs();
+  },500);
+});
+
+/* SEARCH */
+const searchInput=document.getElementById("searchInput");
+const cards=document.querySelectorAll(".card");
+const noResults=document.getElementById("noResults");
+
+searchInput.addEventListener("input",()=>{
+  const q=searchInput.value.toLowerCase();
+  let found=false;
+  cards.forEach(c=>{
+    c.style.display=c.dataset.tags.includes(q)?"block":"none";
+    if(c.style.display==="block") found=true;
+  });
+  noResults.style.display=found?"none":"block";
+});
+
+/* CATEGORY */
+function showAll(){
+  cards.forEach(c=>c.style.display="block");
+  noResults.style.display="none";
+  searchInput.value="";
+}
+function scrollToCategory(id){
+  showAll();
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+/* FAVOURITES */
+function toggleFav(btn,id){
+  let favs=JSON.parse(localStorage.getItem("favs")||"[]");
+  if(favs.includes(id)){
+    favs=favs.filter(x=>x!==id);
+    btn.textContent="♡ Favourite";
+    btn.classList.remove("active");
+  }else{
+    favs.push(id);
+    btn.textContent="★ Favourited";
+    btn.classList.add("active");
+  }
+  localStorage.setItem("favs",JSON.stringify(favs));
+}
+function loadFavs(){
+  const favs=JSON.parse(localStorage.getItem("favs")||"[]");
+  document.querySelectorAll(".card").forEach(card=>{
+    const id=card.dataset.id;
+    const btn=card.querySelector(".fav-btn");
+    if(favs.includes(id)){
+      btn.textContent="★ Favourited";
+      btn.classList.add("active");
     }
+  });
+}
+function showFavourites(){
+  const favs=JSON.parse(localStorage.getItem("favs")||"[]");
+  let found=false;
+  cards.forEach(c=>{
+    c.style.display=favs.includes(c.dataset.id)?"block":"none";
+    if(c.style.display==="block") found=true;
+  });
+  noResults.style.display=found?"none":"block";
+}
 
-    searchBtn.addEventListener("click", () => {
-      aiSearch(searchInput.value);
+/* SHARE */
+function shareSite(){
+  if(navigator.share){
+    navigator.share({
+      title:"Know Your Products",
+      text:"Check out this product discovery site!",
+      url:window.location.href
     });
-
-    searchInput.addEventListener("keyup", e => {
-      if (e.key === "Enter") aiSearch(searchInput.value);
-    });
-  </script>
+  }else{
+    alert("Copy this link:\n"+window.location.href);
+  }
+}
+</script>
 
 </body>
 </html>
-
