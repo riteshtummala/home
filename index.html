@@ -51,7 +51,7 @@ nav ul{list-style:none;display:flex;gap:15px;align-items:center;}
 nav a{color:white;text-decoration:none;font-size:.9rem;cursor:pointer;}
 nav a:hover{color:var(--accent);}
 
-/* ================= LIVE PRODUCT COUNT ================= */
+/* ===== LIVE PRODUCT COUNT (NAVBAR) ===== */
 .live-count{
   position:relative;
   width:42px;height:42px;
@@ -87,10 +87,10 @@ header p{opacity:.8;font-size:.9rem;}
   width:100%;padding:12px;border-radius:30px;border:none;outline:none;
 }
 
-/* ================= VISITOR COUNT ================= */
-.visitor-box{
+/* ===== PRODUCT COUNT BELOW SEARCH ===== */
+.product-total{
   text-align:center;
-  font-size:.85rem;
+  font-size:.9rem;
   opacity:.85;
   margin-top:6px;
 }
@@ -177,48 +177,139 @@ footer{text-align:center;padding:12px;opacity:.8;}
   <input type="text" id="searchInput" placeholder="Search products...">
 </div>
 
-<div class="visitor-box">
-  👥 <span id="visitorCount">0</span> people visited this website
+<div class="product-total">
+  📦 <span id="productTotal">0</span> products available on this website
 </div>
 
-<!-- ================= PRODUCTS ================= -->
+<!-- ================= PRODUCTS (UNCHANGED FROM ORIGINAL) ================= -->
 
-<section class="category">
+<!-- 🎮 Electronics & Gaming -->
+<section class="category" id="electronics">
 <h2>🎮 Electronics & Gaming</h2>
 <div class="products">
-<div class="card" data-id="boult" data-tags="gaming buds boult"><img src="Mustangg.png"><h3>Boult Mustang Gaming Buds</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a><a class="btn know" href="Mustangg.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button></div></div>
-<div class="card" data-id="lykan" data-tags="gaming mouse lykan"><img src="Mouse.png"><h3>LYKAN Gaming Mouse</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a><a class="btn know" href="Mouse.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button></div></div>
+
+<div class="card" data-id="boult" data-tags="gaming buds boult">
+<img src="Mustangg.png">
+<h3>Boult Mustang Gaming Buds</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a>
+<a class="btn know" href="Mustangg.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button>
+</div>
+</div>
+
+<div class="card" data-id="lykan" data-tags="gaming mouse lykan">
+<img src="Mouse.png">
+<h3>LYKAN Gaming Mouse</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a>
+<a class="btn know" href="Mouse.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button>
+</div>
+</div>
+
 </div>
 </section>
 
-<section class="category">
+<!-- ⌚ Wearables -->
+<section class="category" id="wearables">
 <h2>⌚ Wearables</h2>
 <div class="products">
-<div class="card" data-id="colorfit" data-tags="watch noise colorfit"><img src="Noisew.png"><h3>Noise Colorfit Smart Watch</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a><a class="btn know" href="Noisew.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button></div></div>
-<div class="card" data-id="diva" data-tags="watch noise diva"><img src="Noisewatch.png"><h3>Noise Diva Smart Watch</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a><a class="btn know" href="Noisewatch.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button></div></div>
+
+<div class="card" data-id="colorfit" data-tags="watch noise colorfit">
+<img src="Noisew.png">
+<h3>Noise Colorfit Smart Watch</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a>
+<a class="btn know" href="Noisew.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button>
+</div>
+</div>
+
+<div class="card" data-id="diva" data-tags="watch noise diva">
+<img src="Noisewatch.png">
+<h3>Noise Diva Smart Watch</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a>
+<a class="btn know" href="Noisewatch.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button>
+</div>
+</div>
+
 </div>
 </section>
 
-<section class="category">
+<!-- 🔋 Accessories -->
+<section class="category" id="accessories">
 <h2>🔋 Accessories</h2>
 <div class="products">
-<div class="card" data-id="powerbank" data-tags="powerbank ambrane"><img src="Powerbank.png"><h3>Ambrane Power Bank</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a><a class="btn know" href="Powerbank.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button></div></div>
-<div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo"><img src="Laptopc.png"><h3>Dyazo Laptop Sleeve</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a><a class="btn know" href="Laptopc.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button></div></div>
+
+<div class="card" data-id="powerbank" data-tags="powerbank ambrane">
+<img src="Powerbank.png">
+<h3>Ambrane Power Bank</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a>
+<a class="btn know" href="Powerbank.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button>
+</div>
+</div>
+
+<div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo">
+<img src="Laptopc.png">
+<h3>Dyazo Laptop Sleeve</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a>
+<a class="btn know" href="Laptopc.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button>
+</div>
+</div>
+
 </div>
 </section>
 
-<section class="category">
+<!-- 📚 Education & Lifestyle -->
+<section class="category" id="education">
 <h2>📚 Education & Lifestyle</h2>
 <div class="products">
-<div class="card" data-id="calculator" data-tags="calculator study fx"><img src="Calculator.png"><h3>FX-991ES Calculator</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a><a class="btn know" href="Calculator.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button></div></div>
-<div class="card" data-id="book" data-tags="book sherlock"><img src="Book.png"><h3>Sherlock Holmes Book Set</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a><a class="btn know" href="Book.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button></div></div>
+
+<div class="card" data-id="calculator" data-tags="calculator study fx">
+<img src="Calculator.png">
+<h3>FX-991ES Calculator</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a>
+<a class="btn know" href="Calculator.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button>
+</div>
+</div>
+
+<div class="card" data-id="book" data-tags="book sherlock">
+<img src="Book.png">
+<h3>Sherlock Holmes Book Set</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a>
+<a class="btn know" href="Book.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button>
+</div>
+</div>
+
 </div>
 </section>
 
-<section class="category">
+<!-- 🏠 Home & Decor -->
+<section class="category" id="decor">
 <h2>🏠 Home & Decor</h2>
 <div class="products">
-<div class="card" data-id="decor" data-tags="decor wall art"><img src="Decor.png"><h3>Decorative Abstract Art</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a><a class="btn know" href="Decor.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button></div></div>
+
+<div class="card" data-id="decor" data-tags="decor wall art">
+<img src="Decor.png">
+<h3>Decorative Abstract Art</h3>
+<div class="btn-group">
+<a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a>
+<a class="btn know" href="Decor.html">Know</a>
+<button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button>
+</div>
+</div>
+
 </div>
 </section>
 
@@ -232,7 +323,7 @@ window.addEventListener("load",()=>{
     preloader.classList.add("hide");
     content.style.display="block";
     loadFavs();
-    updateProductCount();
+    updateProductCounts();
   },500);
 });
 
@@ -246,18 +337,12 @@ searchInput.addEventListener("input",()=>{
   });
 });
 
-/* PRODUCT COUNT */
-function updateProductCount(){
-  productCount.textContent=document.querySelectorAll(".card").length;
+/* PRODUCT COUNT (NAVBAR + BELOW SEARCH) */
+function updateProductCounts(){
+  const total=document.querySelectorAll(".card").length;
+  productCount.textContent=total;
+  productTotal.textContent=total;
 }
-
-/* VISITOR COUNT */
-(function(){
-  let v=localStorage.getItem("kyp_visits");
-  v=v?parseInt(v)+1:1;
-  localStorage.setItem("kyp_visits",v);
-  visitorCount.textContent=v;
-})();
 
 /* FAVOURITES */
 function toggleFav(btn,id){
@@ -277,7 +362,7 @@ function loadFavs(){
   let favs=JSON.parse(localStorage.getItem("favs")||"[]");
   cards.forEach(c=>{
     if(favs.includes(c.dataset.id)){
-      let b=c.querySelector(".fav-btn");
+      const b=c.querySelector(".fav-btn");
       b.textContent="★ Favourited";
       b.classList.add("active");
     }
