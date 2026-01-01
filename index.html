@@ -51,24 +51,32 @@ nav ul{list-style:none;display:flex;gap:15px;align-items:center;}
 nav a{color:white;text-decoration:none;font-size:.9rem;cursor:pointer;}
 nav a:hover{color:var(--accent);}
 
-/* ===== LIVE PRODUCT COUNT (NAVBAR) ===== */
+.dropdown{position:relative;}
+.dropdown-content{
+  position:absolute;top:30px;left:0;
+  background:#122b35;border-radius:8px;
+  display:none;flex-direction:column;min-width:200px;
+}
+.dropdown-content a{
+  padding:10px;
+  font-size:.85rem;
+}
+.dropdown:hover .dropdown-content{display:flex;}
+
+/* ================= LIVE PRODUCT COUNT ================= */
 .live-count{
   position:relative;
   width:42px;height:42px;
   border-radius:50%;
   border:2px solid #00ff88;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  color:#00ff88;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:#00ff88;
 }
 .live-dot{
   position:absolute;
   top:-4px;right:-4px;
   width:10px;height:10px;
-  background:#00ff88;
-  border-radius:50%;
+  background:#00ff88;border-radius:50%;
   animation:blink 1.2s infinite;
 }
 @keyframes blink{
@@ -87,12 +95,9 @@ header p{opacity:.8;font-size:.9rem;}
   width:100%;padding:12px;border-radius:30px;border:none;outline:none;
 }
 
-/* ===== PRODUCT COUNT BELOW SEARCH ===== */
+/* ================= PRODUCT TOTAL ================= */
 .product-total{
-  text-align:center;
-  font-size:.9rem;
-  opacity:.85;
-  margin-top:6px;
+  text-align:center;font-size:.9rem;opacity:.85;margin-top:6px;
 }
 
 /* ================= CATEGORY ================= */
@@ -105,8 +110,14 @@ header p{opacity:.8;font-size:.9rem;}
 /* ================= GRID ================= */
 .products{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns:repeat(3,1fr);
   gap:20px;
+}
+@media(max-width:900px){
+  .products{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+  .products{grid-template-columns:1fr;}
 }
 
 /* ================= CARD ================= */
@@ -125,14 +136,14 @@ header p{opacity:.8;font-size:.9rem;}
 
 /* ================= BUTTONS ================= */
 .btn-group{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
   gap:8px;margin-top:12px;
 }
 .btn{
   padding:9px;border-radius:10px;
   text-align:center;font-size:.78rem;
   font-weight:600;border:none;cursor:pointer;
+  text-decoration:none; /* no underline */
 }
 .buy{background:var(--buy);color:white;}
 .know{background:var(--know);color:white;}
@@ -157,9 +168,19 @@ footer{text-align:center;padding:12px;opacity:.8;}
   <div class="logo">KYP</div>
   <ul>
     <li><a onclick="showAll()">Home</a></li>
+    <li class="dropdown">
+      <a>Categories ▾</a>
+      <div class="dropdown-content">
+        <a onclick="scrollToCategory('electronics')">🎮 Electronics & Gaming</a>
+        <a onclick="scrollToCategory('wearables')">⌚ Wearables</a>
+        <a onclick="scrollToCategory('accessories')">🔋 Accessories</a>
+        <a onclick="scrollToCategory('education')">📚 Education & Lifestyle</a>
+        <a onclick="scrollToCategory('decor')">🏠 Home & Decor</a>
+      </div>
+    </li>
     <li><a onclick="showFavourites()">⭐ Favourites</a></li>
-    <li><a onclick="shareSite()">📤 Share</a></li>
   </ul>
+
   <div class="live-count">
     <span class="live-dot"></span>
     <span id="productCount">0</span>
@@ -181,33 +202,31 @@ footer{text-align:center;padding:12px;opacity:.8;}
   📦 <span id="productTotal">0</span> products available on this website
 </div>
 
-<!-- ================= PRODUCTS (UNCHANGED FROM ORIGINAL) ================= -->
+<!-- ================= PRODUCTS (UNCHANGED – ALL INCLUDED) ================= -->
 
 <!-- 🎮 Electronics & Gaming -->
 <section class="category" id="electronics">
 <h2>🎮 Electronics & Gaming</h2>
 <div class="products">
+  <div class="card" data-id="boult" data-tags="gaming buds boult">
+    <img src="Mustangg.png">
+    <h3>Boult Mustang Gaming Buds</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a>
+      <a class="btn know" href="Mustangg.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button>
+    </div>
+  </div>
 
-<div class="card" data-id="boult" data-tags="gaming buds boult">
-<img src="Mustangg.png">
-<h3>Boult Mustang Gaming Buds</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a>
-<a class="btn know" href="Mustangg.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button>
-</div>
-</div>
-
-<div class="card" data-id="lykan" data-tags="gaming mouse lykan">
-<img src="Mouse.png">
-<h3>LYKAN Gaming Mouse</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a>
-<a class="btn know" href="Mouse.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button>
-</div>
-</div>
-
+  <div class="card" data-id="lykan" data-tags="gaming mouse lykan">
+    <img src="Mouse.png">
+    <h3>LYKAN Gaming Mouse</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a>
+      <a class="btn know" href="Mouse.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -215,27 +234,35 @@ footer{text-align:center;padding:12px;opacity:.8;}
 <section class="category" id="wearables">
 <h2>⌚ Wearables</h2>
 <div class="products">
+  <div class="card" data-id="colorfit" data-tags="watch noise colorfit">
+    <img src="Noisew.png">
+    <h3>Noise Colorfit Smart Watch</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a>
+      <a class="btn know" href="Noisew.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button>
+    </div>
+  </div>
 
-<div class="card" data-id="colorfit" data-tags="watch noise colorfit">
-<img src="Noisew.png">
-<h3>Noise Colorfit Smart Watch</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a>
-<a class="btn know" href="Noisew.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button>
-</div>
-</div>
+  <div class="card" data-id="diva" data-tags="watch noise diva">
+    <img src="Noisewatch.png">
+    <h3>Noise Diva Smart Watch</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a>
+      <a class="btn know" href="Noisewatch.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button>
+    </div>
+  </div>
 
-<div class="card" data-id="diva" data-tags="watch noise diva">
-<img src="Noisewatch.png">
-<h3>Noise Diva Smart Watch</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a>
-<a class="btn know" href="Noisewatch.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button>
-</div>
-</div>
-
+  <div class="card" data-id="diva" data-tags="watch noise diva">
+    <img src="bspeaker.png">
+    <h3>Portronics Wearable Bluetooth Speaker</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4ql1S6F">Buy</a>
+      <a class="btn know" href="Bspeaker.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -243,27 +270,35 @@ footer{text-align:center;padding:12px;opacity:.8;}
 <section class="category" id="accessories">
 <h2>🔋 Accessories</h2>
 <div class="products">
+  <div class="card" data-id="powerbank" data-tags="powerbank ambrane">
+    <img src="Powerbank.png">
+    <h3>Ambrane Power Bank</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a>
+      <a class="btn know" href="Powerbank.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button>
+    </div>
+  </div>
 
-<div class="card" data-id="powerbank" data-tags="powerbank ambrane">
-<img src="Powerbank.png">
-<h3>Ambrane Power Bank</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a>
-<a class="btn know" href="Powerbank.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button>
-</div>
-</div>
+  <div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo">
+    <img src="Laptopc.png">
+    <h3>Dyazo Laptop Sleeve</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a>
+      <a class="btn know" href="Laptopc.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button>
+    </div>
+  </div>
 
-<div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo">
-<img src="Laptopc.png">
-<h3>Dyazo Laptop Sleeve</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a>
-<a class="btn know" href="Laptopc.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button>
-</div>
-</div>
-
+  <div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo">
+    <img src="ps3.png">
+    <h3>Portronics Snapcase 3</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/3YhaBub">Buy</a>
+      <a class="btn know" href="Ps3.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -271,27 +306,25 @@ footer{text-align:center;padding:12px;opacity:.8;}
 <section class="category" id="education">
 <h2>📚 Education & Lifestyle</h2>
 <div class="products">
+  <div class="card" data-id="calculator" data-tags="calculator study fx">
+    <img src="Calculator.png">
+    <h3>FX-991ES Calculator</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a>
+      <a class="btn know" href="Calculator.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button>
+    </div>
+  </div>
 
-<div class="card" data-id="calculator" data-tags="calculator study fx">
-<img src="Calculator.png">
-<h3>FX-991ES Calculator</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a>
-<a class="btn know" href="Calculator.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button>
-</div>
-</div>
-
-<div class="card" data-id="book" data-tags="book sherlock">
-<img src="Book.png">
-<h3>Sherlock Holmes Book Set</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a>
-<a class="btn know" href="Book.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button>
-</div>
-</div>
-
+  <div class="card" data-id="book" data-tags="book sherlock">
+    <img src="Book.png">
+    <h3>Sherlock Holmes Book Set</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a>
+      <a class="btn know" href="Book.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -299,17 +332,15 @@ footer{text-align:center;padding:12px;opacity:.8;}
 <section class="category" id="decor">
 <h2>🏠 Home & Decor</h2>
 <div class="products">
-
-<div class="card" data-id="decor" data-tags="decor wall art">
-<img src="Decor.png">
-<h3>Decorative Abstract Art</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a>
-<a class="btn know" href="Decor.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button>
-</div>
-</div>
-
+  <div class="card" data-id="decor" data-tags="decor wall art">
+    <img src="Decor.png">
+    <h3>Decorative Abstract Art</h3>
+    <div class="btn-group">
+      <a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a>
+      <a class="btn know" href="Decor.html">Know</a>
+      <button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -317,7 +348,6 @@ footer{text-align:center;padding:12px;opacity:.8;}
 </div>
 
 <script>
-/* PRELOADER */
 window.addEventListener("load",()=>{
   setTimeout(()=>{
     preloader.classList.add("hide");
@@ -337,11 +367,16 @@ searchInput.addEventListener("input",()=>{
   });
 });
 
-/* PRODUCT COUNT (NAVBAR + BELOW SEARCH) */
+/* PRODUCT COUNT */
 function updateProductCounts(){
   const total=document.querySelectorAll(".card").length;
   productCount.textContent=total;
   productTotal.textContent=total;
+}
+
+/* CATEGORY SCROLL */
+function scrollToCategory(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
 
 /* FAVOURITES */
@@ -374,19 +409,6 @@ function showFavourites(){
   cards.forEach(c=>{
     c.style.display=favs.includes(c.dataset.id)?"block":"none";
   });
-}
-
-/* SHARE */
-function shareSite(){
-  if(navigator.share){
-    navigator.share({
-      title:"Know Your Products",
-      text:"Check out this product discovery site!",
-      url:window.location.href
-    });
-  }else{
-    alert("Copy this link:\n"+window.location.href);
-  }
 }
 </script>
 
