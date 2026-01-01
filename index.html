@@ -50,14 +50,31 @@ nav .logo{font-weight:700;font-size:1.1rem;}
 nav ul{list-style:none;display:flex;gap:15px;align-items:center;}
 nav a{color:white;text-decoration:none;font-size:.9rem;cursor:pointer;}
 nav a:hover{color:var(--accent);}
-.dropdown{position:relative;}
-.dropdown-content{
-  position:absolute;top:30px;left:0;
-  background:#122b35;border-radius:8px;
-  display:none;flex-direction:column;min-width:170px;
+
+/* ================= LIVE PRODUCT COUNT ================= */
+.live-count{
+  position:relative;
+  width:42px;height:42px;
+  border-radius:50%;
+  border:2px solid #00ff88;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:#00ff88;
 }
-.dropdown-content a{padding:10px;font-size:.85rem;}
-.dropdown:hover .dropdown-content{display:flex;}
+.live-dot{
+  position:absolute;
+  top:-4px;right:-4px;
+  width:10px;height:10px;
+  background:#00ff88;
+  border-radius:50%;
+  animation:blink 1.2s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:.2}
+}
 
 /* ================= HEADER ================= */
 header{text-align:center;padding:20px;}
@@ -68,6 +85,14 @@ header p{opacity:.8;font-size:.9rem;}
 .search-container{max-width:600px;margin:10px auto;padding:0 15px;}
 .search-container input{
   width:100%;padding:12px;border-radius:30px;border:none;outline:none;
+}
+
+/* ================= VISITOR COUNT ================= */
+.visitor-box{
+  text-align:center;
+  font-size:.85rem;
+  opacity:.85;
+  margin-top:6px;
 }
 
 /* ================= CATEGORY ================= */
@@ -102,14 +127,12 @@ header p{opacity:.8;font-size:.9rem;}
 .btn-group{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-  margin-top:12px;
+  gap:8px;margin-top:12px;
 }
 .btn{
   padding:9px;border-radius:10px;
-  text-decoration:none;text-align:center;
-  font-size:.78rem;font-weight:600;
-  cursor:pointer;border:none;
+  text-align:center;font-size:.78rem;
+  font-weight:600;border:none;cursor:pointer;
 }
 .buy{background:var(--buy);color:white;}
 .know{background:var(--know);color:white;}
@@ -118,11 +141,6 @@ header p{opacity:.8;font-size:.9rem;}
 
 /* ================= FOOTER ================= */
 footer{text-align:center;padding:12px;opacity:.8;}
-
-@media(max-width:480px){
-  header h1{font-size:1.9rem;}
-  .btn-group{grid-template-columns:1fr;}
-}
 </style>
 </head>
 
@@ -138,21 +156,14 @@ footer{text-align:center;padding:12px;opacity:.8;}
 <nav>
   <div class="logo">KYP</div>
   <ul>
-    <li><a href="index.html">Home</a></li>
-    <li class="dropdown">
-      <a>Categories ▾</a>
-      <div class="dropdown-content">
-        <a onclick="showAll()">All</a>
-        <a onclick="scrollToCategory('electronics')">Electronics & Gaming</a>
-        <a onclick="scrollToCategory('wearables')">Wearables</a>
-        <a onclick="scrollToCategory('accessories')">Accessories</a>
-        <a onclick="scrollToCategory('education')">Education & Lifestyle</a>
-        <a onclick="scrollToCategory('decor')">Home & Decor</a>
-      </div>
-    </li>
+    <li><a onclick="showAll()">Home</a></li>
     <li><a onclick="showFavourites()">⭐ Favourites</a></li>
     <li><a onclick="shareSite()">📤 Share</a></li>
   </ul>
+  <div class="live-count">
+    <span class="live-dot"></span>
+    <span id="productCount">0</span>
+  </div>
 </nav>
 
 <div id="content" style="display:none">
@@ -166,179 +177,87 @@ footer{text-align:center;padding:12px;opacity:.8;}
   <input type="text" id="searchInput" placeholder="Search products...">
 </div>
 
-<p id="noResults" style="display:none;text-align:center">🤖 No matching products found</p>
+<div class="visitor-box">
+  👥 <span id="visitorCount">0</span> people visited this website
+</div>
 
 <!-- ================= PRODUCTS ================= -->
 
-<!-- 🎮 Electronics & Gaming -->
-<section class="category" id="electronics">
+<section class="category">
 <h2>🎮 Electronics & Gaming</h2>
 <div class="products">
-
-<div class="card" data-id="boult" data-tags="gaming buds boult">
-<img src="Mustangg.png">
-<h3>Boult Mustang Gaming Buds</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a>
-<a class="btn know" href="Mustangg.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button>
-</div>
-</div>
-
-<div class="card" data-id="lykan" data-tags="gaming mouse lykan">
-<img src="Mouse.png">
-<h3>LYKAN Gaming Mouse</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a>
-<a class="btn know" href="Mouse.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button>
-</div>
-</div>
-
+<div class="card" data-id="boult" data-tags="gaming buds boult"><img src="Mustangg.png"><h3>Boult Mustang Gaming Buds</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4jHLkBr">Buy</a><a class="btn know" href="Mustangg.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'boult')">♡ Favourite</button></div></div>
+<div class="card" data-id="lykan" data-tags="gaming mouse lykan"><img src="Mouse.png"><h3>LYKAN Gaming Mouse</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4jHMvkl">Buy</a><a class="btn know" href="Mouse.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'lykan')">♡ Favourite</button></div></div>
 </div>
 </section>
 
-<!-- ⌚ Wearables -->
-<section class="category" id="wearables">
+<section class="category">
 <h2>⌚ Wearables</h2>
 <div class="products">
-
-<div class="card" data-id="colorfit" data-tags="watch noise colorfit">
-<img src="Noisew.png">
-<h3>Noise Colorfit Smart Watch</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a>
-<a class="btn know" href="Noisew.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button>
-</div>
-</div>
-
-<div class="card" data-id="diva" data-tags="watch noise diva">
-<img src="Noisewatch.png">
-<h3>Noise Diva Smart Watch</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a>
-<a class="btn know" href="Noisewatch.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button>
-</div>
-</div>
-
+<div class="card" data-id="colorfit" data-tags="watch noise colorfit"><img src="Noisew.png"><h3>Noise Colorfit Smart Watch</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/45hGHuo">Buy</a><a class="btn know" href="Noisew.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'colorfit')">♡ Favourite</button></div></div>
+<div class="card" data-id="diva" data-tags="watch noise diva"><img src="Noisewatch.png"><h3>Noise Diva Smart Watch</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4dXynSM">Buy</a><a class="btn know" href="Noisewatch.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'diva')">♡ Favourite</button></div></div>
 </div>
 </section>
 
-<!-- 🔋 Accessories -->
-<section class="category" id="accessories">
+<section class="category">
 <h2>🔋 Accessories</h2>
 <div class="products">
-
-<div class="card" data-id="powerbank" data-tags="powerbank ambrane">
-<img src="Powerbank.png">
-<h3>Ambrane Power Bank</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a>
-<a class="btn know" href="Powerbank.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button>
-</div>
-</div>
-
-<div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo">
-<img src="Laptopc.png">
-<h3>Dyazo Laptop Sleeve</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a>
-<a class="btn know" href="Laptopc.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button>
-</div>
-</div>
-
+<div class="card" data-id="powerbank" data-tags="powerbank ambrane"><img src="Powerbank.png"><h3>Ambrane Power Bank</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4jKzF4P">Buy</a><a class="btn know" href="Powerbank.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'powerbank')">♡ Favourite</button></div></div>
+<div class="card" data-id="sleeve" data-tags="laptop sleeve dyazo"><img src="Laptopc.png"><h3>Dyazo Laptop Sleeve</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4kYetcE">Buy</a><a class="btn know" href="Laptopc.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'sleeve')">♡ Favourite</button></div></div>
 </div>
 </section>
 
-<!-- 📚 Education & Lifestyle -->
-<section class="category" id="education">
+<section class="category">
 <h2>📚 Education & Lifestyle</h2>
 <div class="products">
-
-<div class="card" data-id="calculator" data-tags="calculator study fx">
-<img src="Calculator.png">
-<h3>FX-991ES Calculator</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a>
-<a class="btn know" href="Calculator.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button>
-</div>
-</div>
-
-<div class="card" data-id="book" data-tags="book sherlock">
-<img src="Book.png">
-<h3>Sherlock Holmes Book Set</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a>
-<a class="btn know" href="Book.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button>
-</div>
-</div>
-
+<div class="card" data-id="calculator" data-tags="calculator study fx"><img src="Calculator.png"><h3>FX-991ES Calculator</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/3ZEJ6f8">Buy</a><a class="btn know" href="Calculator.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'calculator')">♡ Favourite</button></div></div>
+<div class="card" data-id="book" data-tags="book sherlock"><img src="Book.png"><h3>Sherlock Holmes Book Set</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/3HQkgTj">Buy</a><a class="btn know" href="Book.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'book')">♡ Favourite</button></div></div>
 </div>
 </section>
 
-<!-- 🏠 Home & Decor -->
-<section class="category" id="decor">
+<section class="category">
 <h2>🏠 Home & Decor</h2>
 <div class="products">
-
-<div class="card" data-id="decor" data-tags="decor wall art">
-<img src="Decor.png">
-<h3>Decorative Abstract Art</h3>
-<div class="btn-group">
-<a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a>
-<a class="btn know" href="Decor.html">Know</a>
-<button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button>
-</div>
-</div>
-
+<div class="card" data-id="decor" data-tags="decor wall art"><img src="Decor.png"><h3>Decorative Abstract Art</h3><div class="btn-group"><a class="btn buy" href="https://amzn.to/4k2NFar">Buy</a><a class="btn know" href="Decor.html">Know</a><button class="btn fav-btn" onclick="toggleFav(this,'decor')">♡ Favourite</button></div></div>
 </div>
 </section>
 
 <footer>© Know Your Products | Tummala Ritesh</footer>
-
 </div>
 
 <script>
 /* PRELOADER */
 window.addEventListener("load",()=>{
   setTimeout(()=>{
-    document.getElementById("preloader").classList.add("hide");
-    document.getElementById("content").style.display="block";
+    preloader.classList.add("hide");
+    content.style.display="block";
     loadFavs();
+    updateProductCount();
   },500);
 });
 
 /* SEARCH */
 const searchInput=document.getElementById("searchInput");
 const cards=document.querySelectorAll(".card");
-const noResults=document.getElementById("noResults");
-
 searchInput.addEventListener("input",()=>{
   const q=searchInput.value.toLowerCase();
-  let found=false;
   cards.forEach(c=>{
     c.style.display=c.dataset.tags.includes(q)?"block":"none";
-    if(c.style.display==="block") found=true;
   });
-  noResults.style.display=found?"none":"block";
 });
 
-/* CATEGORY */
-function showAll(){
-  cards.forEach(c=>c.style.display="block");
-  noResults.style.display="none";
-  searchInput.value="";
+/* PRODUCT COUNT */
+function updateProductCount(){
+  productCount.textContent=document.querySelectorAll(".card").length;
 }
-function scrollToCategory(id){
-  showAll();
-  document.getElementById(id).scrollIntoView({behavior:"smooth"});
-}
+
+/* VISITOR COUNT */
+(function(){
+  let v=localStorage.getItem("kyp_visits");
+  v=v?parseInt(v)+1:1;
+  localStorage.setItem("kyp_visits",v);
+  visitorCount.textContent=v;
+})();
 
 /* FAVOURITES */
 function toggleFav(btn,id){
@@ -355,24 +274,21 @@ function toggleFav(btn,id){
   localStorage.setItem("favs",JSON.stringify(favs));
 }
 function loadFavs(){
-  const favs=JSON.parse(localStorage.getItem("favs")||"[]");
-  document.querySelectorAll(".card").forEach(card=>{
-    const id=card.dataset.id;
-    const btn=card.querySelector(".fav-btn");
-    if(favs.includes(id)){
-      btn.textContent="★ Favourited";
-      btn.classList.add("active");
+  let favs=JSON.parse(localStorage.getItem("favs")||"[]");
+  cards.forEach(c=>{
+    if(favs.includes(c.dataset.id)){
+      let b=c.querySelector(".fav-btn");
+      b.textContent="★ Favourited";
+      b.classList.add("active");
     }
   });
 }
+function showAll(){cards.forEach(c=>c.style.display="block");}
 function showFavourites(){
-  const favs=JSON.parse(localStorage.getItem("favs")||"[]");
-  let found=false;
+  let favs=JSON.parse(localStorage.getItem("favs")||"[]");
   cards.forEach(c=>{
     c.style.display=favs.includes(c.dataset.id)?"block":"none";
-    if(c.style.display==="block") found=true;
   });
-  noResults.style.display=found?"none":"block";
 }
 
 /* SHARE */
@@ -391,3 +307,4 @@ function shareSite(){
 
 </body>
 </html>
+
