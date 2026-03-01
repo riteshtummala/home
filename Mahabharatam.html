@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahabharatam | Stage Play</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#000;
+  color:white;
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  background:url('https://images.unsplash.com/photo-1603575448369-3c51cddae16e') no-repeat center center/cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+
+.hero h1{
+  font-size:70px;
+  font-family:'Cinzel',serif;
+  color:gold;
+}
+
+.details{
+  font-size:22px;
+  margin:20px 0;
+}
+
+.btn{
+  padding:12px 30px;
+  background:gold;
+  color:black;
+  text-decoration:none;
+  border-radius:30px;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:white;
+}
+
+/* REGISTRATION */
+.registration{
+  padding:80px 20px;
+  background:#111;
+  text-align:center;
+}
+
+.registration h2{
+  font-size:40px;
+  color:gold;
+  margin-bottom:30px;
+}
+
+form{
+  max-width:400px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+input{
+  padding:12px;
+  border:none;
+  border-radius:5px;
+}
+
+button{
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  background:gold;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* COLLABORATORS */
+.collaborators{
+  padding:80px 20px;
+  text-align:center;
+  background:#000;
+}
+
+.collaborators h2{
+  color:gold;
+  margin-bottom:40px;
+}
+
+.clubs{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:30px;
+}
+
+.club{
+  background:#111;
+  padding:20px 30px;
+  border-radius:10px;
+  transition:0.3s;
+}
+
+.club:hover{
+  transform:scale(1.1);
+  background:gold;
+  color:black;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  background:#111;
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+  <h1>Mahabharatam</h1>
+  <div class="details">
+    📍 AB2 - Auditorium <br>
+    ⏰ 3 PM to 6 PM <br>
+    🎓 VIT-AP Amaravati
+  </div>
+  <a href="#register" class="btn">Register Here</a>
+</section>
+
+<section class="registration" id="register" data-aos="fade-up">
+  <h2>Stage Play Registration</h2>
+  <form id="registrationForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="text" id="regno" placeholder="Registration Number" required>
+    <input type="email" id="email" placeholder="Email ID" required>
+    <button type="submit">Submit</button>
+  </form>
+</section>
+
+<section class="collaborators" data-aos="fade-up">
+  <h2>Club Collaborators</h2>
+  <div class="clubs">
+    <div class="club">Drama Club</div>
+    <div class="club">Cultural Club</div>
+    <div class="club">Event Management Team</div>
+  </div>
+</section>
+
+<footer>
+© 2026 Mahabharatam Stage Play | VIT-AP Amaravati
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const supabaseUrl = "https://sb_publishable_NbXi5MLO4WXM2zoH1owTTg_0-sFbNcw.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+document.getElementById("registrationForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const regno = document.getElementById("regno").value;
+  const email = document.getElementById("email").value;
+
+  const { data, error } = await supabaseClient
+    .from("registrations")
+    .insert([{ name, regno, email }]);
+
+  if(error){
+    alert("Error submitting registration!");
+    console.log(error);
+  } else {
+    alert("Registration Successful!");
+    document.getElementById("registrationForm").reset();
+  }
+});
+
+</script>
+
+</body>
+</html>
