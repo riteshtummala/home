@@ -23,49 +23,56 @@ body{
 background:black;
 color:white;
 overflow-x:hidden;
+position:relative;
 }
 
-/* Fire Particles Background */
+/* Fire particles everywhere */
 #tsparticles{
 position:fixed;
 width:100%;
 height:100%;
-z-index:0;
+z-index:-2;
+}
+
+/* Sudarshan Chakra Background */
+.chakra{
+position:fixed;
+top:50%;
+left:50%;
+width:500px;
+height:500px;
+background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sudarshana_Chakra.svg/1024px-Sudarshana_Chakra.svg.png') center/contain no-repeat;
+transform:translate(-50%, -50%);
+opacity:0.15;
+z-index:-1;
+animation:rotateChakra 40s linear infinite;
+filter:drop-shadow(0 0 40px #00bfff);
+}
+
+@keyframes rotateChakra{
+from{transform:translate(-50%, -50%) rotate(0deg);}
+to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 
 /* Hero Section */
 .hero{
 height:100vh;
-background:url('https://images.unsplash.com/photo-1608889175501-df3c2c0bb77e') center/cover no-repeat;
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
 position:relative;
-z-index:1;
-}
-
-.hero::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.75);
+padding:20px;
 }
 
 .hero-content{
-position:relative;
-z-index:2;
 animation:fadeDown 2s ease;
-padding:20px;
 }
 
 h1{
 font-size:60px;
 color:gold;
-text-shadow:0 0 25px orange;
+text-shadow:0 0 30px orange;
 letter-spacing:4px;
 }
 
@@ -93,11 +100,10 @@ transform:scale(1.1);
 
 /* Registration Section */
 .section{
-padding:80px 20px;
+padding:100px 20px;
 text-align:center;
-position:relative;
-z-index:1;
-background:#111;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(5px);
 }
 
 form{
@@ -106,6 +112,7 @@ margin:auto;
 display:flex;
 flex-direction:column;
 gap:20px;
+margin-top:30px;
 }
 
 input{
@@ -142,10 +149,9 @@ font-size:18px;
 }
 
 footer{
-background:#000;
+background:black;
 padding:20px;
 text-align:center;
-font-size:14px;
 }
 
 @keyframes fadeDown{
@@ -155,7 +161,7 @@ to{opacity:1;transform:translateY(0);}
 
 @media(max-width:768px){
 h1{font-size:36px;}
-.details{font-size:16px;}
+.chakra{width:300px;height:300px;}
 }
 </style>
 </head>
@@ -163,6 +169,7 @@ h1{font-size:36px;}
 <body>
 
 <div id="tsparticles"></div>
+<div class="chakra"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -211,19 +218,15 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const { createClient } = supabase;
 const client = createClient(supabaseUrl, supabaseKey);
 
-// Fetch registration count
 async function updateCount(){
-const { count, error } = await client
+const { count } = await client
 .from("registrations")
 .select("*", { count: "exact", head: true });
 
-if(!error){
 document.getElementById("count").innerText = count || 0;
-}
 }
 updateCount();
 
-// Form Submit
 document.getElementById("registrationForm").addEventListener("submit", async (e)=>{
 e.preventDefault();
 
@@ -248,7 +251,7 @@ updateCount();
 }
 });
 
-// Fire Particle Effect
+/* Fire particles */
 tsParticles.load("tsparticles",{
 particles:{
 number:{value:120},
