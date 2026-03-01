@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
 *{
@@ -53,7 +54,7 @@ from{transform:translate(-50%, -50%) rotate(0deg);}
 to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 
-/* Soft Lightning */
+/* Lightning */
 .lightning{
 position:fixed;
 width:100%;
@@ -69,6 +70,27 @@ pointer-events:none;
 0%,97%,100%{opacity:0;}
 98%{opacity:0.15;}
 99%{opacity:0;}
+}
+
+/* Fire Burst */
+.fireburst{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle, orange 0%, red 40%, black 80%);
+opacity:0;
+z-index:10;
+pointer-events:none;
+}
+
+.fireburst.active{
+animation:burst 2s forwards;
+}
+
+@keyframes burst{
+0%{opacity:0;}
+20%{opacity:0.9;}
+100%{opacity:0;}
 }
 
 /* Hero */
@@ -87,7 +109,6 @@ position:relative;
 animation:fadeDown 2s ease;
 }
 
-/* Golden Glow Title */
 h1{
 font-size:65px;
 letter-spacing:5px;
@@ -100,7 +121,6 @@ from{text-shadow:0 0 10px gold,0 0 20px orange;}
 to{text-shadow:0 0 30px gold,0 0 60px orange;}
 }
 
-/* Divine Aura */
 .hero-content::after{
 content:"";
 position:absolute;
@@ -143,7 +163,6 @@ background:orange;
 transform:scale(1.1);
 }
 
-/* Registration */
 .section{
 padding:100px 20px;
 text-align:center;
@@ -182,6 +201,16 @@ font-size:22px;
 color:gold;
 }
 
+.pop-effect{
+animation:pop 0.6s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0.5);opacity:0;}
+70%{transform:scale(1.2);opacity:1;}
+100%{transform:scale(1);}
+}
+
 footer{
 background:black;
 padding:20px;
@@ -205,10 +234,15 @@ h1{font-size:36px;}
 <div id="tsparticles"></div>
 <div class="chakra"></div>
 <div class="lightning"></div>
+<div class="fireburst" id="fireburst"></div>
 
-<!-- Background Music -->
 <audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_59c2b94b79.mp3?filename=epic-cinematic-background-music-110199.mp3" type="audio/mp3">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_59c2b94b79.mp3" type="audio/mp3">
+</audio>
+
+<!-- Krishna Flute Sound -->
+<audio id="fluteSound">
+<source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3f07c7b9a3.mp3" type="audio/mp3">
 </audio>
 
 <section class="hero">
@@ -220,6 +254,10 @@ h1{font-size:36px;}
 <p>📍 AB2 - Auditorium</p>
 <p>⏰ 3PM to 6PM</p>
 <p>🎓 VITAP-Amaravati</p>
+</div>
+
+<div id="countdown" style="margin-top:20px;font-size:22px;color:gold;">
+⏳ Event Starts In: <span id="timer"></span>
 </div>
 
 <button class="register-btn" onclick="document.getElementById('register').scrollIntoView();">
@@ -239,6 +277,7 @@ Register Here
 </form>
 
 <p id="message"></p>
+
 <div class="counter">
 Total Registrations: <span id="count">0</span>
 </div>
@@ -250,37 +289,76 @@ Total Registrations: <span id="count">0</span>
 
 <script>
 const supabaseUrl="https://zhmazqothtpwrgmzermw.supabase.co";
-const supabaseKey="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
-
+const supabaseKey="YOUR_PUBLIC_ANON_KEY";
 const { createClient } = supabase;
 const client=createClient(supabaseUrl,supabaseKey);
 
+/* Countdown */
+const eventDate=new Date("March 14, 2026 15:00:00").getTime();
+const timerElement=document.getElementById("timer");
+
+const countdown=setInterval(function(){
+const now=new Date().getTime();
+const distance=eventDate-now;
+
+if(distance<0){
+clearInterval(countdown);
+document.getElementById("countdown").innerHTML="<span style='color:red;'>🔥 The Play Started 🔥</span>";
+document.getElementById("registrationForm").style.display="none";
+document.querySelector(".counter").style.display="none";
+document.getElementById("fireburst").classList.add("active");
+return;
+}
+
+const days=Math.floor(distance/(1000*60*60*24));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds=Math.floor((distance%(1000*60))/1000);
+
+timerElement.innerHTML=days+"d "+hours+"h "+minutes+"m "+seconds+"s";
+
+},1000);
+
+/* Update Count */
 async function updateCount(){
-const { count }=await client
-.from("registrations")
-.select("*",{count:"exact",head:true});
+const { count }=await client.from("registrations").select("*",{count:"exact",head:true});
 document.getElementById("count").innerText=count||0;
 }
 updateCount();
 
+/* Registration */
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
 e.preventDefault();
+
 const name=document.getElementById("name").value;
 const regno=document.getElementById("regno").value;
 const email=document.getElementById("email").value;
 
-const { error }=await client
-.from("registrations")
-.insert([{name,regno,email}]);
+const { error }=await client.from("registrations").insert([{name,regno,email}]);
 
 if(error){
 document.getElementById("message").style.color="red";
 document.getElementById("message").innerText="Error submitting!";
 }else{
-document.getElementById("message").style.color="lightgreen";
-document.getElementById("message").innerText="Registration Successful!";
-document.getElementById("registrationForm").reset();
+
+const msg=document.getElementById("message");
+msg.style.color="lightgreen";
+msg.innerText="🎉 Registration Successful!";
+msg.classList.add("pop-effect");
+setTimeout(()=>{msg.classList.remove("pop-effect");},600);
+
 updateCount();
+document.getElementById("registrationForm").reset();
+
+/* Confetti */
+confetti({
+particleCount:200,
+spread:120,
+origin:{y:0.6}
+});
+
+/* Krishna Flute Sound */
+document.getElementById("fluteSound").play();
 }
 });
 
@@ -296,12 +374,10 @@ move:{enable:true,speed:2}
 }
 });
 
-/* Music play after first click */
+/* Music */
 const music=document.getElementById("bgMusic");
 music.volume=0.4;
-document.body.addEventListener("click",()=>{
-music.play();
-},{once:true});
+document.body.addEventListener("click",()=>{music.play();},{once:true});
 </script>
 
 </body>
