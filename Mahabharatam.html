@@ -25,7 +25,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* Fire */
+/* Fire Background */
 #tsparticles{
 position:fixed;
 width:100%;
@@ -53,7 +53,7 @@ from{transform:translate(-50%, -50%) rotate(0deg);}
 to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 
-/* Lightning */
+/* Soft Lightning */
 .lightning{
 position:fixed;
 width:100%;
@@ -61,14 +61,13 @@ height:100%;
 background:white;
 opacity:0;
 z-index:-1;
-animation:flash 8s infinite;
+animation:flash 15s infinite;
+pointer-events:none;
 }
 
 @keyframes flash{
-0%,95%,100%{opacity:0;}
-96%{opacity:0.8;}
-97%{opacity:0;}
-98%{opacity:0.6;}
+0%,97%,100%{opacity:0;}
+98%{opacity:0.15;}
 99%{opacity:0;}
 }
 
@@ -84,11 +83,11 @@ padding:20px;
 }
 
 .hero-content{
-animation:fadeDown 2s ease;
 position:relative;
+animation:fadeDown 2s ease;
 }
 
-/* Title Glow */
+/* Golden Glow Title */
 h1{
 font-size:65px;
 letter-spacing:5px;
@@ -207,7 +206,8 @@ h1{font-size:36px;}
 <div class="chakra"></div>
 <div class="lightning"></div>
 
-<audio autoplay loop>
+<!-- Background Music -->
+<audio id="bgMusic" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_59c2b94b79.mp3?filename=epic-cinematic-background-music-110199.mp3" type="audio/mp3">
 </audio>
 
@@ -250,7 +250,7 @@ Total Registrations: <span id="count">0</span>
 
 <script>
 const supabaseUrl="https://zhmazqothtpwrgmzermw.supabase.co";
-const supabaseKey="YOUR_ANON_KEY_HERE";
+const supabaseKey="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
 
 const { createClient } = supabase;
 const client=createClient(supabaseUrl,supabaseKey);
@@ -274,14 +274,17 @@ const { error }=await client
 .insert([{name,regno,email}]);
 
 if(error){
+document.getElementById("message").style.color="red";
 document.getElementById("message").innerText="Error submitting!";
 }else{
+document.getElementById("message").style.color="lightgreen";
 document.getElementById("message").innerText="Registration Successful!";
 document.getElementById("registrationForm").reset();
 updateCount();
 }
 });
 
+/* Fire particles */
 tsParticles.load("tsparticles",{
 particles:{
 number:{value:120},
@@ -292,6 +295,13 @@ size:{value:3},
 move:{enable:true,speed:2}
 }
 });
+
+/* Music play after first click */
+const music=document.getElementById("bgMusic");
+music.volume=0.4;
+document.body.addEventListener("click",()=>{
+music.play();
+},{once:true});
 </script>
 
 </body>
