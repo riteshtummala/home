@@ -10,6 +10,9 @@
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+<!-- Favicon Fix -->
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sudarshana_Chakra.svg/64px-Sudarshana_Chakra.svg.png">
+
 <style>
 *{
 margin:0;
@@ -100,7 +103,6 @@ display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-position:relative;
 padding:20px;
 }
 
@@ -119,26 +121,6 @@ animation:glow 3s ease-in-out infinite alternate;
 @keyframes glow{
 from{text-shadow:0 0 10px gold,0 0 20px orange;}
 to{text-shadow:0 0 30px gold,0 0 60px orange;}
-}
-
-.hero-content::after{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-border-radius:50%;
-background:radial-gradient(circle, rgba(255,215,0,0.4) 0%, rgba(0,0,0,0) 70%);
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-z-index:-1;
-animation:pulse 4s infinite;
-}
-
-@keyframes pulse{
-0%{transform:translate(-50%,-50%) scale(1);}
-50%{transform:translate(-50%,-50%) scale(1.2);}
-100%{transform:translate(-50%,-50%) scale(1);}
 }
 
 .details{
@@ -216,16 +198,6 @@ background:black;
 padding:20px;
 text-align:center;
 }
-
-@keyframes fadeDown{
-from{opacity:0;transform:translateY(-50px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@media(max-width:768px){
-h1{font-size:36px;}
-.chakra{width:300px;height:300px;}
-}
 </style>
 </head>
 
@@ -236,13 +208,14 @@ h1{font-size:36px;}
 <div class="lightning"></div>
 <div class="fireburst" id="fireburst"></div>
 
+<!-- Local Background Music -->
 <audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_59c2b94b79.mp3" type="audio/mp3">
+<source src="music/bg.mp3" type="audio/mp3">
 </audio>
 
-<!-- Krishna Flute Sound -->
+<!-- Local Krishna Flute -->
 <audio id="fluteSound">
-<source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3f07c7b9a3.mp3" type="audio/mp3">
+<source src="music/flute.mp3" type="audio/mp3">
 </audio>
 
 <section class="hero">
@@ -288,16 +261,15 @@ Total Registrations: <span id="count">0</span>
 </footer>
 
 <script>
-const supabaseUrl="https://zhmazqothtpwrgmzermw.supabase.co";
-const supabaseKey="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
-const { createClient } = supabase;
-const client=createClient(supabaseUrl,supabaseKey);
+const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
+const SUPABASE_KEY="YOUR_REAL_PUBLIC_ANON_KEY";
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Countdown */
 const eventDate=new Date("March 14, 2026 15:00:00").getTime();
-const timerElement=document.getElementById("timer");
+const timer=document.getElementById("timer");
 
-const countdown=setInterval(function(){
+const countdown=setInterval(()=>{
 const now=new Date().getTime();
 const distance=eventDate-now;
 
@@ -315,8 +287,7 @@ const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
 const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
 const seconds=Math.floor((distance%(1000*60))/1000);
 
-timerElement.innerHTML=days+"d "+hours+"h "+minutes+"m "+seconds+"s";
-
+timer.innerHTML=`${days}d ${hours}h ${minutes}m ${seconds}s`;
 },1000);
 
 /* Update Count */
@@ -351,13 +322,9 @@ updateCount();
 document.getElementById("registrationForm").reset();
 
 /* Confetti */
-confetti({
-particleCount:200,
-spread:120,
-origin:{y:0.6}
-});
+confetti({particleCount:200,spread:120,origin:{y:0.6}});
 
-/* Krishna Flute Sound */
+/* Play Flute */
 document.getElementById("fluteSound").play();
 }
 });
@@ -374,7 +341,7 @@ move:{enable:true,speed:2}
 }
 });
 
-/* Music */
+/* Background Music */
 const music=document.getElementById("bgMusic");
 music.volume=0.4;
 document.body.addEventListener("click",()=>{music.play();},{once:true});
@@ -382,4 +349,3 @@ document.body.addEventListener("click",()=>{music.play();},{once:true});
 
 </body>
 </html>
-
