@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mahabharatam | VITAP-Amaravati</title>
+<title>Mahabharata | VITAP-Amaravati</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -108,6 +108,13 @@ color:gold;
 animation:glow 3s ease-in-out infinite alternate;
 }
 
+.subtitle{
+margin-top:15px;
+font-size:22px;
+color:orange;
+letter-spacing:3px;
+}
+
 @keyframes glow{
 from{text-shadow:0 0 10px gold,0 0 20px orange;}
 to{text-shadow:0 0 30px gold,0 0 60px orange;}
@@ -195,12 +202,14 @@ font-size:14px;
 @media(max-width:768px){
 h1{font-size:38px;}
 .section{padding:60px 20px;}
+.subtitle{font-size:18px;}
 }
 
 @media(max-width:480px){
 h1{font-size:28px;}
 form{max-width:100%;}
 footer{font-size:12px;}
+.subtitle{font-size:16px;}
 }
 </style>
 </head>
@@ -214,7 +223,8 @@ footer{font-size:12px;}
 
 <section class="hero">
 <div class="hero-content">
-<h1>MAHABHARATAM</h1>
+<h1>MAHABHARATA</h1>
+<div class="subtitle">An Epic Stage Production</div>
 
 <div class="details">
 <p>📅 March 14</p>
@@ -241,7 +251,6 @@ Register Here
 <input type="text" id="regno" placeholder="Registration Number" required>
 <input type="email" id="email" placeholder="Email ID" required>
 
-<!-- NEW DROPDOWN -->
 <select id="employment" required>
 <option value="">Select Affiliation Type</option>
 <option value="Student">Student</option>
@@ -261,12 +270,12 @@ Total Registrations: <span id="count">0</span>
 </section>
 
 <footer>
-© 2026 Mahabharatam | VITAP-Amaravati
+© 2026 Mahabharata | VITAP-Amaravati
 </footer>
 
 <script>
 const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
-const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
+const SUPABASE_KEY="YOUR_SUPABASE_ANON_KEY";
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Countdown */
@@ -307,7 +316,7 @@ e.preventDefault();
 
 const name=document.getElementById("name").value;
 const regno=document.getElementById("regno").value;
-const email=document.getElementById("email").value.toLowerCase();;
+const email=document.getElementById("email").value.toLowerCase();
 const employment=document.getElementById("employment").value;
 
 try{
@@ -345,5 +354,3 @@ move:{enable:true,speed:2}
 
 </body>
 </html>
-
-
