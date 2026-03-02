@@ -51,41 +51,45 @@ from{transform:translate(-50%, -50%) rotate(0deg);}
 to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 
-.lightning{
+/* 🔥 Confirmation Modal */
+.modal{
+display:none;
 position:fixed;
+z-index:9999;
+left:0;
+top:0;
 width:100%;
 height:100%;
-background:white;
-opacity:0;
-z-index:-1;
-animation:flash 15s infinite;
-pointer-events:none;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
-@keyframes flash{
-0%,97%,100%{opacity:0;}
-98%{opacity:0.15;}
-99%{opacity:0;}
-}
-
-.fireburst{
-position:fixed;
+.modal-content{
+background:#111;
+border:2px solid gold;
+padding:30px;
+border-radius:15px;
+text-align:center;
+max-width:500px;
 width:100%;
-height:100%;
-background:radial-gradient(circle, orange 0%, red 40%, black 80%);
-opacity:0;
-z-index:10;
-pointer-events:none;
+animation:popup 0.4s ease;
 }
 
-.fireburst.active{
-animation:burst 2s forwards;
+@keyframes popup{
+from{transform:scale(0.7);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
-@keyframes burst{
-0%{opacity:0;}
-20%{opacity:0.9;}
-100%{opacity:0;}
+.modal-content h3{
+color:gold;
+margin-bottom:15px;
+}
+
+.modal-content p{
+font-size:16px;
+line-height:1.6;
 }
 
 .hero{
@@ -218,8 +222,6 @@ footer{font-size:12px;}
 
 <div id="tsparticles"></div>
 <div class="chakra"></div>
-<div class="lightning"></div>
-<div class="fireburst" id="fireburst"></div>
 
 <section class="hero">
 <div class="hero-content">
@@ -231,10 +233,6 @@ footer{font-size:12px;}
 <p>📍 AB2 - Auditorium</p>
 <p>⏰ 3PM to 6PM</p>
 <p>🎓 VITAP-Amaravati</p>
-</div>
-
-<div id="countdown" style="margin-top:20px;font-size:22px;color:gold;">
-⏳ Event Starts In: <span id="timer"></span>
 </div>
 
 <button class="register-btn" onclick="document.getElementById('register').scrollIntoView();">
@@ -273,43 +271,23 @@ Total Registrations: <span id="count">0</span>
 © 2026 Mahabharata | VITAP-Amaravati
 </footer>
 
+<!-- 🔥 Confirmation Modal -->
+<div class="modal" id="confirmationModal">
+<div class="modal-content">
+<h3>🎉 Registration Successful!</h3>
+<p>
+A confirmation email will be sent within 24 hours.<br><br>
+Please check your spam folder if needed or contact us at:<br><br>
+📧 dhruva.club@vitap.ac.in<br>
+📧 nrityam.club@vitap.ac.in
+</p>
+</div>
+</div>
+
 <script>
 const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
 const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-/* Countdown */
-const eventDate=new Date("March 14, 2026 15:00:00").getTime();
-const timer=document.getElementById("timer");
-
-const countdown=setInterval(()=>{
-const now=new Date().getTime();
-const distance=eventDate-now;
-
-if(distance<0){
-clearInterval(countdown);
-document.getElementById("countdown").innerHTML="<span style='color:red;'>🔥 The Play Started 🔥</span>";
-document.getElementById("registrationForm").style.display="none";
-document.querySelector(".counter").style.display="none";
-document.getElementById("fireburst").classList.add("active");
-return;
-}
-
-const days=Math.floor(distance/(1000*60*60*24));
-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds=Math.floor((distance%(1000*60))/1000);
-
-timer.innerHTML=`${days}d ${hours}h ${minutes}m ${seconds}s`;
-},1000);
-
-async function updateCount(){
-try{
-const { count }=await client.from("registrations").select("*",{count:"exact",head:true});
-document.getElementById("count").innerText=count||0;
-}catch{}
-}
-updateCount();
 
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
 e.preventDefault();
@@ -325,15 +303,18 @@ const { error }=await client.from("registrations")
 
 if(error) throw error;
 
-const msg=document.getElementById("message");
-msg.style.color="lightgreen";
-msg.innerText="🎉 Registration Successful!";
-msg.classList.add("pop-effect");
-setTimeout(()=>{msg.classList.remove("pop-effect");},600);
-
-updateCount();
 document.getElementById("registrationForm").reset();
 confetti({particleCount:200,spread:120,origin:{y:0.6}});
+
+/* 🔥 SHOW MODAL */
+const modal=document.getElementById("confirmationModal");
+modal.style.display="flex";
+
+/* 🔥 AUTO CLOSE AFTER 6 SECONDS */
+setTimeout(()=>{
+modal.style.display="none";
+},6000);
+
 }catch{
 document.getElementById("message").style.color="red";
 document.getElementById("message").innerText="Error submitting!";
@@ -354,4 +335,3 @@ move:{enable:true,speed:2}
 
 </body>
 </html>
-
