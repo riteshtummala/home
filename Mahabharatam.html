@@ -10,8 +10,8 @@
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<!-- Favicon Fix -->
-<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sudarshana_Chakra.svg/64px-Sudarshana_Chakra.svg.png">
+<!-- LOCAL FAVICON (Fix 429) -->
+<link rel="icon" href="images/chakra.png">
 
 <style>
 *{
@@ -20,7 +20,6 @@ padding:0;
 box-sizing:border-box;
 font-family:'Cinzel', serif;
 scroll-behavior:smooth;
-cursor:url('https://cur.cursors-4u.net/cursors/cur-13/cur1144.cur'), auto;
 }
 
 body{
@@ -29,7 +28,6 @@ color:white;
 overflow-x:hidden;
 }
 
-/* Fire Background */
 #tsparticles{
 position:fixed;
 width:100%;
@@ -37,14 +35,14 @@ height:100%;
 z-index:-3;
 }
 
-/* Chakra */
+/* Chakra (LOCAL IMAGE FIX) */
 .chakra{
 position:fixed;
 top:50%;
 left:50%;
 width:500px;
 height:500px;
-background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sudarshana_Chakra.svg/1024px-Sudarshana_Chakra.svg.png') center/contain no-repeat;
+background:url('images/chakra.png') center/contain no-repeat;
 transform:translate(-50%, -50%);
 opacity:0.15;
 z-index:-2;
@@ -57,7 +55,6 @@ from{transform:translate(-50%, -50%) rotate(0deg);}
 to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 
-/* Lightning */
 .lightning{
 position:fixed;
 width:100%;
@@ -75,7 +72,6 @@ pointer-events:none;
 99%{opacity:0;}
 }
 
-/* Fire Burst */
 .fireburst{
 position:fixed;
 width:100%;
@@ -96,7 +92,6 @@ animation:burst 2s forwards;
 100%{opacity:0;}
 }
 
-/* Hero */
 .hero{
 height:100vh;
 display:flex;
@@ -177,12 +172,6 @@ font-size:18px;
 cursor:pointer;
 }
 
-.counter{
-margin-top:20px;
-font-size:22px;
-color:gold;
-}
-
 .pop-effect{
 animation:pop 0.6s ease;
 }
@@ -207,16 +196,6 @@ text-align:center;
 <div class="chakra"></div>
 <div class="lightning"></div>
 <div class="fireburst" id="fireburst"></div>
-
-<!-- Local Background Music -->
-<audio id="bgMusic" loop>
-<source src="music/bg.mp3" type="audio/mp3">
-</audio>
-
-<!-- Local Krishna Flute -->
-<audio id="fluteSound">
-<source src="music/flute.mp3" type="audio/mp3">
-</audio>
 
 <section class="hero">
 <div class="hero-content">
@@ -250,10 +229,6 @@ Register Here
 </form>
 
 <p id="message"></p>
-
-<div class="counter">
-Total Registrations: <span id="count">0</span>
-</div>
 </section>
 
 <footer>
@@ -262,7 +237,7 @@ Total Registrations: <span id="count">0</span>
 
 <script>
 const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
-const SUPABASE_KEY="YOUR_REAL_PUBLIC_ANON_KEY";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Countdown */
@@ -277,7 +252,6 @@ if(distance<0){
 clearInterval(countdown);
 document.getElementById("countdown").innerHTML="<span style='color:red;'>🔥 The Play Started 🔥</span>";
 document.getElementById("registrationForm").style.display="none";
-document.querySelector(".counter").style.display="none";
 document.getElementById("fireburst").classList.add("active");
 return;
 }
@@ -290,13 +264,6 @@ const seconds=Math.floor((distance%(1000*60))/1000);
 timer.innerHTML=`${days}d ${hours}h ${minutes}m ${seconds}s`;
 },1000);
 
-/* Update Count */
-async function updateCount(){
-const { count }=await client.from("registrations").select("*",{count:"exact",head:true});
-document.getElementById("count").innerText=count||0;
-}
-updateCount();
-
 /* Registration */
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
 e.preventDefault();
@@ -305,12 +272,10 @@ const name=document.getElementById("name").value;
 const regno=document.getElementById("regno").value;
 const email=document.getElementById("email").value;
 
+try{
 const { error }=await client.from("registrations").insert([{name,regno,email}]);
 
-if(error){
-document.getElementById("message").style.color="red";
-document.getElementById("message").innerText="Error submitting!";
-}else{
+if(error) throw error;
 
 const msg=document.getElementById("message");
 msg.style.color="lightgreen";
@@ -318,14 +283,12 @@ msg.innerText="🎉 Registration Successful!";
 msg.classList.add("pop-effect");
 setTimeout(()=>{msg.classList.remove("pop-effect");},600);
 
-updateCount();
 document.getElementById("registrationForm").reset();
-
-/* Confetti */
 confetti({particleCount:200,spread:120,origin:{y:0.6}});
 
-/* Play Flute */
-document.getElementById("fluteSound").play();
+}catch(err){
+document.getElementById("message").style.color="red";
+document.getElementById("message").innerText="Error submitting!";
 }
 });
 
@@ -340,11 +303,6 @@ size:{value:3},
 move:{enable:true,speed:2}
 }
 });
-
-/* Background Music */
-const music=document.getElementById("bgMusic");
-music.volume=0.4;
-document.body.addEventListener("click",()=>{music.play();},{once:true});
 </script>
 
 </body>
