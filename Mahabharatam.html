@@ -51,7 +51,27 @@ from{transform:translate(-50%, -50%) rotate(0deg);}
 to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 
-/* 🔥 Confirmation Modal */
+.fireburst{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle, orange 0%, red 40%, black 80%);
+opacity:0;
+z-index:10;
+pointer-events:none;
+}
+
+.fireburst.active{
+animation:burst 2s forwards;
+}
+
+@keyframes burst{
+0%{opacity:0;}
+20%{opacity:0.9;}
+100%{opacity:0;}
+}
+
+/* Confirmation Modal */
 .modal{
 display:none;
 position:fixed;
@@ -101,15 +121,10 @@ text-align:center;
 padding:40px 20px;
 }
 
-.hero-content{
-animation:fadeDown 2s ease;
-}
-
 h1{
 font-size:65px;
 letter-spacing:5px;
 color:gold;
-animation:glow 3s ease-in-out infinite alternate;
 }
 
 .subtitle{
@@ -117,11 +132,6 @@ margin-top:15px;
 font-size:22px;
 color:orange;
 letter-spacing:3px;
-}
-
-@keyframes glow{
-from{text-shadow:0 0 10px gold,0 0 20px orange;}
-to{text-shadow:0 0 30px gold,0 0 60px orange;}
 }
 
 .details{
@@ -139,19 +149,12 @@ background:gold;
 color:black;
 font-size:18px;
 cursor:pointer;
-transition:0.4s;
-}
-
-.register-btn:hover{
-background:orange;
-transform:scale(1.1);
 }
 
 .section{
 padding:100px 20px;
 text-align:center;
 background:rgba(0,0,0,0.6);
-backdrop-filter:blur(6px);
 }
 
 form{
@@ -186,16 +189,6 @@ font-size:22px;
 color:gold;
 }
 
-.pop-effect{
-animation:pop 0.6s ease;
-}
-
-@keyframes pop{
-0%{transform:scale(0.5);opacity:0;}
-70%{transform:scale(1.2);opacity:1;}
-100%{transform:scale(1);}
-}
-
 footer{
 background:black;
 padding:20px;
@@ -222,9 +215,10 @@ footer{font-size:12px;}
 
 <div id="tsparticles"></div>
 <div class="chakra"></div>
+<div class="fireburst" id="fireburst"></div>
 
 <section class="hero">
-<div class="hero-content">
+<div>
 <h1>MAHABHARATA</h1>
 <div class="subtitle">An Epic Stage Production</div>
 
@@ -271,7 +265,7 @@ Total Registrations: <span id="count">0</span>
 © 2026 Mahabharata | VITAP-Amaravati
 </footer>
 
-<!-- 🔥 Confirmation Modal -->
+<!-- Confirmation Modal -->
 <div class="modal" id="confirmationModal">
 <div class="modal-content">
 <h3>🎉 Registration Successful!</h3>
@@ -286,9 +280,23 @@ Please check your spam folder if needed or contact us at:<br><br>
 
 <script>
 const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
-const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo"; 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+/* COUNT FUNCTION (Reliable) */
+async function updateCount(){
+try{
+const { data, error } = await client.from("registrations").select("*");
+if(error) throw error;
+document.getElementById("count").innerText = data.length;
+}catch(err){
+console.log("Count error:",err);
+}
+}
+
+updateCount();
+
+/* FORM SUBMIT */
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
 e.preventDefault();
 
@@ -306,21 +314,26 @@ if(error) throw error;
 document.getElementById("registrationForm").reset();
 confetti({particleCount:200,spread:120,origin:{y:0.6}});
 
-/* 🔥 SHOW MODAL */
+/* SHOW POPUP */
 const modal=document.getElementById("confirmationModal");
 modal.style.display="flex";
 
-/* 🔥 AUTO CLOSE AFTER 6 SECONDS */
+/* AUTO CLOSE AFTER 6 SECONDS */
 setTimeout(()=>{
 modal.style.display="none";
 },6000);
 
-}catch{
+/* UPDATE COUNT */
+updateCount();
+
+}catch(err){
+console.log("Insert error:",err);
 document.getElementById("message").style.color="red";
 document.getElementById("message").innerText="Error submitting!";
 }
 });
 
+/* PARTICLES */
 tsParticles.load("tsparticles",{
 particles:{
 number:{value:120},
