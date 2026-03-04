@@ -56,6 +56,21 @@ cursor:pointer;
 margin-top:20px;
 }
 
+/* SIGN OUT BUTTON */
+
+.signout-btn{
+position:fixed;
+top:20px;
+right:20px;
+padding:10px 20px;
+background:red;
+border:none;
+border-radius:20px;
+color:white;
+cursor:pointer;
+z-index:1000;
+}
+
 #tsparticles{
 position:fixed;
 width:100%;
@@ -91,44 +106,6 @@ opacity:0;
 z-index:10;
 pointer-events:none;
 }
-
-.fireburst.active{
-animation:burst 2s forwards;
-}
-
-@keyframes burst{
-0%{opacity:0;}
-20%{opacity:0.9;}
-100%{opacity:0;}
-}
-
-/* MODAL */
-
-.modal{
-display:none;
-position:fixed;
-z-index:9999;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-justify-content:center;
-align-items:center;
-padding:20px;
-}
-
-.modal-content{
-background:#111;
-border:2px solid gold;
-padding:30px;
-border-radius:15px;
-text-align:center;
-max-width:500px;
-width:100%;
-}
-
-/* HERO */
 
 .hero{
 min-height:100vh;
@@ -218,42 +195,18 @@ font-size:14px;
 
 @media(max-width:768px){
 
-h1{
-font-size:40px;
-}
-
-.subtitle{
-font-size:18px;
-}
-
-.details{
-font-size:18px;
-}
-
-.section{
-padding:60px 20px;
-}
+h1{font-size:40px;}
+.subtitle{font-size:18px;}
+.details{font-size:18px;}
+.section{padding:60px 20px;}
 
 }
 
 @media(max-width:480px){
 
-h1{
-font-size:30px;
-}
-
-.subtitle{
-font-size:16px;
-}
-
-.details{
-font-size:16px;
-}
-
-.login-btn{
-font-size:16px;
-padding:12px 30px;
-}
+h1{font-size:30px;}
+.subtitle{font-size:16px;}
+.details{font-size:16px;}
 
 }
 
@@ -266,7 +219,7 @@ padding:12px 30px;
 
 <div id="loginScreen">
 
-<h2 style="color:gold;">Login with Gmail</h2>
+<h2 style="color:gold;">Login with VIT Email</h2>
 
 <button class="login-btn" onclick="loginWithGoogle()">
 Login with Google
@@ -276,9 +229,13 @@ Login with Google
 
 </div>
 
+<!-- SIGN OUT BUTTON -->
+
+<button class="signout-btn" onclick="signOut()">Sign Out</button>
+
 <div id="tsparticles"></div>
 <div class="chakra"></div>
-<div class="fireburst" id="fireburst"></div>
+<div class="fireburst"></div>
 
 <section class="hero">
 
@@ -327,9 +284,7 @@ Register Here
 
 </select>
 
-<button type="submit" class="submit-btn">
-Submit
-</button>
+<button type="submit" class="submit-btn">Submit</button>
 
 </form>
 
@@ -346,28 +301,23 @@ Total Registrations: <span id="count">0</span>
 </footer>
 
 <div class="modal" id="confirmationModal">
-
 <div class="modal-content">
 
 <h3>🎉 Registration Successful!</h3>
 
 <p>
 A confirmation email will be sent within 24 hours.<br><br>
-Please check spam if needed or contact:<br><br>
 
 📧 dhruva.club@vitap.ac.in<br>
 📧 nrityam.club@vitap.ac.in
-
 </p>
 
 </div>
-
 </div>
 
 <script>
 
 const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
-
 const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
 
 const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -388,6 +338,16 @@ redirectTo:"https://knowyourproducts.in/Mahabharatam"
 
 }
 
+/* SIGN OUT */
+
+async function signOut(){
+
+await client.auth.signOut();
+
+location.reload();
+
+}
+
 /* CHECK USER */
 
 async function checkUser(){
@@ -397,18 +357,17 @@ const {data:{user}}=await client.auth.getUser();
 if(!user){
 
 document.getElementById("loginScreen").style.display="flex";
-
 return;
 
 }
 
 const email=user.email;
 
-/* ALLOW ONLY GMAIL */
+/* ALLOW ONLY VIT EMAIL */
 
-if(!email.endsWith("@gmail.com")){
+if(!email.endsWith("@vitapstudent.ac.in") && !email.endsWith("@vitap.ac.in")){
 
-document.getElementById("loginMessage").innerText="Only Gmail accounts allowed.";
+document.getElementById("loginMessage").innerText="Only VIT email accounts allowed.";
 
 await client.auth.signOut();
 
@@ -426,7 +385,7 @@ checkAlreadyRegistered(email);
 
 checkUser();
 
-/* CHECK IF ALREADY REGISTERED */
+/* CHECK ALREADY REGISTERED */
 
 async function checkAlreadyRegistered(email){
 
@@ -466,11 +425,8 @@ document.getElementById("registrationForm").addEventListener("submit",async(e)=>
 e.preventDefault();
 
 const name=document.getElementById("name").value;
-
 const regno=document.getElementById("regno").value;
-
 const email=document.getElementById("email").value;
-
 const employment=document.getElementById("employment").value;
 
 /* DUPLICATE CHECK */
@@ -483,7 +439,6 @@ const {data:existing}=await client
 if(existing.length>0){
 
 document.getElementById("message").style.color="orange";
-
 document.getElementById("message").innerText="You have already registered.";
 
 return;
@@ -498,9 +453,7 @@ const {error}=await client.from("registrations")
 if(error){
 
 document.getElementById("message").style.color="red";
-
 document.getElementById("message").innerText="Error submitting!";
-
 return;
 
 }
@@ -524,7 +477,6 @@ updateCount();
 /* PARTICLES */
 
 tsParticles.load("tsparticles",{
-
 particles:{
 number:{value:120},
 color:{value:["#ff6600","#ff3300","#ffaa00"]},
@@ -533,11 +485,9 @@ opacity:{value:0.6},
 size:{value:3},
 move:{enable:true,speed:2}
 }
-
 });
 
 </script>
 
 </body>
 </html>
-
