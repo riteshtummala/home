@@ -25,6 +25,21 @@ color:white;
 overflow-x:hidden;
 }
 
+/* LOGIN SCREEN */
+#loginScreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+}
+
 #tsparticles{
 position:fixed;
 width:100%;
@@ -71,7 +86,6 @@ animation:burst 2s forwards;
 100%{opacity:0;}
 }
 
-/* Confirmation Modal */
 .modal{
 display:none;
 position:fixed;
@@ -95,21 +109,6 @@ text-align:center;
 max-width:500px;
 width:100%;
 animation:popup 0.4s ease;
-}
-
-@keyframes popup{
-from{transform:scale(0.7);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
-.modal-content h3{
-color:gold;
-margin-bottom:15px;
-}
-
-.modal-content p{
-font-size:16px;
-line-height:1.6;
 }
 
 .hero{
@@ -195,23 +194,19 @@ padding:20px;
 text-align:center;
 font-size:14px;
 }
-
-@media(max-width:768px){
-h1{font-size:38px;}
-.section{padding:60px 20px;}
-.subtitle{font-size:18px;}
-}
-
-@media(max-width:480px){
-h1{font-size:28px;}
-form{max-width:100%;}
-footer{font-size:12px;}
-.subtitle{font-size:16px;}
-}
 </style>
 </head>
 
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+<h2 style="color:gold;margin-bottom:20px;">Login with Gmail to Register</h2>
+<button onclick="loginWithGoogle()" style="padding:15px 40px;border:none;border-radius:40px;background:gold;color:black;font-size:18px;cursor:pointer;">
+Login with Google
+</button>
+<p id="loginMessage" style="color:red;margin-top:15px;"></p>
+</div>
 
 <div id="tsparticles"></div>
 <div class="chakra"></div>
@@ -239,9 +234,11 @@ Register Here
 <h2 style="color:gold;">Register Now</h2>
 
 <form id="registrationForm">
+
 <input type="text" id="name" placeholder="Full Name" required>
 <input type="text" id="regno" placeholder="Registration Number" required>
-<input type="email" id="email" placeholder="College Email ID" required>
+
+<input type="email" id="email" placeholder="College Email ID" readonly>
 
 <select id="employment" required>
 <option value="">Select Affiliation Type</option>
@@ -265,7 +262,6 @@ Total Registrations: <span id="count">0</span>
 © 2026 Mahabharata | VITAP-Amaravati
 </footer>
 
-<!-- Confirmation Modal -->
 <div class="modal" id="confirmationModal">
 <div class="modal-content">
 <h3>🎉 Registration Successful!</h3>
@@ -279,61 +275,119 @@ Please check your spam folder if needed or contact us at:<br><br>
 </div>
 
 <script>
+
 const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
-const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo"; 
+const SUPABASE_KEY="YOUR_SUPABASE_KEY";
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* COUNT FUNCTION (Reliable) */
-async function updateCount(){
-try{
-const { data, error } = await client.from("registrations").select("*");
-if(error) throw error;
-document.getElementById("count").innerText = data.length;
-}catch(err){
-console.log("Count error:",err);
+async function loginWithGoogle(){
+await client.auth.signInWithOAuth({
+provider:"google"
+});
 }
+
+async function checkUser(){
+
+const { data:{user} } = await client.auth.getUser();
+
+if(!user){
+document.getElementById("loginScreen").style.display="flex";
+return;
+}
+
+const email=user.email;
+
+if(!email.endsWith("@gmail.com")){
+document.getElementById("loginMessage").innerText="Only Gmail accounts allowed.";
+await client.auth.signOut();
+return;
+}
+
+document.getElementById("loginScreen").style.display="none";
+
+document.getElementById("email").value=email;
+
+checkAlreadyRegistered(email);
+
+}
+
+checkUser();
+
+async function checkAlreadyRegistered(email){
+
+const {data}=await client
+.from("registrations")
+.select("*")
+.eq("email",email);
+
+if(data.length>0){
+
+document.getElementById("registrationForm").style.display="none";
+
+document.getElementById("message").style.color="orange";
+document.getElementById("message").innerText="You have already registered for this event.";
+
+}
+
+}
+
+async function updateCount(){
+
+const {data}=await client.from("registrations").select("*");
+
+document.getElementById("count").innerText=data.length;
+
 }
 
 updateCount();
 
-/* FORM SUBMIT */
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
+
 e.preventDefault();
 
 const name=document.getElementById("name").value;
 const regno=document.getElementById("regno").value;
-const email=document.getElementById("email").value.toLowerCase();
+const email=document.getElementById("email").value;
 const employment=document.getElementById("employment").value;
 
-try{
-const { error }=await client.from("registrations")
+const {data:existing}=await client
+.from("registrations")
+.select("*")
+.eq("email",email);
+
+if(existing.length>0){
+
+document.getElementById("message").style.color="orange";
+document.getElementById("message").innerText="You have already registered.";
+return;
+
+}
+
+const {error}=await client.from("registrations")
 .insert([{name,regno,email,employment}]);
 
-if(error) throw error;
+if(error){
 
-document.getElementById("registrationForm").reset();
-confetti({particleCount:200,spread:120,origin:{y:0.6}});
-
-/* SHOW POPUP */
-const modal=document.getElementById("confirmationModal");
-modal.style.display="flex";
-
-/* AUTO CLOSE AFTER 6 SECONDS */
-setTimeout(()=>{
-modal.style.display="none";
-},60000000000);
-
-/* UPDATE COUNT */
-updateCount();
-
-}catch(err){
-console.log("Insert error:",err);
 document.getElementById("message").style.color="red";
 document.getElementById("message").innerText="Error submitting!";
+return;
+
 }
+
+document.getElementById("registrationForm").reset();
+
+confetti({particleCount:200,spread:120,origin:{y:0.6}});
+
+document.getElementById("confirmationModal").style.display="flex";
+
+setTimeout(()=>{
+document.getElementById("confirmationModal").style.display="none";
+},6000);
+
+updateCount();
+
 });
 
-/* PARTICLES */
 tsParticles.load("tsparticles",{
 particles:{
 number:{value:120},
@@ -344,9 +398,8 @@ size:{value:3},
 move:{enable:true,speed:2}
 }
 });
+
 </script>
 
 </body>
 </html>
-
-
