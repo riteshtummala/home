@@ -191,6 +191,43 @@ text-align:center;
 font-size:14px;
 }
 
+/* MODAL (FIX ADDED) */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+z-index:9999;
+padding:20px;
+}
+
+.modal-content{
+background:black;
+border:2px solid gold;
+padding:40px;
+border-radius:20px;
+text-align:center;
+max-width:400px;
+width:100%;
+box-shadow:0 0 30px gold;
+}
+
+.modal-content h3{
+color:gold;
+margin-bottom:15px;
+}
+
+.modal-content p{
+font-size:16px;
+line-height:1.6;
+}
+
 /* MOBILE */
 
 @media(max-width:768px){
@@ -215,10 +252,7 @@ h1{font-size:30px;}
 
 <body>
 
-<!-- LOGIN SCREEN -->
-
 <div id="loginScreen">
-
 <h2 style="color:gold;">Login with VIT Email</h2>
 
 <button class="login-btn" onclick="loginWithGoogle()">
@@ -226,10 +260,7 @@ Login with Google
 </button>
 
 <p id="loginMessage" style="color:red;margin-top:20px;"></p>
-
 </div>
-
-<!-- SIGN OUT BUTTON -->
 
 <button class="signout-btn" onclick="signOut()">Sign Out</button>
 
@@ -238,7 +269,6 @@ Login with Google
 <div class="fireburst"></div>
 
 <section class="hero">
-
 <div>
 
 <h1>MAHABHARATA</h1>
@@ -259,7 +289,6 @@ Register Here
 </button>
 
 </div>
-
 </section>
 
 <section id="register" class="section">
@@ -322,61 +351,36 @@ const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 
 const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-/* GOOGLE LOGIN */
-
 async function loginWithGoogle(){
-
 await client.auth.signInWithOAuth({
-
 provider:"google",
-
-options:{
-redirectTo:"https://knowyourproducts.in/Mahabharatam"
-}
-
+options:{redirectTo:"https://knowyourproducts.in/Mahabharatam"}
 });
-
 }
-
-/* SIGN OUT */
 
 async function signOut(){
-
 await client.auth.signOut();
-
 location.reload();
-
 }
-
-/* CHECK USER */
 
 async function checkUser(){
 
 const {data:{user}}=await client.auth.getUser();
 
 if(!user){
-
 document.getElementById("loginScreen").style.display="flex";
 return;
-
 }
 
 const email=user.email;
 
-/* ALLOW ONLY VIT EMAIL */
-
 if(!email.endsWith("@vitapstudent.ac.in") && !email.endsWith("@vitap.ac.in")){
-
 document.getElementById("loginMessage").innerText="Only VIT email accounts allowed.";
-
 await client.auth.signOut();
-
 return;
-
 }
 
 document.getElementById("loginScreen").style.display="none";
-
 document.getElementById("email").value=email;
 
 checkAlreadyRegistered(email);
@@ -384,8 +388,6 @@ checkAlreadyRegistered(email);
 }
 
 checkUser();
-
-/* CHECK ALREADY REGISTERED */
 
 async function checkAlreadyRegistered(email){
 
@@ -397,16 +399,12 @@ const {data}=await client
 if(data.length>0){
 
 document.getElementById("registrationForm").style.display="none";
-
 document.getElementById("message").style.color="orange";
-
 document.getElementById("message").innerText="You have already registered for this event.";
 
 }
 
 }
-
-/* COUNT */
 
 async function updateCount(){
 
@@ -418,8 +416,6 @@ document.getElementById("count").innerText=data.length;
 
 updateCount();
 
-/* FORM SUBMIT */
-
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
 
 e.preventDefault();
@@ -428,8 +424,6 @@ const name=document.getElementById("name").value;
 const regno=document.getElementById("regno").value;
 const email=document.getElementById("email").value;
 const employment=document.getElementById("employment").value;
-
-/* DUPLICATE CHECK */
 
 const {data:existing}=await client
 .from("registrations")
@@ -440,12 +434,9 @@ if(existing.length>0){
 
 document.getElementById("message").style.color="orange";
 document.getElementById("message").innerText="You have already registered.";
-
 return;
 
 }
-
-/* INSERT */
 
 const {error}=await client.from("registrations")
 .insert([{name,regno,email,employment}]);
@@ -473,8 +464,6 @@ document.getElementById("confirmationModal").style.display="none";
 updateCount();
 
 });
-
-/* PARTICLES */
 
 tsParticles.load("tsparticles",{
 particles:{
