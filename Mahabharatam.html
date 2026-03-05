@@ -191,7 +191,7 @@ text-align:center;
 font-size:14px;
 }
 
-/* MODAL (FIX ADDED) */
+/* MODAL */
 
 .modal{
 display:none;
@@ -231,20 +231,16 @@ line-height:1.6;
 /* MOBILE */
 
 @media(max-width:768px){
-
 h1{font-size:40px;}
 .subtitle{font-size:18px;}
 .details{font-size:18px;}
 .section{padding:60px 20px;}
-
 }
 
 @media(max-width:480px){
-
 h1{font-size:30px;}
 .subtitle{font-size:16px;}
 .details{font-size:16px;}
-
 }
 
 </style>
@@ -269,6 +265,7 @@ Login with Google
 <div class="fireburst"></div>
 
 <section class="hero">
+
 <div>
 
 <h1>MAHABHARATA</h1>
@@ -289,6 +286,7 @@ Register Here
 </button>
 
 </div>
+
 </section>
 
 <section id="register" class="section">
@@ -326,7 +324,7 @@ Total Registrations: <span id="count">0</span>
 </section>
 
 <footer>
-© 2026 Mahabharata | VITAP-Amaravati
+Dhruva X Nrityam | VITAP - Amaravati
 </footer>
 
 <div class="modal" id="confirmationModal">
@@ -352,15 +350,25 @@ const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 async function loginWithGoogle(){
+
 await client.auth.signInWithOAuth({
+
 provider:"google",
-options:{redirectTo:"https://knowyourproducts.in/Mahabharatam"}
+
+options:{
+redirectTo:"https://knowyourproducts.in/Mahabharatam"
+}
+
 });
+
 }
 
 async function signOut(){
+
 await client.auth.signOut();
+
 location.reload();
+
 }
 
 async function checkUser(){
@@ -368,19 +376,25 @@ async function checkUser(){
 const {data:{user}}=await client.auth.getUser();
 
 if(!user){
+
 document.getElementById("loginScreen").style.display="flex";
 return;
+
 }
 
 const email=user.email;
 
 if(!email.endsWith("@vitapstudent.ac.in") && !email.endsWith("@vitap.ac.in")){
+
 document.getElementById("loginMessage").innerText="Only VIT email accounts allowed.";
+
 await client.auth.signOut();
 return;
+
 }
 
 document.getElementById("loginScreen").style.display="none";
+
 document.getElementById("email").value=email;
 
 checkAlreadyRegistered(email);
@@ -399,22 +413,44 @@ const {data}=await client
 if(data.length>0){
 
 document.getElementById("registrationForm").style.display="none";
+
 document.getElementById("message").style.color="orange";
+
 document.getElementById("message").innerText="You have already registered for this event.";
 
 }
 
 }
 
+/* COUNT */
+
 async function updateCount(){
 
-const {data}=await client.from("registrations").select("*");
+const {count}=await client
+.from("registrations")
+.select("*",{count:"exact",head:true});
 
-document.getElementById("count").innerText=data.length;
+document.getElementById("count").innerText=count;
 
 }
 
 updateCount();
+
+/* REALTIME COUNTER */
+
+client.channel('registration-counter')
+.on(
+'postgres_changes',
+{event:'INSERT',schema:'public',table:'registrations'},
+(payload)=>{
+
+updateCount();
+
+}
+)
+.subscribe();
+
+/* FORM SUBMIT */
 
 document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
 
@@ -425,18 +461,23 @@ const regno=document.getElementById("regno").value;
 const email=document.getElementById("email").value;
 const employment=document.getElementById("employment").value;
 
+/* DUPLICATE CHECK */
+
 const {data:existing}=await client
 .from("registrations")
 .select("*")
-.eq("email",email);
+.or(`email.eq.${email},regno.eq.${regno}`);
 
 if(existing.length>0){
 
 document.getElementById("message").style.color="orange";
-document.getElementById("message").innerText="You have already registered.";
+document.getElementById("message").innerText="You have already registered using this Email or Registration Number.";
+
 return;
 
 }
+
+/* INSERT */
 
 const {error}=await client.from("registrations")
 .insert([{name,regno,email,employment}]);
@@ -448,6 +489,14 @@ document.getElementById("message").innerText="Error submitting!";
 return;
 
 }
+
+/* EMAIL FUNCTION CALL */
+
+fetch("YOUR_EDGE_FUNCTION_URL",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({name,email})
+});
 
 document.getElementById("registrationForm").reset();
 
@@ -464,6 +513,8 @@ document.getElementById("confirmationModal").style.display="none";
 updateCount();
 
 });
+
+/* PARTICLES */
 
 tsParticles.load("tsparticles",{
 particles:{
