@@ -1,533 +1,832 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mahabharata | VITAP-Amaravati</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahabharata | VITAP-Amaravati</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<style>
+    <style>
+        :root {
+            --primary-gold: #cfab51;
+            --bright-gold: #f5cf6d;
+            --dark-gold: #8f722e;
+            --bg-dark: #0a0a0c;
+            --bg-card: rgba(20, 20, 25, 0.75);
+            --text-main: #f0f0f0;
+            --text-muted: #aaaaaa;
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cinzel', serif;
-scroll-behavior:smooth;
-}
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #bf953f);
+        }
 
-body{
-background:black;
-color:white;
-overflow-x:hidden;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
-/* LOGIN SCREEN */
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-#loginScreen{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-text-align:center;
-padding:20px;
-}
+        /* Typography styles */
+        h1,
+        h2,
+        h3,
+        .subtitle,
+        .cinzel {
+            font-family: 'Cinzel', serif;
+        }
 
-.login-btn{
-padding:15px 40px;
-border:none;
-border-radius:40px;
-background:gold;
-color:black;
-font-size:18px;
-cursor:pointer;
-margin-top:20px;
-}
+        /* Background Atmosphere */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+        }
 
-/* SIGN OUT BUTTON */
+        .chakra {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 70vh;
+            height: 70vh;
+            min-width: 400px;
+            min-height: 400px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sudarshana_Chakra.svg/1024px-Sudarshana_Chakra.svg.png') center/contain no-repeat;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            z-index: -2;
+            animation: rotateChakra 50s linear infinite;
+            filter: drop-shadow(0 0 50px rgba(191, 149, 63, 0.3));
+        }
 
-.signout-btn{
-position:fixed;
-top:20px;
-right:20px;
-padding:10px 20px;
-background:red;
-border:none;
-border-radius:20px;
-color:white;
-cursor:pointer;
-z-index:1000;
-}
+        @keyframes rotateChakra {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
 
-#tsparticles{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-3;
-}
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
 
-.chakra{
-position:fixed;
-top:50%;
-left:50%;
-width:500px;
-height:500px;
-background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sudarshana_Chakra.svg/1024px-Sudarshana_Chakra.svg.png') center/contain no-repeat;
-transform:translate(-50%, -50%);
-opacity:0.15;
-z-index:-2;
-animation:rotateChakra 40s linear infinite;
-filter:drop-shadow(0 0 40px #00bfff);
-}
+        .fireburst {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(139, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.8) 70%, #000 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
 
-@keyframes rotateChakra{
-from{transform:translate(-50%, -50%) rotate(0deg);}
-to{transform:translate(-50%, -50%) rotate(360deg);}
-}
+        /* Premium Buttons */
+        .btn {
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.fireburst{
-position:fixed;
-width:100%;
-height:100%;
-background:radial-gradient(circle, orange 0%, red 40%, black 80%);
-opacity:0;
-z-index:10;
-pointer-events:none;
-}
+        .btn-primary {
+            background: var(--gold-gradient);
+            background-size: 200% auto;
+            color: #111;
+            box-shadow: 0 4px 15px rgba(207, 171, 81, 0.3);
+        }
 
-.hero{
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:40px 20px;
-}
+        .btn-primary:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(207, 171, 81, 0.5);
+        }
 
-h1{
-font-size:65px;
-letter-spacing:5px;
-color:gold;
-}
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
 
-.subtitle{
-margin-top:15px;
-font-size:22px;
-color:orange;
-letter-spacing:3px;
-}
+        /* LOGIN SCREEN */
+        #loginScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
 
-.details{
-margin-top:20px;
-font-size:20px;
-line-height:1.8;
-}
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(207, 171, 81, 0.2);
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
 
-.register-btn{
-margin-top:30px;
-padding:15px 40px;
-border:none;
-border-radius:40px;
-background:gold;
-color:black;
-font-size:18px;
-cursor:pointer;
-}
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
 
-.section{
-padding:100px 20px;
-text-align:center;
-background:rgba(0,0,0,0.6);
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-form{
-max-width:400px;
-margin:auto;
-display:flex;
-flex-direction:column;
-gap:20px;
-margin-top:30px;
-}
+        .login-card h2 {
+            color: var(--bright-gold);
+            font-size: 28px;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
 
-input,select{
-padding:15px;
-border:none;
-border-radius:10px;
-font-size:16px;
-width:100%;
-}
+        .login-card p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
 
-.submit-btn{
-padding:15px;
-background:gold;
-border:none;
-border-radius:40px;
-font-size:18px;
-cursor:pointer;
-}
+        #loginMessage {
+            color: #ff5252;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
 
-.counter{
-margin-top:20px;
-font-size:22px;
-color:gold;
-}
+        /* SIGN OUT BUTTON */
+        .signout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 24px;
+            background: rgba(255, 60, 60, 0.1);
+            border: 1px solid rgba(255, 60, 60, 0.3);
+            border-radius: 30px;
+            color: #ff5252;
+            cursor: pointer;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
 
-footer{
-background:black;
-padding:20px;
-text-align:center;
-font-size:14px;
-}
+        .signout-btn:hover {
+            background: rgba(255, 60, 60, 0.2);
+            border-color: rgba(255, 60, 60, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 60, 60, 0.15);
+        }
 
-/* MODAL */
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
 
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-justify-content:center;
-align-items:center;
-z-index:9999;
-padding:20px;
-}
+        .hero-content {
+            animation: fadeInUp 1s ease-out forwards;
+            max-width: 900px;
+        }
 
-.modal-content{
-background:black;
-border:2px solid gold;
-padding:40px;
-border-radius:20px;
-text-align:center;
-max-width:400px;
-width:100%;
-box-shadow:0 0 30px gold;
-}
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
 
-.modal-content h3{
-color:gold;
-margin-bottom:15px;
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.modal-content p{
-font-size:16px;
-line-height:1.6;
-}
+        h1 {
+            font-size: clamp(40px, 8vw, 95px);
+            letter-spacing: 8px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: var(--bright-gold);
+            /* Fallback */
+            text-shadow: 0 0 40px rgba(207, 171, 81, 0.25);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
 
-/* MOBILE */
+        .subtitle {
+            font-size: clamp(18px, 3vw, 26px);
+            color: var(--bright-gold);
+            letter-spacing: 5px;
+            margin-bottom: 45px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
 
-@media(max-width:768px){
-h1{font-size:40px;}
-.subtitle{font-size:18px;}
-.details{font-size:18px;}
-.section{padding:60px 20px;}
-}
+        .details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px 25px;
+            margin-bottom: 50px;
+            font-size: 17px;
+            font-weight: 400;
+        }
 
-@media(max-width:480px){
-h1{font-size:30px;}
-.subtitle{font-size:16px;}
-.details{font-size:16px;}
-}
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px 26px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease;
+        }
 
-</style>
+        .detail-item:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(207, 171, 81, 0.3);
+        }
+
+        .detail-icon {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        /* REGISTRATION SECTION */
+        .section {
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section h2 {
+            font-size: clamp(32px, 5vw, 44px);
+            color: var(--bright-gold);
+            margin-bottom: 45px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .form-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(207, 171, 81, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: 24px;
+            max-width: 520px;
+            margin: 0 auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(207, 171, 81, 0.15);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23cfab51' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            background-size: 16px;
+        }
+
+        select option {
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        input[readonly] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        form .btn-primary {
+            margin-top: 15px;
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+        }
+
+        #message {
+            margin-top: 25px;
+            font-weight: 500;
+            min-height: 24px;
+        }
+
+        .counter {
+            margin-top: 35px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 15px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .counter span {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            color: var(--bright-gold);
+            font-weight: 700;
+            display: block;
+            margin-top: 8px;
+            text-shadow: 0 0 20px rgba(207, 171, 81, 0.4);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: #050505;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--primary-gold);
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(207, 171, 81, 0.2);
+            animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content h3 {
+            color: var(--bright-gold);
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        .modal-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        .modal-contact {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px !important;
+            color: rgba(255, 255, 255, 0.6) !important;
+            line-height: 1.6 !important;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media(max-width: 768px) {
+            .details {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                max-width: 320px;
+                margin: 0 auto 40px auto;
+            }
+
+            .detail-item {
+                justify-content: flex-start;
+            }
+
+            .form-container,
+            .login-card {
+                padding: 40px 25px;
+            }
+
+            .modal-content {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                letter-spacing: 5px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="loginScreen">
-<h2 style="color:gold;">Login with VIT Email</h2>
-
-<button class="login-btn" onclick="loginWithGoogle()">
-Login with Google
-</button>
-
-<p id="loginMessage" style="color:red;margin-top:20px;"></p>
-</div>
-
-<button class="signout-btn" onclick="signOut()">Sign Out</button>
-
-<div id="tsparticles"></div>
-<div class="chakra"></div>
-<div class="fireburst"></div>
-
-<section class="hero">
-
-<div>
-
-<h1>MAHABHARATA</h1>
-
-<div class="subtitle">
-An Epic Stage Production
-</div>
-
-<div class="details">
-<p>📅 March 14</p>
-<p>📍 AB2 - Auditorium</p>
-<p>⏰ 3PM to 6PM</p>
-<p>🎓 VITAP-Amaravati</p>
-</div>
-
-<button class="register-btn" onclick="document.getElementById('register').scrollIntoView();">
-Register Here
-</button>
-
-</div>
-
-</section>
-
-<section id="register" class="section">
-
-<h2 style="color:gold;">Register Now</h2>
-
-<form id="registrationForm">
-
-<input type="text" id="name" placeholder="Full Name" required>
-
-<input type="text" id="regno" placeholder="Registration Number" required>
-
-<input type="email" id="email" placeholder="College Email ID" readonly>
-
-<select id="employment" required>
-
-<option value="">Select Affiliation Type</option>
-<option value="Student">Student</option>
-<option value="Research Scholar">Research Scholar</option>
-<option value="Faculty">Faculty</option>
-<option value="Other">Other</option>
-
-</select>
-
-<button type="submit" class="submit-btn">Submit</button>
-
-</form>
-
-<p id="message"></p>
-
-<div class="counter">
-Total Registrations: <span id="count">0</span>
-</div>
-
-</section>
-
-<footer>
-Dhruva X Nrityam | VITAP - Amaravati
-</footer>
-
-<div class="modal" id="confirmationModal">
-<div class="modal-content">
-
-<h3>🎉 Registration Successful!</h3>
-
-<p>
-A confirmation email will be sent within 24 hours.<br><br>
-
-📧 dhruva.club@vitap.ac.in<br>
-📧 nrityam.club@vitap.ac.in
-</p>
-
-</div>
-</div>
-
-<script>
-
-const SUPABASE_URL="https://zhmazqothtpwrgmzermw.supabase.co";
-const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
-
-const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-async function loginWithGoogle(){
-
-await client.auth.signInWithOAuth({
-
-provider:"google",
-
-options:{
-redirectTo:"https://knowyourproducts.in/Mahabharatam"
-}
-
-});
-
-}
-
-async function signOut(){
-
-await client.auth.signOut();
-
-location.reload();
-
-}
-
-async function checkUser(){
-
-const {data:{user}}=await client.auth.getUser();
-
-if(!user){
-
-document.getElementById("loginScreen").style.display="flex";
-return;
-
-}
-
-const email=user.email;
-
-if(!email.endsWith("@vitapstudent.ac.in") && !email.endsWith("@vitap.ac.in")){
-
-document.getElementById("loginMessage").innerText="Only VIT email accounts allowed.";
-
-await client.auth.signOut();
-return;
-
-}
-
-document.getElementById("loginScreen").style.display="none";
-
-document.getElementById("email").value=email;
-
-checkAlreadyRegistered(email);
-
-}
-
-checkUser();
-
-async function checkAlreadyRegistered(email){
-
-const {data}=await client
-.from("registrations")
-.select("*")
-.eq("email",email);
-
-if(data.length>0){
-
-document.getElementById("registrationForm").style.display="none";
-
-document.getElementById("message").style.color="orange";
-
-document.getElementById("message").innerText="You have already registered for this event.";
-
-}
-
-}
-
-/* COUNT */
-
-async function updateCount(){
-
-const {count}=await client
-.from("registrations")
-.select("*",{count:"exact",head:true});
-
-document.getElementById("count").innerText=count;
-
-}
-
-updateCount();
-
-/* REALTIME COUNTER */
-
-client.channel('registration-counter')
-.on(
-'postgres_changes',
-{event:'INSERT',schema:'public',table:'registrations'},
-(payload)=>{
-
-updateCount();
-
-}
-)
-.subscribe();
-
-/* FORM SUBMIT */
-
-document.getElementById("registrationForm").addEventListener("submit",async(e)=>{
-
-e.preventDefault();
-
-const name=document.getElementById("name").value;
-const regno=document.getElementById("regno").value;
-const email=document.getElementById("email").value;
-const employment=document.getElementById("employment").value;
-
-/* DUPLICATE CHECK */
-
-const {data:existing}=await client
-.from("registrations")
-.select("*")
-.or(`email.eq.${email},regno.eq.${regno}`);
-
-if(existing.length>0){
-
-document.getElementById("message").style.color="orange";
-document.getElementById("message").innerText="You have already registered using this Email or Registration Number.";
-
-return;
-
-}
-
-/* INSERT */
-
-const {error}=await client.from("registrations")
-.insert([{name,regno,email,employment}]);
-
-if(error){
-
-document.getElementById("message").style.color="red";
-document.getElementById("message").innerText="Error submitting!";
-return;
-
-}
-
-/* EMAIL FUNCTION CALL */
-
-fetch("YOUR_EDGE_FUNCTION_URL",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({name,email})
-});
-
-document.getElementById("registrationForm").reset();
-
-confetti({particleCount:200,spread:120,origin:{y:0.6}});
-
-document.getElementById("confirmationModal").style.display="flex";
-
-setTimeout(()=>{
-
-document.getElementById("confirmationModal").style.display="none";
-
-},6000);
-
-updateCount();
-
-});
-
-/* PARTICLES */
-
-tsParticles.load("tsparticles",{
-particles:{
-number:{value:120},
-color:{value:["#ff6600","#ff3300","#ffaa00"]},
-shape:{type:"circle"},
-opacity:{value:0.6},
-size:{value:3},
-move:{enable:true,speed:2}
-}
-});
-
-</script>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-card">
+            <h2>Welcome to Mahabharata</h2>
+            <p>Please authenticate to access the registration portal.</p>
+
+            <button class="btn btn-primary" onclick="loginWithGoogle()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"
+                    style="margin-right:8px">
+                    <path fill="#FFC107"
+                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                    <path fill="#FF3D00"
+                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                    <path fill="#4CAF50"
+                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                    <path fill="#1976D2"
+                        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                </svg>
+                Login with Google
+            </button>
+
+            <p id="loginMessage"></p>
+        </div>
+    </div>
+
+    <button class="signout-btn" onclick="signOut()">Sign Out</button>
+
+    <!-- BACKGROUND ELEMENTS -->
+    <div id="tsparticles"></div>
+    <div class="chakra"></div>
+    <div class="fireburst"></div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>MAHABHARATA</h1>
+            <div class="subtitle">An Epic Stage Production</div>
+
+            <div class="details">
+                <div class="detail-item">
+                    <span class="detail-icon">📅</span>
+                    <span>March 14</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-icon">📍</span>
+                    <span>AB2 - Auditorium</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-icon">⏰</span>
+                    <span>3PM to 6PM</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-icon">🎓</span>
+                    <span>VITAP-Amaravati</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary register-btn"
+                onclick="document.getElementById('register').scrollIntoView();">
+                Register Here
+            </button>
+        </div>
+    </section>
+
+    <!-- REGISTRATION SECTION -->
+    <section id="register" class="section">
+        <h2>Register Now</h2>
+
+        <div class="form-container">
+            <form id="registrationForm">
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="Full Name" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="regno" placeholder="Registration Number" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="College Email ID" readonly>
+                </div>
+
+                <div class="input-group">
+                    <select id="employment" required>
+                        <option value="" disabled selected hidden>Select Affiliation Type</option>
+                        <option value="Student">Student</option>
+                        <option value="Research Scholar">Research Scholar</option>
+                        <option value="Faculty">Faculty</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">Submit Registration</button>
+            </form>
+
+            <p id="message"></p>
+
+            <div class="counter">
+                Total Registrations: <span id="count">0</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        Dhruva X Nrityam | VITAP - Amaravati
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <h3>🎉 Registration Successful!</h3>
+            <p>We are thrilled to have you join us for this epic production.</p>
+
+            <div class="modal-contact">
+                A confirmation email will be sent within 24 hours.<br><br>
+                📧 dhruva.club@vitap.ac.in<br>
+                📧 nrityam.club@vitap.ac.in
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE AND JS LOGIC -->
+    <script>
+        const SUPABASE_URL = "https://zhmazqothtpwrgmzermw.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpobWF6cW90aHRwd3JnbXplcm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMzY2MjgsImV4cCI6MjA4NzkxMjYyOH0.Fc1PDrH9oJiIrn8HanhhKi0DfI4sIqyOwEToAYb52yo";
+
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function loginWithGoogle() {
+            await client.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                    redirectTo: "https://knowyourproducts.in/Mahabharatam"
+                }
+            });
+        }
+
+        async function signOut() {
+            await client.auth.signOut();
+            location.reload();
+        }
+
+        async function checkUser() {
+            const { data: { user } } = await client.auth.getUser();
+
+            if (!user) {
+                document.getElementById("loginScreen").style.display = "flex";
+                return;
+            }
+
+            const email = user.email;
+
+            if (!email.endsWith("@vitapstudent.ac.in") && !email.endsWith("@vitap.ac.in")) {
+                document.getElementById("loginMessage").innerText = "Only VIT email accounts allowed.";
+                await client.auth.signOut();
+                return;
+            }
+
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("email").value = email;
+
+            checkAlreadyRegistered(email);
+        }
+
+        checkUser();
+
+        async function checkAlreadyRegistered(email) {
+            const { data } = await client
+                .from("registrations")
+                .select("*")
+                .eq("email", email);
+
+            if (data.length > 0) {
+                document.getElementById("registrationForm").style.display = "none";
+                document.getElementById("message").style.color = "#f5cf6d";
+                document.getElementById("message").innerText = "You have already registered for this event.";
+            }
+        }
+
+        /* COUNT */
+        async function updateCount() {
+            const { count } = await client
+                .from("registrations")
+                .select("*", { count: "exact", head: true });
+
+            // Simple animation for the counter
+            const counterObj = document.getElementById("count");
+            if (counterObj && count !== null) {
+                counterObj.innerText = count;
+                counterObj.style.transform = "scale(1.2)";
+                setTimeout(() => { counterObj.style.transform = "scale(1)"; }, 200);
+                counterObj.style.transition = "transform 0.2s ease";
+            }
+        }
+
+        updateCount();
+
+        /* REALTIME COUNTER */
+        client.channel('registration-counter')
+            .on(
+                'postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'registrations' },
+                (payload) => {
+                    updateCount();
+                }
+            )
+            .subscribe();
+
+        /* FORM SUBMIT */
+        document.getElementById("registrationForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const regno = document.getElementById("regno").value;
+            const email = document.getElementById("email").value;
+            const employment = document.getElementById("employment").value;
+
+            /* DUPLICATE CHECK */
+            const { data: existing } = await client
+                .from("registrations")
+                .select("*")
+                .or(`email.eq.${email},regno.eq.${regno}`);
+
+            const msgBox = document.getElementById("message");
+
+            if (existing.length > 0) {
+                msgBox.style.color = "#f5cf6d";
+                msgBox.innerText = "You have already registered using this Email or Registration Number.";
+                return;
+            }
+
+            /* INSERT */
+            const { error } = await client.from("registrations")
+                .insert([{ name, regno, email, employment }]);
+
+            if (error) {
+                msgBox.style.color = "#ff5252";
+                msgBox.innerText = "Error submitting! Please try again.";
+                return;
+            }
+
+            /* EMAIL FUNCTION CALL */
+            fetch("YOUR_EDGE_FUNCTION_URL", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email })
+            });
+
+            document.getElementById("registrationForm").reset();
+
+            // Custom rich confetti specifically positioned nicely
+            confetti({
+                particleCount: 250,
+                spread: 120,
+                origin: { y: 0.6 },
+                colors: ['#cfab51', '#f5cf6d', '#ffffff']
+            });
+
+            document.getElementById("confirmationModal").style.display = "flex";
+
+            setTimeout(() => {
+                document.getElementById("confirmationModal").style.display = "none";
+            }, 6000);
+
+            updateCount();
+        });
+
+        /* PARTICLES */
+        tsParticles.load("tsparticles", {
+            particles: {
+                number: { value: 80 },
+                color: { value: ["#cfab51", "#f5cf6d", "#8f722e"] },
+                shape: { type: "circle" },
+                opacity: {
+                    value: 0.5,
+                    animation: { enable: true, speed: 1, minimumValue: 0.1 }
+                },
+                size: {
+                    value: { min: 1, max: 3 }
+                },
+                move: {
+                    enable: true,
+                    speed: 1.2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    outModes: { default: "out" }
+                }
+            },
+            interactivity: {
+                events: {
+                    onHover: { enable: true, mode: "grab" }
+                },
+                modes: {
+                    grab: { distance: 150, links: { opacity: 0.3 } }
+                }
+            }
+        });
+    </script>
 
 </body>
+
 </html>
