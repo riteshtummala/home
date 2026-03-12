@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Admin - CampusSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-primary);">
+    <div class="form-card" style="max-width: 600px; padding: 3rem; text-align: center; border: 1px solid var(--border-color);">
+        <h2 style="margin-bottom: 1rem;"><i class="fa-solid fa-user-shield" style="color: var(--brand);"></i> Admin Account Setup</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Click below to securely register the admin account, then follow the instructions to grant privileges.</p>
+
+        <button id="btn-create" onclick="createAdmin()" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1rem;">
+            Register ritesh.24bce8173@vitapstudent.ac.in
+        </button>
+        
+        <div id="result" style="margin-top: 2rem; text-align: left; display: none;"></div>
+    </div>
+
+    <!-- Need Supabase to hook into script.js configuration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <script>
+        async function createAdmin() {
+            const btn = document.getElementById('btn-create');
+            const resultDiv = document.getElementById('result');
+            
+            btn.innerText = "Registering...";
+            btn.disabled = true;
+            resultDiv.style.display = 'none';
+
+            const email = "ritesh.24bce8173@vitapstudent.ac.in";
+            // User provided payload
+            const password = "Tritesh@2006";
+
+            // Sign up the user (or login if identity exists)
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: { full_name: "Ritesh (Admin)" }
+                }
+            });
+
+            resultDiv.style.display = 'block';
+
+            if (error) {
+                // Supabase returns 400 or 422 if the email is already registered, or general error.
+                if (error.message.includes("already registered") || error.status === 400 || error.status === 422) {
+                    resultDiv.innerHTML = `
+                        <div class="scan-result success" style="display: block;">
+                            <div class="result-icon"><i class="fa-solid fa-circle-check"></i></div>
+                            <h3 style="margin: 0.5rem 0;">Account Exists / Registered!</h3>
+                            <p>The account is already registered in Supabase GoTrue Auth. Now, run this command in your <strong>Supabase SQL Editor</strong> to elevate it to Admin:</p>
+                        </div>
+                        <pre style="background: var(--bg-tertiary); padding: 1rem; border-radius: 8px; margin-top: 1rem; overflow-x: auto; color: var(--text-primary); border: 1px solid var(--border-color);">UPDATE public.users <br/>SET role = 'admin' <br/>WHERE email = '${email}';</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="scan-result error" style="display: block;">
+                            <div class="result-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                            <h3 style="margin: 0.5rem 0;">Registration Failed</h3>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                    // Enable button to try again if it was a network error
+                    btn.disabled = false;
+                    btn.innerText = "Retry Registration";
+                    return;
+                }
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="scan-result success" style="display: block;">
+                        <div class="result-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h3 style="margin: 0.5rem 0;">Registration Successful!</h3>
+                        <p>Next step: Run this command in your <strong>Supabase SQL Editor</strong> to grant Admin privileges to this new user:</p>
+                    </div>
+                    <pre style="background: var(--bg-tertiary); padding: 1rem; border-radius: 8px; margin-top: 1rem; overflow-x: auto; color: var(--text-primary); border: 1px solid var(--border-color);">UPDATE public.users <br/>SET role = 'admin' <br/>WHERE email = '${email}';</pre>
+                `;
+            }
+            
+            btn.innerText = "Registration Complete";
+        }
+    </script>
+</body>
+</html>

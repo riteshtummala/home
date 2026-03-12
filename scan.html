@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Tickets - CampusSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .scan-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            text-align: center;
+        }
+        .scan-input-group {
+            display: flex; gap: 1rem; margin-top: 2rem;
+        }
+        .scan-input-group input {
+            font-size: 1.15rem; letter-spacing: 0.5px;
+            padding: 1rem 1.5rem; text-align: center;
+        }
+        
+        .scan-result {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: none; /* hidden until scanned */
+            animation: slideUp 0.3s ease;
+        }
+
+        .scan-result.success {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .scan-result.success i { color: var(--success); }
+
+        .scan-result.error {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        .scan-result.error i { color: var(--error); }
+
+        .result-icon {
+            font-size: 3.5rem; margin-bottom: 1rem;
+        }
+        .result-title {
+            font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);
+        }
+        .result-meta {
+            color: var(--text-secondary); font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <nav class="navbar animate-fade-in delay-1">
+        <a href="dashboard.html" class="logo" style="margin: 0; color: var(--brand);"><i class="fa-solid fa-calendar-check"></i> CampusSync</a>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button class="btn-icon" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <a href="dashboard.html" class="btn btn-outline" style="border-radius: 50px;"><i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i> Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="scan-container animate-slide-up delay-2">
+            <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Verify Attendee Tickets</h1>
+            <p>Scan or enter the UUID generated on the attendee's ticket.</p>
+            
+            <form class="scan-input-group" action="javascript:void(0);" onsubmit="processTicketScan()">
+                <input type="text" id="ticket-input" class="form-control" placeholder="e.g. 550e8400-e29b-41d4-a716-446655440000" required autocomplete="off">
+                <button type="submit" class="btn btn-primary" style="padding: 0 2rem; font-size: 1.1rem;"><i class="fa-solid fa-qrcode" style="margin-right: 8px;"></i> Scan</button>
+            </form>
+
+            <div id="scan-result-card" class="scan-result">
+                <div class="result-icon" id="scan-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="result-title" id="scan-title">Valid Ticket found</div>
+                <div class="result-meta" id="scan-meta">John Doe is checking into Hackathon 2026.</div>
+                
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase;">Ticket Type</div>
+                        <div style="font-weight: 600; color: var(--text-primary);" id="scan-type">Single Entry</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase;">Check-Ins</div>
+                        <div style="font-weight: 600; color: var(--text-primary);" id="scan-count">1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const icon = themeToggleBtn.querySelector('i');
+        const root = document.documentElement;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.setAttribute('data-theme', 'dark'); icon.className = 'fa-solid fa-sun';
+        }
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

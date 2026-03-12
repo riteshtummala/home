@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - CampusSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .hero-banner {
+            width: 100%;
+            height: 380px;
+            background: var(--bg-tertiary); /* Fallback */
+            position: relative;
+        }
+
+        .event-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+            margin-top: -80px;
+            padding-bottom: 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 900px) {
+            .event-layout { grid-template-columns: 1fr; }
+        }
+
+        .main-card {
+            background: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .event-tag {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            background: var(--brand-light);
+            color: var(--brand);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .event-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .meta-item { display: flex; align-items: flex-start; gap: 1rem; }
+        .meta-icon {
+            width: 48px; height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+        .meta-text { flex: 1; }
+        .meta-text h4 { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em;}
+        .meta-text p { font-size: 1.05rem; font-weight: 500; color: var(--text-primary); }
+
+        .description { line-height: 1.8; color: var(--text-secondary); font-size: 1.05rem; }
+        .description h3 {
+            color: var(--text-primary);
+            margin: 2.5rem 0 1rem;
+            font-size: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .side-card {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 100px;
+        }
+
+        .price-tag {
+            font-size: 2.5rem; font-weight: 800;
+            margin-bottom: 2rem; display: flex; align-items: baseline; gap: 0.5rem;
+            color: var(--text-primary);
+        }
+        .price-tag span { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }
+
+        .capacity-bar {
+            background: var(--bg-tertiary);
+            height: 6px; border-radius: 4px; overflow: hidden;
+            margin: 1.5rem 0 0.5rem;
+        }
+        .capacity-fill {
+            background: var(--brand); height: 100%; width: 75%; border-radius: 4px;
+        }
+
+        .capacity-text {
+            display: flex; justify-content: space-between;
+            font-size: 0.875rem; color: var(--text-tertiary);
+            margin-bottom: 2.5rem; font-weight: 500;
+        }
+
+        .organizer-info {
+            margin-top: 2.5rem; padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .organizer-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--accent-hover);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 600;
+        }
+        .organizer-details h4 { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.15rem; }
+        .organizer-details p { font-weight: 500; color: var(--text-primary); }
+
+        /* Modal */
+        .modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);
+            z-index: 2000; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: var(--bg-secondary); padding: 3rem;
+            border-radius: var(--radius-xl); max-width: 440px; width: 90%;
+            border: 1px solid var(--border-color); text-align: center;
+            box-shadow: var(--shadow-floating);
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .success-icon {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: rgba(16, 185, 129, 0.1); color: var(--success);
+            font-size: 2.5rem; display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 1.5rem; box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <nav class="navbar animate-fade-in delay-1">
+        <a href="dashboard.html" class="logo" style="margin: 0; color: var(--brand);"><i class="fa-solid fa-calendar-check"></i> CampusSync</a>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button class="btn-icon" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <a href="dashboard.html" class="btn btn-outline" style="border-radius: 50px;"><i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i> Back to Feed</a>
+        </div>
+    </nav>
+
+    <div class="hero-banner animate-fade-in delay-2"></div>
+
+    <main class="container">
+        <div class="event-layout">
+            <article class="main-card animate-slide-up delay-3">
+                <span class="event-tag">Campus Event</span>
+                <h1 class="event-title" id="event-title">Loading details...</h1>
+
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <div class="meta-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                        <div class="meta-text">
+                            <h4>Date & Time</h4>
+                            <p id="event-date">Oct 15 - Oct 17, 2026</p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon"><i class="fa-regular fa-map"></i></div>
+                        <div class="meta-text">
+                            <h4>Location</h4>
+                            <p id="event-location">CB Block Auditorium</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="description">
+                    <h3>About this event</h3>
+                    <p id="event-description">Fetching content from database... If this takes too long, please confirm your connection.</p>
+                </div>
+            </article>
+
+            <aside class="animate-slide-up delay-4">
+                <div class="side-card">
+                    <div class="price-tag">Free <span>Ticket</span></div>
+
+                    <div class="capacity-bar">
+                        <div class="capacity-fill" id="capacity-fill-bar"></div>
+                    </div>
+                    <div class="capacity-text">
+                        <span id="event-capacity">Loading...</span>
+                        <span>Filled</span>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="handleRegister()" style="width: 100%; padding: 1rem; font-size: 1.05rem; border-radius: var(--radius-md);">
+                        Register Now
+                    </button>
+
+                    <p style="text-align: center; color: var(--text-tertiary); font-size: 0.85rem; margin-top: 1rem;">
+                        Secure your spot instantly.
+                    </p>
+
+                    <div class="organizer-info">
+                        <div class="organizer-avatar">SC</div>
+                        <div class="organizer-details">
+                            <h4>Published By</h4>
+                            <p>CampusSync Verified</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Registration Confirmation Modal -->
+    <div class="modal" id="regModal">
+        <div class="modal-content">
+            <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+            <h2 style="font-size: 1.75rem; margin-bottom: 0.75rem;">Registration Confirmed!</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Your digital ticket has been issued successfully.</p>
+            <div id="generated-ticket-id" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-sm); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2rem; letter-spacing: 0.5px;">
+                Fetching Ticket ID...
+            </div>
+            <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 2rem; background: #fff; padding: 1rem; border-radius: 8px;"></div>
+            <button class="btn btn-primary" style="width: 100%; padding: 0.85rem; border-radius: var(--radius-md);" onclick="document.getElementById('regModal').style.display='none'">View in Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Initialization scripts -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const icon = themeToggleBtn.querySelector('i');
+        const root = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.setAttribute('data-theme', 'dark');
+            icon.className = 'fa-solid fa-sun';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+
+        // Modal triggers specific to this page design
+        function showModal() {
+            document.getElementById('regModal').style.display = 'flex';
+        }
+
+        async function handleRegister() {
+            try {
+                if(typeof registerEvent === 'function') {
+                    await registerEvent(); 
+                } else {
+                    showModal();
+                }
+            } catch(err) {
+                console.error(err);
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

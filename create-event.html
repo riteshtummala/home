@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - CampusSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+
+    <aside class="sidebar animate-fade-in delay-1">
+        <div class="logo" style="margin-bottom: 2.5rem; padding-left: 0.5rem; color: var(--brand);">
+            <i class="fa-solid fa-calendar-check"></i> CampusSync
+        </div>
+        <nav style="display: flex; flex-direction: column; flex: 1; gap: 0.25rem;">
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house" style="width: 20px;"></i> Overview</a>
+            
+            <a href="create-event.html" class="nav-item active" style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-plus-circle" style="width: 20px;"></i> Create Event</span>
+                <span style="background: var(--brand-light); color: var(--brand); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700;">ADMIN</span>
+            </a>
+            
+            <a href="#" class="nav-item"><i class="fa-solid fa-chart-line" style="width: 20px;"></i> Analytics</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gear" style="width: 20px;"></i> Settings</a>
+        </nav>
+        
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding: 0 0.5rem;">
+                <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">Appearance</span>
+                <button class="btn-icon" id="theme-toggle" style="width: 32px; height: 32px;"><i class="fa-solid fa-moon"></i></button>
+            </div>
+            <a href="#" onclick="logout();" class="nav-item" style="color: var(--error);">
+                <i class="fa-solid fa-right-from-bracket" style="width: 20px;"></i> Sign out
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content" style="max-width: 900px;">
+        <header style="margin-bottom: 3rem;" class="animate-slide-up delay-2">
+            <h1 style="font-size: 1.75rem; margin-bottom: 0.25rem;">Create New Event</h1>
+            <p style="margin:0;">Publish an event directly to the campus feed.</p>
+        </header>
+
+        <form action="javascript:void(0);" onsubmit="createEvent();" class="form-card animate-slide-up delay-3" style="padding: 2.5rem;">
+            
+            <div class="form-group">
+                <label class="form-label">Event Banner Image</label>
+                <div class="image-upload" onclick="document.getElementById('banner-upload').click();">
+                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 1rem; color: var(--text-tertiary);"></i>
+                    <p style="font-weight: 500; color: var(--text-primary); margin-bottom: 0.25rem;">Click or drag image to upload</p>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">16:9 aspect ratio recommended. JPG, PNG below 5MB.</p>
+                    <input type="file" id="banner-upload" style="display: none;" accept="image/*">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 2.5rem;">
+                <label class="form-label">Event Title</label>
+                <input type="text" id="title" class="form-control" placeholder="e.g. Annual Tech Hackathon 2026" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label">Location (Venue)</label>
+                    <input type="text" id="location" class="form-control" placeholder="e.g. AB2 Auditorium" required>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="date" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Event Description</label>
+                <textarea id="description" class="form-control" rows="5" placeholder="Describe the agenda, rules, and details..." required style="resize: vertical;"></textarea>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); margin: 2rem 0; padding-top: 2rem;">
+                <h3 style="font-size: 1rem; margin-bottom: 1.5rem;">Registration Details</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Ticket Type</label>
+                        <select id="ticket_type" class="form-control" required>
+                            <option value="single" selected>Single Entry (Scan once)</option>
+                            <option value="multiple">Multiple Entry (Scan repeatedly)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Capacity (Max attendees)</label>
+                        <input type="number" id="capacity" class="form-control" placeholder="100" required>
+                    </div>
+                </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); margin: 2rem 0; padding-top: 2rem;">
+                <h3 style="font-size: 1rem; margin-bottom: 1.5rem;">Visibility & Discovery</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Event Category</label>
+                        <select id="category" class="form-control" required>
+                            <option value="General" selected>General</option>
+                            <option value="Academics">Academics</option>
+                            <option value="Social">Social</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Career">Career Development</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0; display: flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem;">
+                        <input type="checkbox" id="is_featured" style="width: 20px; height: 20px; cursor: pointer;">
+                        <label for="is_featured" class="form-label" style="margin: 0; cursor: pointer;">Feature event in Global Hero Banner</label>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                <a href="dashboard.html" class="btn btn-outline" style="min-width: 120px;">Cancel</a>
+                <button type="submit" class="btn btn-primary" style="min-width: 200px;">Publish Event</button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Theme Selection -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const icon = themeToggleBtn.querySelector('i');
+        const root = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.setAttribute('data-theme', 'dark');
+            icon.className = 'fa-solid fa-sun';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

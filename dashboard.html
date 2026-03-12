@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CampusSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+
+    <aside class="sidebar animate-fade-in delay-1">
+        <div class="logo" style="margin-bottom: 2.5rem; padding-left: 0.5rem; color: var(--brand);">
+            <i class="fa-solid fa-calendar-check"></i> CampusSync
+        </div>
+        <nav style="display: flex; flex-direction: column; flex: 1; gap: 0.25rem;">
+            <a href="#" class="nav-item active" id="nav-overview" onclick="switchTab('nav-overview')"><i class="fa-solid fa-house" style="width: 20px;"></i> Overview</a>
+            <a href="#" class="nav-item" id="nav-discover" onclick="switchTab('nav-discover')"><i class="fa-solid fa-compass" style="width: 20px;"></i> Discover</a>
+            <a href="#" class="nav-item" id="nav-tickets" onclick="switchTab('nav-tickets')"><i class="fa-solid fa-ticket" style="width: 20px;"></i> My Tickets</a>
+            
+            <!-- Hidden by default, unhidden in script.js for Admins -->
+            <a href="create-event.html" class="nav-item" id="nav-create-event" style="display: none; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-plus-circle" style="width: 20px;"></i> Create Event</span>
+                <span style="background: var(--brand-light); color: var(--brand); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700;">ADMIN</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-admin" style="display: none; align-items: center; justify-content: space-between;" onclick="switchTab('nav-admin')">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-user-tie" style="width: 20px;"></i> Admin Panel</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-volunteer" style="display: none; align-items: center; justify-content: space-between;" onclick="switchTab('nav-volunteer')">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-clipboard-user" style="width: 20px;"></i> Volunteer Panel</span>
+            </a>
+            
+            <a href="#" class="nav-item" id="nav-analytics" style="display: none; align-items: center; justify-content: space-between;" onclick="switchTab('nav-analytics')">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-chart-line" style="width: 20px;"></i> Analytics</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-settings" onclick="switchTab('nav-settings')">
+                <i class="fa-solid fa-gear" style="width: 20px;"></i> Settings
+            </a>
+        </nav>
+        
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding: 0 0.5rem;">
+                <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">Appearance</span>
+                <button class="btn-icon" id="theme-toggle" style="width: 32px; height: 32px;"><i class="fa-solid fa-moon"></i></button>
+            </div>
+            <a href="#" onclick="logout();" class="nav-item" style="color: var(--error);">
+                <i class="fa-solid fa-right-from-bracket" style="width: 20px;"></i> Sign out
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;" class="animate-slide-up delay-2">
+            <div>
+                <h1 style="font-size: 2rem; margin-bottom: 0.25rem;" id="dashboard-title">Dashboard Overview</h1>
+                <p style="margin:0;" id="dashboard-subtitle">Welcome back. Here is what's happening on campus.</p>
+            </div>
+            <div>
+                <a href="create-event.html" class="btn btn-primary" id="header-create-event" style="display: none; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-plus"></i> Create Event
+                </a>
+            </div>
+        </header>
+
+        <section class="stats-grid animate-slide-up delay-3">
+            <div class="stat-card">
+                <div class="stat-icon"><i id="stat-icon-events" class="fa-solid fa-calendar-star"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-events">-</h3>
+                    <p id="stat-label-events">Active Events</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;"><i id="stat-icon-registrations" class="fa-solid fa-users"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-registrations">-</h3>
+                    <p id="stat-label-registrations">Total Registrations</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;"><i id="stat-icon-tickets" class="fa-solid fa-ticket-simple"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-tickets">-</h3>
+                    <p id="stat-label-tickets">Your Tickets</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-header animate-slide-up delay-4">
+            <h2 style="font-size: 1.25rem;">Live Feed</h2>
+            <div class="btn-outline" style="padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer; color: var(--text-secondary);">
+                Filter <i class="fa-solid fa-chevron-down" style="margin-left: 0.5rem; font-size: 0.75rem;"></i>
+            </div>
+        </div>
+
+        <!-- Populated by loadEvents() in script.js -->
+        <div class="events-grid" id="events-container">
+            <div style="text-align: center; color: var(--text-secondary); padding: 3rem 0; grid-column: 1/-1;">
+                <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                Loading feed...
+            </div>
+        </div>
+
+        <!-- Admin System Directory -->
+        <section id="admin-directory-section" style="display: none; margin-top: 4rem;">
+            <div class="section-header" style="justify-content: space-between;">
+                <h2 style="font-size: 1.25rem;">Platform Administrators</h2>
+                <button class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem;" onclick="promoteAdmin()">
+                    <i class="fa-solid fa-user-shield"></i> Add Admin
+                </button>
+            </div>
+            <div class="events-grid" id="admin-directory-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Volunteer System Directory -->
+        <section id="volunteer-directory-section" style="display: none; margin-top: 4rem;">
+            <div class="section-header">
+                <h2 style="font-size: 1.25rem;">Staff & Users Directory</h2>
+            </div>
+            <div class="events-grid" id="volunteer-directory-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Analytics Dashboard -->
+        <section id="analytics-section" style="display: none; margin-top: 2rem;">
+            <!-- Populated by JS loadAnalytics() -->
+        </section>
+
+        <!-- Profile Settings Dashboard -->
+        <section id="settings-section" style="display: none; margin-top: 2rem; max-width: 600px;">
+            <!-- Populated by JS loadSettings() -->
+        </section>
+    </main>
+
+    <!-- Theme Selection -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const icon = themeToggleBtn.querySelector('i');
+        const root = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.setAttribute('data-theme', 'dark');
+            icon.className = 'fa-solid fa-sun';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <!-- Core Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

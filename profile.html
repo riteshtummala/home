@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - CampusSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+
+    <aside class="sidebar animate-fade-in delay-1">
+        <div class="logo" style="margin-bottom: 2.5rem; padding-left: 0.5rem; color: var(--brand);">
+            <i class="fa-solid fa-calendar-check"></i> CampusSync
+        </div>
+        <nav style="display: flex; flex-direction: column; flex: 1; gap: 0.25rem;">
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house" style="width: 20px;"></i> Overview</a>
+            
+            <a href="create-event.html" class="nav-item" id="nav-create-event" style="display: none; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-plus-circle" style="width: 20px;"></i> Create Event</span>
+                <span style="background: var(--brand-light); color: var(--brand); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700;">ADMIN</span>
+            </a>
+
+            <a href="scan.html" class="nav-item" id="nav-scan-ticket" style="display: none; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-qrcode" style="width: 20px;"></i> Scan Tickets</span>
+                <span style="background: #10b98122; color: #10b981; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700;">VOLUNTEER</span>
+            </a>
+            
+            <a href="profile.html" class="nav-item active"><i class="fa-solid fa-user" style="width: 20px;"></i> Profile</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gear" style="width: 20px;"></i> Settings</a>
+        </nav>
+        
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding: 0 0.5rem;">
+                <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">Appearance</span>
+                <button class="btn-icon" id="theme-toggle" style="width: 32px; height: 32px;"><i class="fa-solid fa-moon"></i></button>
+            </div>
+            <a href="#" onclick="logout();" class="nav-item" style="color: var(--error);">
+                <i class="fa-solid fa-right-from-bracket" style="width: 20px;"></i> Sign out
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content" style="max-width: 800px;">
+        <header style="margin-bottom: 3rem;" class="animate-slide-up delay-2">
+            <h1 style="font-size: 1.75rem; margin-bottom: 0.25rem;">My Profile</h1>
+            <p style="margin:0;">Manage your personal information and application identity.</p>
+        </header>
+
+        <form action="javascript:void(0);" onsubmit="updateProfile();" class="form-card animate-slide-up delay-3" style="padding: 2.5rem;">
+            
+            <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2.5rem;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700;" id="profile-avatar-initials">
+                    ?
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 0.25rem;" id="profile-display-name">Loading...</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;" id="profile-role-badge">Student Account</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="prof-fullname" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label">Registration Number (Optional)</label>
+                    <input type="text" id="prof-regnumber" class="form-control" placeholder="e.g. 21BCE1234">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">University / Affiliation</label>
+                <input type="text" id="prof-affiliation" class="form-control" placeholder="e.g. Stanford University" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email Address (Read-Only)</label>
+                <input type="email" id="prof-email" class="form-control" disabled style="background: var(--bg-tertiary); cursor: not-allowed;">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2.5rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+                <button type="button" class="btn btn-outline" style="min-width: 120px;" onclick="loadProfileData()">Discard Changes</button>
+                <button type="submit" class="btn btn-primary" style="min-width: 160px;" id="save-prof-btn">Save Changes</button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Theme Selection -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const icon = themeToggleBtn.querySelector('i');
+        const root = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.setAttribute('data-theme', 'dark');
+            icon.className = 'fa-solid fa-sun';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
