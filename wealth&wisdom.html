@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wealth and Wisdom | Spiritual Healing & Transformation by Priya Mam</title>
+  
+  <meta name="description" content="Transform your life with Ho'oponopono healing, meditation, visualization, and universal laws. Join Priya Mam's community for abundance, peace, and spiritual growth.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            background: 'oklch(0.12 0.02 280)',
+            foreground: 'oklch(0.98 0.01 280)',
+            card: 'oklch(0.18 0.03 280)',
+            'card-foreground': 'oklch(0.98 0.01 280)',
+            primary: 'oklch(0.85 0.15 85)',
+            'primary-foreground': 'oklch(0.15 0.02 280)',
+            secondary: 'oklch(0.45 0.18 300)',
+            muted: 'oklch(0.25 0.04 280)',
+            'muted-foreground': 'oklch(0.70 0.02 280)',
+            border: 'oklch(0.30 0.05 280)',
+            input: 'oklch(0.22 0.04 280)',
+          },
+          animation: {
+            float: 'float 6s ease-in-out infinite',
+            glow: 'glow 2s ease-in-out infinite',
+            shimmer: 'shimmer 3s ease-in-out infinite',
+            'pulse-slow': 'pulse-slow 4s ease-in-out infinite',
+            'spin-slow': 'spin-slow 20s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            glow: {
+              '0%, 100%': { boxShadow: '0 0 20px oklch(0.85 0.15 85 / 0.3)' },
+              '50%': { boxShadow: '0 0 40px oklch(0.85 0.15 85 / 0.6)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            'pulse-slow': {
+              '0%, 100%': { opacity: '0.4' },
+              '50%': { opacity: '0.8' },
+            },
+            'spin-slow': {
+              from: { transform: 'rotate(0deg)' },
+              to: { transform: 'rotate(360deg)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: oklch(0.12 0.02 280);
+      color: oklch(0.98 0.01 280);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, oklch(0.85 0.15 85), oklch(0.90 0.12 85), oklch(0.85 0.15 85));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass {
+      background: oklch(0.18 0.03 280 / 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid oklch(0.85 0.15 85 / 0.1);
+    }
+    .cosmic-bg {
+      background: radial-gradient(ellipse at top, oklch(0.20 0.08 300), oklch(0.12 0.02 280)),
+                  radial-gradient(ellipse at bottom, oklch(0.15 0.05 280), oklch(0.10 0.02 280));
+    }
+    .stars {
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, oklch(0.95 0.02 85), transparent),
+        radial-gradient(2px 2px at 40px 70px, oklch(0.90 0.05 85), transparent),
+        radial-gradient(1px 1px at 90px 40px, oklch(0.95 0.02 85), transparent),
+        radial-gradient(2px 2px at 160px 120px, oklch(0.90 0.05 85), transparent),
+        radial-gradient(1px 1px at 230px 80px, oklch(0.95 0.02 85), transparent),
+        radial-gradient(2px 2px at 300px 150px, oklch(0.85 0.08 85), transparent);
+      background-size: 350px 350px;
+    }
+    
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease-out;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: all 1s ease-out;
+    }
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: all 1s ease-out;
+    }
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-delay-100 { transition-delay: 100ms; }
+    .reveal-delay-200 { transition-delay: 200ms; }
+    .reveal-delay-300 { transition-delay: 300ms; }
+    .reveal-delay-400 { transition-delay: 400ms; }
+    .reveal-delay-500 { transition-delay: 500ms; }
+  </style>
+</head>
+<body class="font-sans antialiased cosmic-bg relative min-h-screen selection:bg-primary/30 selection:text-primary-foreground">
+
+  <!-- Navigation -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent py-5">
+    <nav class="container mx-auto px-6 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 group">
+        <div class="relative">
+          <i data-lucide="sparkles" class="w-8 h-8 text-primary animate-pulse-slow"></i>
+          <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full"></div>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-bold gradient-text tracking-wide">Wealth & Wisdom</span>
+          <span class="text-xs text-muted-foreground font-light tracking-widest">by Priya Mam</span>
+        </div>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8">
+        <a href="#about" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 relative group">About<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+        <a href="#services" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 relative group">Services<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+        <a href="#testimonials" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 relative group">Testimonials<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+        <a href="#community" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 relative group">Community<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+        <a href="#contact" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 relative group">Contact<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      </div>
+
+      <div class="hidden lg:block">
+        <a href="#community" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 animate-glow rounded-full px-6 py-2 h-10 transition-colors">Join Community</a>
+      </div>
+
+      <button id="mobile-menu-btn" class="lg:hidden text-foreground p-2" aria-label="Toggle menu">
+        <i data-lucide="menu" class="w-6 h-6" id="menu-icon"></i>
+      </button>
+    </nav>
+
+    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 glass transition-all duration-300 opacity-0 invisible">
+      <div class="container mx-auto px-6 py-6 flex flex-col gap-4">
+        <a href="#about" class="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 mobile-link">About</a>
+        <a href="#services" class="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 mobile-link">Services</a>
+        <a href="#testimonials" class="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 mobile-link">Testimonials</a>
+        <a href="#community" class="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 mobile-link">Community</a>
+        <a href="#contact" class="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 mobile-link">Contact</a>
+        <a href="#community" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 animate-glow rounded-full px-6 py-2 h-10 transition-colors mt-4 mobile-link">Join Community</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden cosmic-bg stars">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+      <div class="absolute top-1/2 right-1/3 w-48 h-48 bg-accent/10 rounded-full blur-2xl animate-float" style="animation-delay: 4s;"></div>
+      <div class="absolute top-20 right-20 opacity-20 animate-spin-slow">
+        <svg width="200" height="200" viewBox="0 0 200 200" class="text-primary">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="0.5" />
+          <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="0.5" />
+          <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="0.5" />
+          <polygon points="100,20 180,100 100,180 20,100" fill="none" stroke="currentColor" stroke-width="0.5" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-6 text-center relative z-10 reveal active">
+      <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8">
+        <i data-lucide="sparkles" class="w-4 h-4 text-primary"></i>
+        <span class="text-sm text-foreground/80">Welcome to Your Transformation Journey</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+        <span class="block text-foreground">Reprogram Your Mind.</span>
+        <span class="block gradient-text mt-2">Transform Your Life.</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+        Unlock the limitless power within you through Ho'oponopono healing, 
+        meditation, and universal laws. Release negativity, attract abundance, 
+        and align with the universe for lasting happiness.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="#community" class="inline-flex items-center justify-center whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-6 text-lg font-semibold animate-glow group">
+           Start Your Journey
+           <i data-lucide="arrow-right" class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"></i>
+        </a>
+        <a href="#about" class="inline-flex items-center justify-center whitespace-nowrap border border-primary/50 text-foreground hover:bg-primary/10 rounded-full px-8 py-6 text-lg transition-colors">
+          Learn More
+        </a>
+      </div>
+      <div class="mt-16 flex flex-wrap justify-center gap-8 text-muted-foreground">
+        <div class="flex items-center gap-2">
+          <div class="flex text-primary">
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+          </div>
+          <span class="text-sm">Trusted by 10,000+ members</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span class="text-sm">Live sessions daily</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div class="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center">
+        <div class="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+    <div class="container mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-left">
+          <span class="text-primary font-medium tracking-wider text-sm uppercase">About Priya Mam</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground leading-tight">
+            Guiding Souls Towards <span class="gradient-text">Healing & Abundance</span>
+          </h2>
+          <div class="space-y-4 text-muted-foreground leading-relaxed">
+            <p>With over four years of dedicated practice in spiritual healing, Priya Mam has transformed thousands of lives through the ancient Hawaiian practice of Ho'oponopono and the powerful universal laws of attraction.</p>
+            <p>Her unique approach combines meditation, visualization techniques, and mind reprogramming to help you release negativity, heal emotional wounds, and attract the abundance you deserve.</p>
+            <p>Through Wealth and Wisdom, she has created a sacred space where like-minded individuals come together to grow, heal, and manifest their deepest desires.</p>
+          </div>
+          <blockquote class="mt-8 pl-6 border-l-2 border-primary italic text-foreground/80">
+            "When you heal yourself, you heal the world. Every positive thought you release creates ripples of transformation in the universe."
+            <footer class="mt-2 text-primary font-medium not-italic">— Priya Mam</footer>
+          </blockquote>
+        </div>
+        <div class="reveal-right">
+          <div class="grid grid-cols-2 gap-6">
+            <div class="glass rounded-2xl p-6 text-center hover:bg-primary/5 transition-all duration-300 group">
+              <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <i data-lucide="users" class="w-6 h-6 text-primary"></i>
+              </div>
+              <div class="text-3xl font-bold gradient-text mb-1">3,000+</div>
+              <div class="text-sm text-muted-foreground">Community Members</div>
+            </div>
+            <div class="glass rounded-2xl p-6 text-center hover:bg-primary/5 transition-all duration-300 group reveal-delay-100">
+              <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <i data-lucide="heart" class="w-6 h-6 text-primary"></i>
+              </div>
+              <div class="text-3xl font-bold gradient-text mb-1">500+</div>
+              <div class="text-sm text-muted-foreground">Lives Transformed</div>
+            </div>
+            <div class="glass rounded-2xl p-6 text-center hover:bg-primary/5 transition-all duration-300 group reveal-delay-200">
+              <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <i data-lucide="lightbulb" class="w-6 h-6 text-primary"></i>
+              </div>
+              <div class="text-3xl font-bold gradient-text mb-1">50+</div>
+              <div class="text-sm text-muted-foreground">Healing Sessions</div>
+            </div>
+            <div class="glass rounded-2xl p-6 text-center hover:bg-primary/5 transition-all duration-300 group reveal-delay-300">
+              <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <i data-lucide="award" class="w-6 h-6 text-primary"></i>
+              </div>
+              <div class="text-3xl font-bold gradient-text mb-1">4+</div>
+              <div class="text-sm text-muted-foreground">Years Experience</div>
+            </div>
+          </div>
+          <div class="mt-8 glass rounded-2xl p-8 text-center relative overflow-hidden">
+            <div class="absolute inset-0 animate-shimmer"></div>
+            <h3 class="text-xl font-semibold text-foreground mb-2 relative z-10">Our Mission</h3>
+            <p class="text-muted-foreground relative z-10">To empower every soul with the tools and knowledge to create a life of abundance, peace, and unlimited possibilities.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 relative overflow-hidden cosmic-bg">
+    <div class="absolute inset-0 stars opacity-50"></div>
+    <div class="absolute top-1/2 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -translate-x-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl translate-x-1/2"></div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+        <span class="text-primary font-medium tracking-wider text-sm uppercase">Our Transformative Services</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground">
+          Your Path to <span class="gradient-text">Spiritual Awakening</span>
+        </h2>
+        <p class="text-muted-foreground text-lg leading-relaxed">
+          Discover powerful healing modalities and transformative practices designed to help you unlock your full potential and live your most abundant life.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Service 1 -->
+        <div class="group glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 hover:-translate-y-2 reveal">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="flower-2" class="w-7 h-7 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-foreground mb-3">Ho'oponopono Healing</h3>
+          <p class="text-muted-foreground leading-relaxed mb-6">Experience the ancient Hawaiian practice of forgiveness and reconciliation. Release past traumas, heal relationships, and cleanse your subconscious mind of limiting beliefs.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Emotional healing</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Inner peace</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Forgiveness</span>
+          </div>
+        </div>
+        <!-- Service 2 -->
+        <div class="group glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 hover:-translate-y-2 reveal reveal-delay-100">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="brain" class="w-7 h-7 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-foreground mb-3">Mind Reprogramming</h3>
+          <p class="text-muted-foreground leading-relaxed mb-6">Transform your thought patterns and beliefs through powerful techniques. Replace negative programming with empowering beliefs that align with your highest self.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Positive mindset</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">New beliefs</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Mental clarity</span>
+          </div>
+        </div>
+        <!-- Service 3 -->
+        <div class="group glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 hover:-translate-y-2 reveal reveal-delay-200">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="eye" class="w-7 h-7 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-foreground mb-3">Guided Visualization</h3>
+          <p class="text-muted-foreground leading-relaxed mb-6">Harness the power of your imagination to manifest your desires. Learn advanced visualization techniques used by successful people worldwide.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Goal clarity</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Manifestation</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Creative power</span>
+          </div>
+        </div>
+        <!-- Service 4 -->
+        <div class="group glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 hover:-translate-y-2 reveal reveal-delay-300">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="scale" class="w-7 h-7 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-foreground mb-3">Universal Laws Training</h3>
+          <p class="text-muted-foreground leading-relaxed mb-6">Understand and apply the fundamental laws of the universe including the Law of Attraction, Law of Vibration, and Law of Correspondence.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Cosmic alignment</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Conscious creation</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Life mastery</span>
+          </div>
+        </div>
+        <!-- Service 5 -->
+        <div class="group glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 hover:-translate-y-2 reveal reveal-delay-400">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="zap" class="w-7 h-7 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-foreground mb-3">Energy Alignment</h3>
+          <p class="text-muted-foreground leading-relaxed mb-6">Learn to raise your vibrational frequency and align your energy with abundance. Clear blockages and open yourself to receiving unlimited blessings.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">High vibration</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Energy flow</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Abundance</span>
+          </div>
+        </div>
+        <!-- Service 6 -->
+        <div class="group glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 hover:-translate-y-2 reveal reveal-delay-500">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="waves" class="w-7 h-7 text-primary"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-foreground mb-3">Meditation Practices</h3>
+          <p class="text-muted-foreground leading-relaxed mb-6">Deep guided meditations designed to connect you with your inner wisdom, reduce stress, and activate your body's natural healing abilities.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Deep relaxation</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Spiritual growth</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">Self-awareness</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-24 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+    <div class="container mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+        <span class="text-primary font-medium tracking-wider text-sm uppercase">Success Stories</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground">
+          Lives <span class="gradient-text">Transformed</span>
+        </h2>
+        <p class="text-muted-foreground text-lg leading-relaxed">
+          Hear from our community members who have experienced profound transformations through their journey with Wealth and Wisdom.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Testimonial 1 -->
+        <div class="glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 reveal">
+          <i data-lucide="quote" class="w-10 h-10 text-primary/30 mb-4"></i>
+          <p class="text-foreground/90 leading-relaxed mb-6">"Joining Wealth and Wisdom was the best decision of my life. Priya Mam's Ho'oponopono sessions helped me heal from years of emotional trauma. My business has grown 3x since I started practicing these techniques."</p>
+          <div class="flex gap-1 mb-4 text-primary">
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-semibold">A</div>
+            <div>
+              <div class="font-semibold text-foreground">Ananya Sharma</div>
+              <div class="text-sm text-muted-foreground">Entrepreneur</div>
+            </div>
+          </div>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 reveal reveal-delay-100">
+          <i data-lucide="quote" class="w-10 h-10 text-primary/30 mb-4"></i>
+          <p class="text-foreground/90 leading-relaxed mb-6">"I was skeptical at first, but the meditation and visualization techniques truly work. I manifested my dream job within 3 months of consistent practice. The community support is incredible."</p>
+          <div class="flex gap-1 mb-4 text-primary">
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-semibold">R</div>
+            <div>
+              <div class="font-semibold text-foreground">Rajesh Kumar</div>
+              <div class="text-sm text-muted-foreground">IT Professional</div>
+            </div>
+          </div>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="glass rounded-2xl p-8 transition-all duration-500 hover:bg-primary/5 reveal reveal-delay-200">
+          <i data-lucide="quote" class="w-10 h-10 text-primary/30 mb-4"></i>
+          <p class="text-foreground/90 leading-relaxed mb-6">"Priya Mam's teachings on universal laws transformed my perspective on life. I've found inner peace that I never knew was possible. My relationships have improved dramatically."</p>
+          <div class="flex gap-1 mb-4 text-primary">
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-semibold">M</div>
+            <div>
+              <div class="font-semibold text-foreground">Meera Patel</div>
+              <div class="text-sm text-muted-foreground">Homemaker</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Section -->
+  <section id="community" class="py-24 relative overflow-hidden cosmic-bg">
+    <div class="absolute inset-0 stars opacity-50"></div>
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-left">
+          <span class="text-primary font-medium tracking-wider text-sm uppercase">Join Our Community</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground leading-tight">
+            Transform Together in Our <span class="gradient-text">Sacred Space</span>
+          </h2>
+          <p class="text-muted-foreground text-lg leading-relaxed mb-8">
+            Become part of a powerful community of like-minded individuals committed to personal growth, spiritual awakening, and creating abundant lives. Together, we rise.
+          </p>
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-4 h-4 text-primary"></i></div>
+              <span class="text-foreground/90">Daily live healing sessions with Priya Mam</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-4 h-4 text-primary"></i></div>
+              <span class="text-foreground/90">Exclusive meditation recordings & guides</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-4 h-4 text-primary"></i></div>
+              <span class="text-foreground/90">Private WhatsApp/Instagram community access</span>
+            </li>
+          </ul>
+          <a href="#contact" class="inline-flex items-center justify-center whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-6 text-lg font-semibold animate-glow group">
+            Join Wealth and Wisdom
+            <i data-lucide="arrow-right" class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </div>
+        
+        <div class="reveal-right">
+          <div class="grid grid-cols-2 gap-4">
+            <a href="https://chat.whatsapp.com/HLZ6YHOnhKTE3qbqvi1ywQ" target="_blank" class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 group">
+              <div class="w-12 h-12 rounded-xl bg-green-500/10 text-green-400 border border-green-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i data-lucide="message-circle" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-semibold text-foreground mb-1">WhatsApp Community</h3>
+              <p class="text-sm text-muted-foreground">Connect with us</p>
+            </a>
+            <a href="https://www.instagram.com/wealth_and_wisdom_priya.m?igsh=aTJ3Y2dnbzhicGR1" target="_blank" class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 group">
+              <div class="w-12 h-12 rounded-xl bg-pink-500/10 text-pink-400 border border-pink-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i data-lucide="instagram" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-semibold text-foreground mb-1">Instagram Page</h3>
+              <p class="text-sm text-muted-foreground">Connect with us</p>
+            </a>
+            <a href="https://youtube.com/@wealthandwisdom777?si=Yk1wOoj9zURosFXw" target="_blank" class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 group">
+              <div class="w-12 h-12 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i data-lucide="video" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-semibold text-foreground mb-1">YouTube Channel</h3>
+              <p class="text-sm text-muted-foreground">Connect with us</p>
+            </a>
+          </div>
+          <div class="mt-6 glass rounded-2xl p-8 text-center relative overflow-hidden">
+            <div class="absolute inset-0 animate-shimmer"></div>
+            <i data-lucide="users" class="w-10 h-10 text-primary mx-auto mb-4 relative z-10"></i>
+            <div class="text-4xl font-bold gradient-text mb-2 relative z-10">10,000+</div>
+            <p class="text-muted-foreground relative z-10">Active community members growing every day</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+    <div class="container mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+        <span class="text-primary font-medium tracking-wider text-sm uppercase">Get In Touch</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground">
+          Start Your <span class="gradient-text">Transformation Today</span>
+        </h2>
+        <p class="text-muted-foreground text-lg leading-relaxed">
+          Ready to begin your journey towards healing and abundance? Reach out to us and take the first step towards your new life.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div class="reveal-left">
+          <div class="glass rounded-2xl p-8">
+            <form onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();" class="space-y-6">
+              <div>
+                <label for="name" class="block text-sm font-medium text-foreground mb-2">Your Name</label>
+                <input type="text" id="name" required class="w-full px-4 py-3 rounded-xl bg-input border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" placeholder="Enter your full name">
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-foreground mb-2">Email Address</label>
+                <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl bg-input border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" placeholder="Enter your email">
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-medium text-foreground mb-2">Phone Number</label>
+                <input type="tel" id="phone" class="w-full px-4 py-3 rounded-xl bg-input border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" placeholder="Enter your phone number">
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-medium text-foreground mb-2">Your Message</label>
+                <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-xl bg-input border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none" placeholder="Tell us about your goals and how we can help..."></textarea>
+              </div>
+              <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl py-6 text-lg font-semibold animate-glow transition-colors">
+                <i data-lucide="send" class="w-5 h-5"></i>
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <div class="reveal-right space-y-6">
+          <a href="mailto:contact@wealthandwisdom.com" class="glass rounded-2xl p-6 flex items-center gap-6 transition-all duration-300 hover:bg-primary/5 hover:-translate-y-1 group">
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+              <i data-lucide="mail" class="w-6 h-6 text-primary"></i>
+            </div>
+            <div>
+              <div class="text-sm text-muted-foreground mb-1">Email Us</div>
+              <div class="text-foreground font-medium">contact@wealthandwisdom.com</div>
+            </div>
+          </a>
+          <a href="tel:+918341221046" class="glass rounded-2xl p-6 flex items-center gap-6 transition-all duration-300 hover:bg-primary/5 hover:-translate-y-1 group">
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+              <i data-lucide="phone" class="w-6 h-6 text-primary"></i>
+            </div>
+            <div>
+              <div class="text-sm text-muted-foreground mb-1">Call Us</div>
+              <div class="text-foreground font-medium">+91 83412 21046</div>
+            </div>
+          </a>
+          <div class="glass rounded-2xl p-6 flex items-center gap-6 transition-all duration-300 hover:bg-primary/5 hover:-translate-y-1 group">
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+              <i data-lucide="map-pin" class="w-6 h-6 text-primary"></i>
+            </div>
+            <div>
+              <div class="text-sm text-muted-foreground mb-1">Location</div>
+              <div class="text-foreground font-medium">India (Online Worldwide)</div>
+            </div>
+          </div>
+          <div class="mt-8 glass rounded-2xl p-8 text-center relative overflow-hidden">
+            <div class="absolute inset-0 animate-shimmer"></div>
+            <i data-lucide="sparkles" class="w-10 h-10 text-primary mx-auto mb-4 relative z-10"></i>
+            <h3 class="text-xl font-semibold text-foreground mb-2 relative z-10">"I love you. I'm sorry. Please forgive me. Thank you."</h3>
+            <p class="text-muted-foreground text-sm relative z-10">— The Four Phrases of Ho'oponopono</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative overflow-hidden cosmic-bg border-t border-border">
+    <div class="absolute inset-0 stars opacity-30"></div>
+    <div class="container mx-auto px-6 py-16 relative z-10">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="lg:col-span-1">
+          <a href="#" class="flex items-center gap-2 mb-6">
+            <div class="relative">
+              <i data-lucide="sparkles" class="w-8 h-8 text-primary"></i>
+              <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full"></div>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xl font-bold gradient-text tracking-wide">Wealth & Wisdom</span>
+              <span class="text-xs text-muted-foreground font-light tracking-widest">by Priya Mam</span>
+            </div>
+          </a>
+          <p class="text-muted-foreground leading-relaxed mb-6">
+            Healing Minds, Creating Abundance. Join us on a transformative journey towards spiritual awakening and unlimited possibilities.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://www.instagram.com/wealth_and_wisdom_priya.m?igsh=aTJ3Y2dnbzhicGR1" target="_blank" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-primary/20 transition-colors">
+              <i data-lucide="instagram" class="w-5 h-5 text-muted-foreground hover:text-primary transition-colors"></i>
+            </a>
+            <a href="https://youtube.com/@wealthandwisdom777?si=Yk1wOoj9zURosFXw" target="_blank" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-primary/20 transition-colors">
+              <i data-lucide="youtube" class="w-5 h-5 text-muted-foreground hover:text-primary transition-colors"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-foreground mb-6">Quick Links</h3>
+          <ul class="space-y-3">
+            <li><a href="#about" class="text-muted-foreground hover:text-primary transition-colors">About</a></li>
+            <li><a href="#services" class="text-muted-foreground hover:text-primary transition-colors">Services</a></li>
+            <li><a href="#testimonials" class="text-muted-foreground hover:text-primary transition-colors">Testimonials</a></li>
+            <li><a href="#community" class="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
+            <li><a href="#contact" class="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-foreground mb-6">Our Services</h3>
+          <ul class="space-y-3">
+            <li><span class="text-muted-foreground">Ho'oponopono Healing</span></li>
+            <li><span class="text-muted-foreground">Guided Meditation</span></li>
+            <li><span class="text-muted-foreground">Mind Reprogramming</span></li>
+            <li><span class="text-muted-foreground">Universal Laws</span></li>
+            <li><span class="text-muted-foreground">Energy Alignment</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-foreground mb-6">Stay Connected</h3>
+          <p class="text-muted-foreground mb-4">Subscribe to receive healing insights and updates.</p>
+          <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!'); this.reset();" class="space-y-3">
+            <input type="email" required placeholder="Enter your email" class="w-full px-4 py-3 rounded-xl bg-input border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground">
+            <button type="submit" class="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl py-3 font-semibold transition-colors">Subscribe</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-muted-foreground text-sm text-center md:text-left">
+          © <script>document.write(new Date().getFullYear())</script> Wealth and Wisdom by Priya Mam. All rights reserved.
+        </p>
+        <p class="text-muted-foreground text-sm flex items-center gap-1">
+          Made with <i data-lucide="heart" class="w-4 h-4 text-red-500 fill-red-500"></i> for spiritual seekers worldwide
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+    
+    // Navigation scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('glass', 'py-3');
+        nav.classList.remove('bg-transparent', 'py-5');
+      } else {
+        nav.classList.add('bg-transparent', 'py-5');
+        nav.classList.remove('glass', 'py-3');
+      }
+    });
+
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const menuIcon = document.getElementById('menu-icon');
+    
+    function toggleMenu() {
+      const isHidden = mobileMenu.classList.contains('opacity-0');
+      if(isHidden) {
+        mobileMenu.classList.remove('opacity-0', 'invisible');
+        mobileMenu.classList.add('opacity-100', 'visible');
+        menuIcon.setAttribute('data-lucide', 'x');
+      } else {
+        mobileMenu.classList.add('opacity-0', 'invisible');
+        mobileMenu.classList.remove('opacity-100', 'visible');
+        menuIcon.setAttribute('data-lucide', 'menu');
+      }
+      lucide.createIcons();
+    }
+    
+    mobileBtn.addEventListener('click', toggleMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    
+    // Scroll reveal animation
+    const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const revealOnScroll = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('active');
+          // Optional: stop observing once revealed
+          // revealOnScroll.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    reveals.forEach(reveal => revealOnScroll.observe(reveal));
+  </script>
+</body>
+</html>
