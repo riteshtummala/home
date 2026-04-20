@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -111,16 +111,17 @@
       if (event === 'SIGNED_IN' && session) {
         const profile = await getUserRole(session.user.id);
         const intendedRole = localStorage.getItem('intended_role') || 'customer';
+        console.log('[Eterno] Signed in. Role:', profile.role, '| Intended:', intendedRole);
 
         if (profile.role === 'admin') {
           showToast('Welcome back, Admin! 🎉', 'success');
-          setTimeout(() => { window.location.href = 'https://www.knowyourproducts.in/eternofashion-admin.html'; }, 1200);
+          setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-admin.html`; }, 1200);
         } else if (intendedRole === 'admin' && profile.role !== 'admin') {
-          showToast('⚠️ You are not registered as an admin.', 'error');
-          setTimeout(() => { window.location.href = 'https://www.knowyourproducts.in/eternofashion-shop.html'; }, 2200);
+          showToast('⚠️ Your account is not set as admin. Contact support.', 'error');
+          setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-shop.html`; }, 2500);
         } else {
-          showToast('Welcome to Eterno Fashion! 🛍️', 'success');
-          setTimeout(() => { window.location.href = 'https://www.knowyourproducts.in/eternofashion-shop.html'; }, 1200);
+          showToast('Welcome to Eterno Fashion! 🛒', 'success');
+          setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-shop.html`; }, 1200);
         }
       }
     });
@@ -130,10 +131,11 @@
       const { data: { session } } = await db.auth.getSession();
       if (session) {
         const profile = await getUserRole(session.user.id);
+        console.log('[Eterno] Existing session. Role:', profile.role);
         if (profile.role === 'admin') {
-          window.location.href = 'https://www.knowyourproducts.in/eternofashion-admin.html';
+          window.location.href = `${SITE_BASE}/eternofashion-admin.html`;
         } else {
-          window.location.href = 'https://www.knowyourproducts.in/eternofashion-shop.html';
+          window.location.href = `${SITE_BASE}/eternofashion-shop.html`;
         }
       }
     })();
