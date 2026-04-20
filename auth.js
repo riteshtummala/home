@@ -75,15 +75,37 @@ async function getUserRole(userId) {
 }
 
 // --- Sign in with Google OAuth ---
-async function signInWithGoogle(role = 'customer') {
+// context: 'signin' | 'signup' | 'admin'
+async function signInWithGoogle(context = 'signin') {
+  const role = context === 'admin' ? 'admin' : 'customer';
   localStorage.setItem('intended_role', role);
-  // Always redirect back to login page on current host
+  localStorage.setItem('oauth_context', context);
   const redirectTo = `${SITE_BASE}/eternofashion-login.html`;
   const { error } = await db.auth.signInWithOAuth({
     provider: 'google',
     options: { redirectTo }
   });
   if (error) showToast('Sign in failed: ' + error.message, 'error');
+}
+
+// --- Sign up with Email + Password ---
+async function signUpWithEmail({ email, password, firstName, lastName }) {
+  const fullName = [firstName, lastName].filter(Boolean).join(' ');
+  const { data, error } = await db.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { full_name: fullName, avatar_url: '' },
+      emailRedirectTo: `${SITE_BASE}/eternofashion-login.html`
+    }
+  });
+  return { data, error };
+}
+
+// --- Sign in with Email + Password ---
+async function signInWithEmail({ email, password }) {
+  const { data, error } = await db.auth.signInWithPassword({ email, password });
+  return { data, error };
 }
 
 // --- Sign Out ---

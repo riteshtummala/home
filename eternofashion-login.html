@@ -1,493 +1,1518 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In — Eterno Fashion</title>
-  <meta name="description" content="Sign in to your Eterno Fashion account. Shop sustainable thrift fashion or manage your store.">
-  <link rel="canonical" href="https://www.knowyourproducts.in/eternofashion-login.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In / Sign Up — Eterno Fashion</title>
+  <meta name="description" content="Sign in or create your Eterno Fashion account to shop sustainable thrift fashion or manage your store." />
+  <link rel="canonical" href="https://www.knowyourproducts.in/eternofashion-login.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <style>
-    /* ── Login page extras ── */
-    .login-divider {
+    /* ─── Reset & tokens ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:        #D4A853;
+      --gold-light:  #f0c96b;
+      --gold-dark:   #a07820;
+      --bg:          #0b0a09;
+      --surface:     #131210;
+      --card:        rgba(20,18,14,0.82);
+      --border:      rgba(212,168,83,0.18);
+      --border-dim:  rgba(255,255,255,0.07);
+      --text:        #f0ece4;
+      --text-muted:  #8a8070;
+      --red:         #f87171;
+      --red-bg:      rgba(239,68,68,0.08);
+      --red-border:  rgba(239,68,68,0.28);
+      --green:       #4ade80;
+      --font-head:   'Space Grotesk', sans-serif;
+      --font-body:   'Inter', sans-serif;
+      --ease:        cubic-bezier(0.34,1.56,0.64,1);
+      --ease-out:    cubic-bezier(0.22,1,0.36,1);
+      --transition:  0.22s ease;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Page layout ─── */
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ─── LEFT BRAND PANEL ─── */
+    .brand-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 48px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #0e0b06 0%, #1a1308 50%, #0e0b06 100%);
+    }
+    .brand-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 30%, rgba(212,168,83,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(160,120,32,0.08) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .brand-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(212,168,83,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,168,83,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* floating orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+    .orb-1 { width:280px;height:280px;background:rgba(212,168,83,0.1);top:-80px;right:-80px;animation-delay:0s; }
+    .orb-2 { width:200px;height:200px;background:rgba(160,80,20,0.12);bottom:-60px;left:-60px;animation-delay:-3s; }
+    .orb-3 { width:160px;height:160px;background:rgba(212,168,83,0.06);top:50%;left:10%;transform:translateY(-50%);animation-delay:-5s; }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(12px,20px) scale(1.08); }
+    }
+
+    .brand-content { position: relative; z-index: 1; text-align: center; }
+
+    .brand-logo {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin-bottom: 40px;
+      text-decoration: none;
+    }
+    .brand-logo-e {
+      font-family: var(--font-head);
+      font-size: 3.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .brand-logo-sub {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .brand-tagline {
+      font-family: var(--font-head);
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+    .brand-tagline span {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .brand-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 320px;
+      margin: 0 auto 40px;
+    }
+
+    /* feature pills */
+    .brand-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      background: rgba(212,168,83,0.07);
+      border: 1px solid rgba(212,168,83,0.15);
+      border-radius: 40px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      transition: background var(--transition), color var(--transition);
+    }
+    .pill:hover { background: rgba(212,168,83,0.13); color: var(--text); }
+    .pill-icon { font-size: 0.95rem; }
+
+    /* ─── RIGHT FORM PANEL ─── */
+    .form-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 40px;
+      background: var(--surface);
+      position: relative;
+      overflow-y: auto;
+    }
+    .form-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 420px;
+      animation: slideUp 0.5s var(--ease-out) both;
+    }
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ─── Form head ─── */
+    .form-head {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .form-head h1 {
+      font-family: var(--font-head);
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .form-head p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── THREE-TAB Toggle ─── */
+    .tab-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-dim);
+      border-radius: 16px;
+      padding: 4px;
+      margin-bottom: 28px;
+      gap: 3px;
+    }
+    .tab-btn {
+      padding: 10px 8px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(212,168,83,0.22), rgba(160,120,32,0.1));
+      color: var(--gold);
+      border: 1px solid rgba(212,168,83,0.3);
+      box-shadow: 0 2px 12px rgba(212,168,83,0.1);
+    }
+    .tab-btn:not(.active):hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+    /* ─── Panels ─── */
+    .panel { display: none; }
+    .panel.active {
+      display: block;
+      animation: fadePanel 0.28s ease both;
+    }
+    @keyframes fadePanel {
+      from { opacity:0; transform:translateY(8px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ─── Google Button ─── */
+    .google-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 13px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition), transform 0.15s, box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .google-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .google-btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.22); transform:translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+    .google-btn:hover:not(:disabled)::after { opacity: 1; }
+    .google-btn:active:not(:disabled) { transform:translateY(0); }
+    .google-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
+    .google-icon { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ─── Divider ─── */
+    .divider {
       display: flex;
       align-items: center;
       gap: 12px;
       margin: 18px 0;
       color: var(--text-muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
-    .login-divider::before,
-    .login-divider::after {
+    .divider::before, .divider::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(255,255,255,0.1);
+      background: var(--border-dim);
     }
 
-    /* Input group */
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    /* ─── Input fields ─── */
+    .field-wrap {
+      position: relative;
+      margin-bottom: 13px;
+    }
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       margin-bottom: 6px;
     }
-    .input-field-wrap {
-      position: relative;
-    }
-    .input-field-wrap .field-icon {
+    .field-icon {
       position: absolute;
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1rem;
+      font-size: 0.9rem;
       pointer-events: none;
-      opacity: 0.55;
+      line-height: 1;
     }
-    .input-field-wrap input {
+    .field-wrap input {
       width: 100%;
-      padding: 13px 14px 13px 40px;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(255,255,255,0.1);
+      padding: 12px 14px 12px 40px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border-dim);
       border-radius: 12px;
-      color: var(--text-primary);
+      color: var(--text);
       font-family: var(--font-body);
       font-size: 0.9rem;
       outline: none;
-      box-sizing: border-box;
-      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
     }
-    .input-field-wrap input::placeholder { color: var(--text-muted); }
-    .input-field-wrap input:focus {
+    .field-wrap input::placeholder { color: var(--text-muted); }
+    .field-wrap input:focus {
       border-color: var(--gold);
-      background: rgba(212,168,83,0.06);
-      box-shadow: 0 0 0 3px rgba(212,168,83,0.12);
+      background: rgba(212,168,83,0.05);
+      box-shadow: 0 0 0 3px rgba(212,168,83,0.1);
     }
-    /* Eye toggle for password */
-    .eye-toggle {
+    .field-wrap input.error-field { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+    .eye-btn {
       position: absolute;
-      right: 13px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
       cursor: pointer;
       color: var(--text-muted);
-      font-size: 1rem;
-      padding: 4px;
-      transition: color 0.2s;
+      font-size: 0.9rem;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: color var(--transition), background var(--transition);
+      line-height: 1;
     }
-    .eye-toggle:hover { color: var(--gold); }
+    .eye-btn:hover { color: var(--gold); background: rgba(212,168,83,0.08); }
 
-    /* Submit button */
-    .admin-signin-btn {
+    /* ─── Name row (two fields side by side) ─── */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ─── Password strength ─── */
+    .pw-strength {
+      margin-top: 6px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .pw-bar {
+      height: 3px;
+      flex: 1;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    .pw-bar.weak   { background: #f87171; }
+    .pw-bar.fair   { background: #fb923c; }
+    .pw-bar.strong { background: var(--green); }
+    .pw-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      min-width: 44px;
+      text-align: right;
+    }
+
+    /* ─── Checkbox ─── */
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 12px 0 16px;
+    }
+    .check-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .check-row label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      cursor: pointer;
+    }
+    .check-row label a { color: var(--gold); text-decoration: none; }
+    .check-row label a:hover { text-decoration: underline; }
+
+    /* ─── Error / Success banners ─── */
+    .err-box, .ok-box {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+      animation: shake 0.35s ease;
+    }
+    .err-box { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); }
+    .ok-box  { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: var(--green); animation: none; }
+    .err-box.show, .ok-box.show { display: flex; }
+    @keyframes shake {
+      0%,100%{ transform:translateX(0); }
+      20%{ transform:translateX(-6px); }
+      40%{ transform:translateX(6px); }
+      60%{ transform:translateX(-4px); }
+      80%{ transform:translateX(4px); }
+    }
+
+    /* ─── Row: forgot link ─── */
+    .form-row-between {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 14px;
+    }
+    .forgot-link {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color var(--transition);
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      padding: 0;
+    }
+    .forgot-link:hover { color: var(--gold); }
+
+    /* ─── Primary submit button ─── */
+    .submit-btn {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, var(--gold) 0%, #b8890f 100%);
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, var(--gold-dark) 100%);
       border: none;
       border-radius: 14px;
-      color: #1a1200;
-      font-family: var(--font-body);
+      color: #160f00;
+      font-family: var(--font-head);
       font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
-      letter-spacing: 0.04em;
-      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      letter-spacing: 0.03em;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 4px;
+      transition: transform 0.15s, box-shadow var(--transition), opacity var(--transition);
+      position: relative;
+      overflow: hidden;
     }
-    .admin-signin-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(212,168,83,0.38);
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
     }
-    .admin-signin-btn:active:not(:disabled) { transform: translateY(0); }
-    .admin-signin-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .submit-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow: 0 10px 30px rgba(212,168,83,0.4); }
+    .submit-btn:hover:not(:disabled)::after { opacity: 1; }
+    .submit-btn:active:not(:disabled) { transform:translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    /* Error message */
-    .form-error {
+    /* btn spinner */
+    .btn-spin {
       display: none;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239,68,68,0.35);
-      border-radius: 10px;
-      padding: 11px 14px;
-      font-size: 0.83rem;
-      color: #f87171;
-      margin-top: 6px;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(22,15,0,0.3);
+      border-top-color: #160f00;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+    }
+    .btn-spin.on { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── OAuth loading overlay ─── */
+    .oauth-loading {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 20px;
       text-align: center;
-      animation: fadeIn 0.25s ease;
     }
-    .form-error.visible { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+    .oauth-loading.show { display: flex; }
+    .oauth-spinner {
+      width: 32px; height: 32px;
+      border: 3px solid rgba(212,168,83,0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .oauth-loading p { font-size: 0.84rem; color: var(--text-muted); }
 
-    /* Forgot password */
-    .forgot-link {
-      display: inline-block;
-      font-size: 0.8rem;
+    /* ─── Footer / switch links ─── */
+    .form-footer {
+      text-align: center;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      text-decoration: none;
-      margin-top: 8px;
-      transition: color 0.2s;
-      cursor: pointer;
+      margin-top: 20px;
+      line-height: 1.7;
     }
-    .forgot-link:hover { color: var(--gold); }
+    .form-footer a { color: var(--gold); text-decoration: none; cursor: pointer; }
+    .form-footer a:hover { text-decoration: underline; }
+    .switch-link {
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+    .switch-link:hover { opacity: 0.8; }
 
-    /* Admin badge */
+    /* ─── Admin badge ─── */
     .admin-badge {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 4px 10px;
-      background: rgba(212,168,83,0.12);
-      border: 1px solid rgba(212,168,83,0.35);
+      padding: 4px 12px;
+      background: rgba(212,168,83,0.1);
+      border: 1px solid rgba(212,168,83,0.28);
       border-radius: 20px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       color: var(--gold);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
-    /* Panel animations */
-    .auth-panel {
-      animation: panelIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    /* ─── Back link ─── */
+    .back-link {
+      position: fixed;
+      top: 22px;
+      left: 28px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: color var(--transition);
+      background: rgba(11,10,9,0.7);
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-dim);
+      backdrop-filter: blur(8px);
     }
-    @keyframes panelIn {
-      from { opacity: 0; transform: scale(0.97) translateY(8px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
+    .back-link:hover { color: var(--gold); border-color: rgba(212,168,83,0.25); }
+
+    /* ─── Toast ─── */
+    #toastWrap {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: toastIn 0.35s var(--ease) both;
+      max-width: 320px;
+    }
+    .toast-item.success { background:#1a2e1a; border:1px solid rgba(74,222,128,0.3); color:#4ade80; }
+    .toast-item.error   { background:#2e1a1a; border:1px solid rgba(239,68,68,0.3);  color:#f87171; }
+    .toast-item.info    { background:#1a1e2e; border:1px solid rgba(96,165,250,0.3); color:#93c5fd; }
+    @keyframes toastIn {
+      from{ opacity:0; transform:translateX(20px); }
+      to  { opacity:1; transform:translateX(0); }
     }
 
-    /* Spinner tweak inside button */
-    .btn-spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(26,18,0,0.3);
-      border-top-color: #1a1200;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      display: none;
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      .page { grid-template-columns: 1fr; }
+      .brand-panel { display: none; }
+      .form-panel { padding: 36px 20px; }
+      .back-link { top: 14px; left: 14px; font-size: 0.76rem; }
     }
-    .btn-spinner.visible { display: inline-block; }
-    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
   <!-- Back link -->
-  <a href="https://www.knowyourproducts.in/eternofashion-index.html"
-     style="position:fixed;top:20px;left:24px;z-index:100;display:flex;align-items:center;gap:6px;color:var(--text-muted);font-size:0.85rem;transition:var(--t) var(--ease);"
-     onmouseover="this.style.color='var(--gold)'"
-     onmouseout="this.style.color='var(--text-muted)'">
-    ← Back to Home
-  </a>
+  <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="back-link" id="backHome">← Home</a>
 
-  <div class="auth-page">
-    <div class="auth-bg-grid"></div>
+  <!-- Toast container -->
+  <div id="toastWrap"></div>
 
-    <!-- Decorative floating orbs -->
-    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,83,0.07),transparent);top:-100px;right:-100px;pointer-events:none;"></div>
-    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(139,69,19,0.09),transparent);bottom:-50px;left:-80px;pointer-events:none;"></div>
+  <div class="page">
 
-    <div class="auth-card">
-      <!-- Logo -->
-      <div class="auth-logo">
-        <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="nav-logo" style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-          <span class="logo-text">Eterno</span>
-          <span class="logo-sub">Fashion</span>
+    <!-- ═══════════ LEFT BRAND PANEL ═══════════ -->
+    <div class="brand-panel">
+      <div class="brand-grid"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <div class="brand-content">
+        <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="brand-logo">
+          <span class="brand-logo-e">Eterno</span>
+          <span class="brand-logo-sub">Fashion</span>
         </a>
-      </div>
 
-      <h1 class="auth-title">Welcome Back</h1>
-      <p class="auth-subtitle">Sign in to explore our curated collection.</p>
+        <h2 class="brand-tagline">Wear Stories,<br><span>Not Fast Fashion.</span></h2>
+        <p class="brand-desc">Curated second-hand pieces with soul. Every item has a history — give it a future.</p>
 
-      <!-- Role Toggle -->
-      <div class="role-toggle" id="roleToggle">
-        <button class="role-btn active" id="roleCustomer" onclick="selectRole('customer')">
-          🛍️ Customer
-        </button>
-        <button class="role-btn" id="roleAdmin" onclick="selectRole('admin')">
-          ⚙️ Admin
-        </button>
-      </div>
-
-      <!-- ════════════════════════════════════
-           CUSTOMER PANEL
-      ════════════════════════════════════ -->
-      <div id="customerPanel" class="auth-panel">
-        <!-- Google Sign In -->
-        <button class="google-btn" id="googleSignInBtnCustomer" onclick="handleGoogleSignIn('customer')">
-          <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          Continue with Google
-        </button>
-
-        <!-- Loading state (customer) -->
-        <div id="loadingCustomer" style="display:none;text-align:center;padding:20px;">
-          <div class="spinner" style="margin:0 auto 12px;"></div>
-          <p style="font-size:0.88rem;color:var(--text-muted);">Redirecting to Google...</p>
+        <div class="brand-pills">
+          <div class="pill"><span class="pill-icon">♻️</span> 100% Sustainable Thrift</div>
+          <div class="pill"><span class="pill-icon">✨</span> Curated &amp; Quality Checked</div>
+          <div class="pill"><span class="pill-icon">🔒</span> Secure Checkout</div>
+          <div class="pill"><span class="pill-icon">🚀</span> Fast Delivery</div>
         </div>
       </div>
-
-      <!-- ════════════════════════════════════
-           ADMIN PANEL
-      ════════════════════════════════════ -->
-      <div id="adminPanel" class="auth-panel" style="display:none;">
-        <div style="text-align:center;margin-bottom:6px;">
-          <span class="admin-badge">🔐 Admin Access</span>
-        </div>
-
-        <!-- Username / Password Form -->
-        <div class="input-group">
-
-          <div class="input-field-wrap">
-            <span class="field-icon">👤</span>
-            <input
-              type="email"
-              id="adminEmail"
-              placeholder="Admin email address"
-              autocomplete="username"
-              inputmode="email"
-            />
-          </div>
-
-          <div class="input-field-wrap">
-            <span class="field-icon">🔒</span>
-            <input
-              type="password"
-              id="adminPassword"
-              placeholder="Password"
-              autocomplete="current-password"
-            />
-            <button class="eye-toggle" type="button" onclick="togglePasswordVisibility()" id="eyeBtn" title="Show/hide password">👁️</button>
-          </div>
-
-        </div>
-
-        <div id="adminFormError" class="form-error">Incorrect email or password. Please try again.</div>
-
-        <div style="text-align:right;">
-          <span class="forgot-link" onclick="handleForgotPassword()">Forgot password?</span>
-        </div>
-
-        <button class="admin-signin-btn" id="adminSignInBtn" onclick="handleAdminPasswordSignIn()">
-          <span class="btn-spinner" id="adminBtnSpinner"></span>
-          <span id="adminBtnText">Sign In as Admin</span>
-        </button>
-
-        <!-- Divider -->
-        <div class="login-divider">or continue with</div>
-
-        <!-- Google Sign In for Admin -->
-        <button class="google-btn" id="googleSignInBtnAdmin" onclick="handleGoogleSignIn('admin')">
-          <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          Sign in with Google (Admin)
-        </button>
-
-        <!-- Loading state (admin google) -->
-        <div id="loadingAdmin" style="display:none;text-align:center;padding:20px;">
-          <div class="spinner" style="margin:0 auto 12px;"></div>
-          <p style="font-size:0.88rem;color:var(--text-muted);">Redirecting to Google...</p>
-        </div>
-
-        <p style="font-size:0.76rem;color:var(--text-muted);text-align:center;margin-top:14px;line-height:1.5;">
-          Your account must have <code style="color:var(--gold);background:rgba(212,168,83,0.1);padding:2px 6px;border-radius:4px;">role = admin</code> in the database to access the admin panel.
-        </p>
-      </div>
-
-      <!-- Common footer note -->
-      <p class="auth-note" style="margin-top:18px;">
-        By signing in, you agree to our terms of service.<br>
-        <a href="https://www.knowyourproducts.in/eternofashion-shop.html" style="color:var(--gold);">Browse shop without signing in →</a>
-      </p>
     </div>
-  </div>
 
-  <!-- SCRIPTS -->
+    <!-- ═══════════ RIGHT FORM PANEL ═══════════ -->
+    <div class="form-panel">
+      <div class="form-box">
+
+        <div class="form-head" id="formHead">
+          <h1 id="formTitle">Welcome back 👋</h1>
+          <p id="formSubtitle">Sign in to continue your sustainable journey.</p>
+        </div>
+
+        <!-- THREE-TAB Toggle -->
+        <div class="tab-toggle" role="tablist" aria-label="Authentication mode">
+          <button class="tab-btn active" id="tabSignIn"  onclick="switchTab('signin')"  role="tab" aria-selected="true">🔓 Sign In</button>
+          <button class="tab-btn"        id="tabSignUp"  onclick="switchTab('signup')"  role="tab" aria-selected="false">✨ Sign Up</button>
+          <button class="tab-btn"        id="tabAdmin"   onclick="switchTab('admin')"   role="tab" aria-selected="false">⚙️ Admin</button>
+        </div>
+
+
+        <!-- ════════════════════════════════════
+             SIGN IN PANEL
+        ════════════════════════════════════ -->
+        <div id="panelSignin" class="panel active" role="tabpanel">
+
+          <!-- Error / Success -->
+          <div class="err-box" id="signinErr">
+            <span>⚠️</span>
+            <span id="signinErrMsg">Incorrect email or password.</span>
+          </div>
+          <div class="ok-box" id="signinOk">
+            <span>✓</span>
+            <span id="signinOkMsg">Signed in!</span>
+          </div>
+
+          <!-- Google Sign In -->
+          <div id="signinGoogleWrap">
+            <button class="google-btn" id="btnGoogleSignin" onclick="doGoogleOAuth('signin')">
+              <svg class="google-icon" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              Continue with Google
+            </button>
+          </div>
+          <div id="signinOAuthLoading" class="oauth-loading">
+            <div class="oauth-spinner"></div>
+            <p>Connecting to Google…</p>
+          </div>
+
+          <div class="divider">or sign in with email</div>
+
+          <!-- Email -->
+          <div class="field-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" id="signinEmail" placeholder="Email address"
+              autocomplete="email" inputmode="email" oninput="clearSigninError()" />
+          </div>
+
+          <!-- Password -->
+          <div class="field-wrap">
+            <span class="field-icon">🔑</span>
+            <input type="password" id="signinPass" placeholder="Password"
+              autocomplete="current-password" oninput="clearSigninError()" />
+            <button class="eye-btn" type="button" onclick="toggleEye('signinPass', this)" title="Show/hide password">👁</button>
+          </div>
+
+          <!-- Forgot password -->
+          <div class="form-row-between">
+            <button class="forgot-link" type="button" onclick="doForgotPassword('signinEmail')">Forgot password?</button>
+          </div>
+
+          <!-- Submit -->
+          <button class="submit-btn" id="signinBtn" onclick="doSignIn()">
+            <span class="btn-spin" id="signinSpin"></span>
+            <span id="signinBtnLabel">Sign In</span>
+          </button>
+
+          <p class="form-footer" style="margin-top:18px;">
+            Don't have an account?
+            <button class="switch-link" onclick="switchTab('signup')">Create one free →</button>
+          </p>
+          <p class="form-footer">
+            <a href="https://www.knowyourproducts.in/eternofashion-shop.html">Browse without signing in →</a>
+          </p>
+        </div>
+
+
+        <!-- ════════════════════════════════════
+             SIGN UP PANEL
+        ════════════════════════════════════ -->
+        <div id="panelSignup" class="panel" role="tabpanel">
+
+          <!-- Error / Success -->
+          <div class="err-box" id="signupErr">
+            <span>⚠️</span>
+            <span id="signupErrMsg">Something went wrong.</span>
+          </div>
+          <div class="ok-box" id="signupOk">
+            <span>✓</span>
+            <span id="signupOkMsg">Account created!</span>
+          </div>
+
+          <!-- Google Sign Up -->
+          <div id="signupGoogleWrap">
+            <button class="google-btn" id="btnGoogleSignup" onclick="doGoogleOAuth('signup')">
+              <svg class="google-icon" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              Sign up with Google
+            </button>
+          </div>
+          <div id="signupOAuthLoading" class="oauth-loading">
+            <div class="oauth-spinner"></div>
+            <p>Connecting to Google…</p>
+          </div>
+
+          <div class="divider">or create with email</div>
+
+          <!-- Full name row -->
+          <div class="field-row">
+            <div class="field-wrap">
+              <span class="field-icon">👤</span>
+              <input type="text" id="signupFirst" placeholder="First name"
+                autocomplete="given-name" oninput="clearSignupError()" />
+            </div>
+            <div class="field-wrap">
+              <span class="field-icon">👤</span>
+              <input type="text" id="signupLast" placeholder="Last name"
+                autocomplete="family-name" oninput="clearSignupError()" />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="field-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" id="signupEmail" placeholder="Email address"
+              autocomplete="email" inputmode="email" oninput="clearSignupError()" />
+          </div>
+
+          <!-- Password -->
+          <div class="field-wrap">
+            <span class="field-icon">🔑</span>
+            <input type="password" id="signupPass" placeholder="Create password (min. 8 chars)"
+              autocomplete="new-password" oninput="onSignupPassInput()" />
+            <button class="eye-btn" type="button" onclick="toggleEye('signupPass', this)" title="Show/hide password">👁</button>
+          </div>
+          <!-- Password strength meter -->
+          <div class="pw-strength">
+            <div class="pw-bar" id="pwBar1"></div>
+            <div class="pw-bar" id="pwBar2"></div>
+            <div class="pw-bar" id="pwBar3"></div>
+            <span class="pw-label" id="pwLabel"></span>
+          </div>
+
+          <!-- Confirm password -->
+          <div class="field-wrap" style="margin-top:10px;">
+            <span class="field-icon">🔒</span>
+            <input type="password" id="signupConfirm" placeholder="Confirm password"
+              autocomplete="new-password" oninput="clearSignupError()" />
+            <button class="eye-btn" type="button" onclick="toggleEye('signupConfirm', this)" title="Show/hide password">👁</button>
+          </div>
+
+          <!-- Terms checkbox -->
+          <div class="check-row">
+            <input type="checkbox" id="agreeTerms" />
+            <label for="agreeTerms">
+              I agree to the <a href="#" onclick="return false;">Terms of Service</a> and
+              <a href="#" onclick="return false;">Privacy Policy</a>
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button class="submit-btn" id="signupBtn" onclick="doSignUp()">
+            <span class="btn-spin" id="signupSpin"></span>
+            <span id="signupBtnLabel">Create Account</span>
+          </button>
+
+          <p class="form-footer" style="margin-top:18px;">
+            Already have an account?
+            <button class="switch-link" onclick="switchTab('signin')">Sign in instead →</button>
+          </p>
+        </div>
+
+
+        <!-- ════════════════════════════════════
+             ADMIN PANEL
+        ════════════════════════════════════ -->
+        <div id="panelAdmin" class="panel" role="tabpanel">
+          <div style="text-align:center;margin-bottom:16px;">
+            <span class="admin-badge">🔐 Admin Portal</span>
+          </div>
+
+          <!-- Error / Success -->
+          <div class="err-box" id="adminErr">
+            <span>⚠️</span>
+            <span id="adminErrMsg">Incorrect email or password.</span>
+          </div>
+          <div class="ok-box" id="adminOk">
+            <span>✓</span>
+            <span id="adminOkMsg">Success!</span>
+          </div>
+
+          <!-- Email -->
+          <div class="field-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" id="adminEmail" placeholder="Admin email address"
+              autocomplete="username" inputmode="email" oninput="clearAdminError()" />
+          </div>
+
+          <!-- Password -->
+          <div class="field-wrap">
+            <span class="field-icon">🔑</span>
+            <input type="password" id="adminPass" placeholder="Password"
+              autocomplete="current-password" oninput="clearAdminError()" />
+            <button class="eye-btn" type="button" id="adminEyeBtn" onclick="toggleEye('adminPass', this)" title="Toggle password visibility">👁</button>
+          </div>
+
+          <!-- Forgot password -->
+          <div class="form-row-between">
+            <button class="forgot-link" type="button" onclick="doForgotPassword('adminEmail')">Forgot password?</button>
+          </div>
+
+          <!-- Submit -->
+          <button class="submit-btn" id="adminSubmitBtn" onclick="doAdminPasswordLogin()">
+            <span class="btn-spin" id="adminSpin"></span>
+            <span id="adminBtnLabel">Sign In as Admin</span>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider">or</div>
+
+          <!-- Google OAuth for admin -->
+          <div id="adminGoogleWrap">
+            <button class="google-btn" id="btnGoogleAdmin" onclick="doGoogleOAuth('admin')">
+              <svg class="google-icon" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              Sign in with Google (Admin)
+            </button>
+          </div>
+          <div id="adminOAuthLoading" class="oauth-loading">
+            <div class="oauth-spinner"></div>
+            <p>Redirecting to Google…</p>
+          </div>
+
+          <p class="form-footer" style="margin-top:18px;">
+            Your account must have <code style="background:rgba(212,168,83,0.12);color:var(--gold);padding:2px 6px;border-radius:4px;">role = admin</code> in the database.
+          </p>
+        </div>
+
+        <!-- Bottom terms line -->
+        <div class="form-footer" style="margin-top:20px;">
+          By continuing you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.
+        </div>
+
+      </div><!-- /form-box -->
+    </div><!-- /form-panel -->
+  </div><!-- /page -->
+
+
+  <!-- ═══════════ SCRIPTS ═══════════ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase.js"></script>
-  <script src="auth.js"></script>
-  <script src="interactive.js"></script>
   <script>
-    // ── Role toggle ──
-    let selectedRole = 'customer';
+    /* ══════════════════════════════════════════════
+       Supabase init
+    ══════════════════════════════════════════════ */
+    const SUPABASE_URL      = 'https://bplothzhxnlzyiwfjazq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbG90aHpoeG5senlpd2ZqYXpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODg3ODUsImV4cCI6MjA5MjE2NDc4NX0.NJZz6mzjczwpo_5QUlkwiKUFX8duBQsQtLl00ohEIXU';
+    const { createClient } = window.supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function selectRole(role) {
-      selectedRole = role;
-      document.getElementById('roleCustomer').classList.toggle('active', role === 'customer');
-      document.getElementById('roleAdmin').classList.toggle('active', role === 'admin');
-      document.getElementById('customerPanel').style.display = role === 'customer' ? 'block' : 'none';
-      document.getElementById('adminPanel').style.display   = role === 'admin'    ? 'block' : 'none';
-      // Clear errors when switching
-      hideAdminError();
+    /* ── Site base ── */
+    const SITE_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+      ? `${location.protocol}//${location.host}`
+      : 'https://www.knowyourproducts.in';
+
+    /* ══════════════════════════════════════════════
+       TOAST
+    ══════════════════════════════════════════════ */
+    function toast(msg, type = 'success') {
+      const wrap = document.getElementById('toastWrap');
+      const t = document.createElement('div');
+      t.className = `toast-item ${type}`;
+      const icons = { success: '✓', error: '✕', info: 'ℹ' };
+      t.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${msg}</span>`;
+      wrap.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(20px)';
+        t.style.transition = '0.3s ease';
+        setTimeout(() => t.remove(), 320);
+      }, 3500);
     }
 
-    // ── Password visibility ──
-    function togglePasswordVisibility() {
-      const input = document.getElementById('adminPassword');
-      const btn   = document.getElementById('eyeBtn');
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🙈';
-      } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
-      }
+    /* ══════════════════════════════════════════════
+       TAB SWITCHING
+    ══════════════════════════════════════════════ */
+    const tabMeta = {
+      signin: {
+        title:    'Welcome back 👋',
+        subtitle: 'Sign in to continue your sustainable journey.',
+        tabId:    'tabSignIn',
+        panelId:  'panelSignin',
+      },
+      signup: {
+        title:    'Join Eterno Fashion ✨',
+        subtitle: 'Create your free account and start shopping sustainably.',
+        tabId:    'tabSignUp',
+        panelId:  'panelSignup',
+      },
+      admin: {
+        title:    'Admin Access 🔐',
+        subtitle: 'Restricted area — authorised personnel only.',
+        tabId:    'tabAdmin',
+        panelId:  'panelAdmin',
+      },
+    };
+
+    let currentTab = 'signin';
+
+    function switchTab(tab) {
+      if (tab === currentTab) return;
+      currentTab = tab;
+
+      // Tabs
+      Object.keys(tabMeta).forEach(k => {
+        document.getElementById(tabMeta[k].tabId).classList.toggle('active', k === tab);
+        document.getElementById(tabMeta[k].tabId).setAttribute('aria-selected', k === tab);
+        document.getElementById(tabMeta[k].panelId).classList.toggle('active', k === tab);
+      });
+
+      // Header
+      document.getElementById('formTitle').textContent    = tabMeta[tab].title;
+      document.getElementById('formSubtitle').textContent = tabMeta[tab].subtitle;
+
+      // Clear all errors
+      clearSigninError();
+      clearSignupError();
+      clearAdminError();
     }
 
-    // ── Error helpers ──
+    /* ══════════════════════════════════════════════
+       HELPERS
+    ══════════════════════════════════════════════ */
+    function toggleEye(inputId, btn) {
+      const inp = document.getElementById(inputId);
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+      btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+    }
+
+    function setLoading(btnId, spinId, labelId, on, offText) {
+      document.getElementById(btnId).disabled = on;
+      document.getElementById(spinId).classList.toggle('on', on);
+      document.getElementById(labelId).textContent = on ? 'Please wait…' : offText;
+    }
+
+    /* -- Banner helpers -- */
+    function showBanner(errId, okId, msgId, msg, type) {
+      const isErr = type === 'error';
+      document.getElementById(errId).classList.toggle('show', isErr);
+      document.getElementById(okId).classList.toggle('show', !isErr);
+      document.getElementById(msgId).textContent = msg;
+    }
+
+    // Sign in
+    function clearSigninError() {
+      document.getElementById('signinErr').classList.remove('show');
+      document.getElementById('signinOk').classList.remove('show');
+      document.getElementById('signinEmail').classList.remove('error-field');
+      document.getElementById('signinPass').classList.remove('error-field');
+    }
+    function showSigninError(msg) {
+      document.getElementById('signinErr').classList.add('show');
+      document.getElementById('signinOk').classList.remove('show');
+      document.getElementById('signinErrMsg').textContent = msg;
+    }
+    function showSigninOk(msg) {
+      document.getElementById('signinOk').classList.add('show');
+      document.getElementById('signinErr').classList.remove('show');
+      document.getElementById('signinOkMsg').textContent = msg;
+    }
+
+    // Sign up
+    function clearSignupError() {
+      document.getElementById('signupErr').classList.remove('show');
+      document.getElementById('signupOk').classList.remove('show');
+      ['signupFirst','signupLast','signupEmail','signupPass','signupConfirm'].forEach(id => {
+        document.getElementById(id).classList.remove('error-field');
+      });
+    }
+    function showSignupError(msg) {
+      document.getElementById('signupErr').classList.add('show');
+      document.getElementById('signupOk').classList.remove('show');
+      document.getElementById('signupErrMsg').textContent = msg;
+    }
+    function showSignupOk(msg) {
+      document.getElementById('signupOk').classList.add('show');
+      document.getElementById('signupErr').classList.remove('show');
+      document.getElementById('signupOkMsg').textContent = msg;
+    }
+
+    // Admin
+    function clearAdminError() {
+      document.getElementById('adminErr').classList.remove('show');
+      document.getElementById('adminOk').classList.remove('show');
+      document.getElementById('adminEmail').classList.remove('error-field');
+      document.getElementById('adminPass').classList.remove('error-field');
+    }
     function showAdminError(msg) {
-      const el = document.getElementById('adminFormError');
-      el.textContent = msg || 'Incorrect email or password. Please try again.';
-      el.classList.add('visible');
+      document.getElementById('adminErr').classList.add('show');
+      document.getElementById('adminOk').classList.remove('show');
+      document.getElementById('adminErrMsg').textContent = msg;
     }
-    function hideAdminError() {
-      document.getElementById('adminFormError').classList.remove('visible');
+    function showAdminOk(msg) {
+      document.getElementById('adminOk').classList.add('show');
+      document.getElementById('adminErr').classList.remove('show');
+      document.getElementById('adminOkMsg').textContent = msg;
     }
 
-    // ── Admin: Email + Password Sign-In ──
-    async function handleAdminPasswordSignIn() {
-      hideAdminError();
+    /* -- Redirect by role -- */
+    function redirectForRole(role) {
+      window.location.href = role === 'admin'
+        ? `${SITE_BASE}/eternofashion-admin.html`
+        : `${SITE_BASE}/eternofashion-shop.html`;
+    }
 
-      const email    = document.getElementById('adminEmail').value.trim();
-      const password = document.getElementById('adminPassword').value;
+    /* -- Get user role from DB -- */
+    async function getUserRole(userId) {
+      let { data, error } = await db.from('profiles')
+        .select('role, full_name, avatar_url, email')
+        .eq('id', userId)
+        .single();
 
-      if (!email || !password) {
-        showAdminError('Please enter both email and password.');
+      if (error && error.code === 'PGRST116') {
+        const { data: ud } = await db.auth.getUser();
+        const u = ud?.user;
+        const { data: np } = await db.from('profiles')
+          .upsert({
+            id: userId,
+            email: u?.email || '',
+            full_name: u?.user_metadata?.full_name || '',
+            avatar_url: u?.user_metadata?.avatar_url || '',
+            role: 'customer'
+          }, { onConflict: 'id' })
+          .select('role, full_name, avatar_url, email')
+          .single();
+        return np || { role: 'customer' };
+      }
+      if (error) { console.error('[Eterno] getUserRole:', error.message); return { role: 'customer' }; }
+      return data || { role: 'customer' };
+    }
+
+    /* ══════════════════════════════════════════════
+       PASSWORD STRENGTH METER
+    ══════════════════════════════════════════════ */
+    function onSignupPassInput() {
+      clearSignupError();
+      const val = document.getElementById('signupPass').value;
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+      if (/[0-9]/.test(val) || /[^A-Za-z0-9]/.test(val)) score++;
+
+      const bars  = ['pwBar1','pwBar2','pwBar3'];
+      const labels = ['','Weak','Fair','Strong'];
+      const classes = ['','weak','fair','strong'];
+
+      bars.forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.className = 'pw-bar';
+        if (i < score) el.classList.add(classes[score]);
+      });
+      document.getElementById('pwLabel').textContent = val.length ? labels[score] : '';
+    }
+
+    /* ══════════════════════════════════════════════
+       SIGN IN (email + password)
+    ══════════════════════════════════════════════ */
+    async function doSignIn() {
+      clearSigninError();
+      const email = document.getElementById('signinEmail').value.trim();
+      const pass  = document.getElementById('signinPass').value;
+
+      if (!email) {
+        document.getElementById('signinEmail').classList.add('error-field');
+        showSigninError('Please enter your email address.');
+        return;
+      }
+      if (!pass) {
+        document.getElementById('signinPass').classList.add('error-field');
+        showSigninError('Please enter your password.');
         return;
       }
 
-      // Show spinner
-      const btn     = document.getElementById('adminSignInBtn');
-      const spinner = document.getElementById('adminBtnSpinner');
-      const btnText = document.getElementById('adminBtnText');
-      btn.disabled = true;
-      spinner.classList.add('visible');
-      btnText.textContent = 'Signing in…';
-
+      setLoading('signinBtn','signinSpin','signinBtnLabel', true, 'Sign In');
       try {
-        const { data, error } = await db.auth.signInWithPassword({ email, password });
+        const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
 
         if (error) {
-          showAdminError('Incorrect email or password. Please try again.');
+          const msg = error.message.toLowerCase();
+          if (msg.includes('invalid login') || msg.includes('invalid credentials')) {
+            showSigninError('Incorrect email or password. Please try again.');
+          } else if (msg.includes('email not confirmed')) {
+            showSigninError('Please verify your email before signing in. Check your inbox.');
+          } else {
+            showSigninError(error.message);
+          }
+          document.getElementById('signinEmail').classList.add('error-field');
+          document.getElementById('signinPass').classList.add('error-field');
+          setLoading('signinBtn','signinSpin','signinBtnLabel', false, 'Sign In');
           return;
         }
 
-        // Check admin role
         const profile = await getUserRole(data.user.id);
-        if (profile.role !== 'admin') {
-          await db.auth.signOut();
-          showAdminError('⚠️ This account does not have admin privileges.');
-          return;
-        }
-
-        showToast('Welcome back, Admin! 🎉', 'success');
-        setTimeout(() => {
-          window.location.href = `${SITE_BASE}/eternofashion-admin.html`;
-        }, 1000);
+        toast('Welcome back! 🛍️', 'success');
+        showSigninOk('Signed in! Redirecting…');
+        setTimeout(() => redirectForRole(profile.role), 900);
 
       } catch (err) {
-        showAdminError('An unexpected error occurred. Please try again.');
-        console.error('[Eterno Admin Login]', err);
-      } finally {
-        btn.disabled = false;
-        spinner.classList.remove('visible');
-        btnText.textContent = 'Sign In as Admin';
+        console.error('[Sign In Error]', err);
+        showSigninError('Unexpected error. Please try again.');
+        setLoading('signinBtn','signinSpin','signinBtnLabel', false, 'Sign In');
       }
     }
 
-    // ── Enter key submits admin form ──
-    ['adminEmail', 'adminPassword'].forEach(id => {
+    /* ── Enter key for sign in ── */
+    ['signinEmail','signinPass'].forEach(id => {
       document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') handleAdminPasswordSignIn();
-        hideAdminError();
+        if (e.key === 'Enter') doSignIn();
       });
     });
 
-    // ── Google Sign-In (shared for both roles) ──
-    async function handleGoogleSignIn(role) {
-      if (role === 'customer') {
-        const btn     = document.getElementById('googleSignInBtnCustomer');
-        const loading = document.getElementById('loadingCustomer');
-        btn.style.display = 'none';
-        loading.style.display = 'block';
-        await signInWithGoogle('customer');
-        setTimeout(() => { btn.style.display = 'flex'; loading.style.display = 'none'; }, 6000);
-      } else {
-        const btn     = document.getElementById('googleSignInBtnAdmin');
-        const loading = document.getElementById('loadingAdmin');
-        btn.style.display = 'none';
-        loading.style.display = 'block';
-        await signInWithGoogle('admin');
-        setTimeout(() => { btn.style.display = 'flex'; loading.style.display = 'none'; }, 6000);
+    /* ══════════════════════════════════════════════
+       SIGN UP (email + password)
+    ══════════════════════════════════════════════ */
+    async function doSignUp() {
+      clearSignupError();
+      const first   = document.getElementById('signupFirst').value.trim();
+      const last    = document.getElementById('signupLast').value.trim();
+      const email   = document.getElementById('signupEmail').value.trim();
+      const pass    = document.getElementById('signupPass').value;
+      const confirm = document.getElementById('signupConfirm').value;
+      const agreed  = document.getElementById('agreeTerms').checked;
+
+      if (!first) {
+        document.getElementById('signupFirst').classList.add('error-field');
+        showSignupError('Please enter your first name.');
+        return;
+      }
+      if (!email) {
+        document.getElementById('signupEmail').classList.add('error-field');
+        showSignupError('Please enter your email address.');
+        return;
+      }
+      if (pass.length < 8) {
+        document.getElementById('signupPass').classList.add('error-field');
+        showSignupError('Password must be at least 8 characters long.');
+        return;
+      }
+      if (pass !== confirm) {
+        document.getElementById('signupConfirm').classList.add('error-field');
+        showSignupError('Passwords do not match. Please double-check.');
+        return;
+      }
+      if (!agreed) {
+        showSignupError('Please agree to the Terms & Privacy Policy to continue.');
+        return;
+      }
+
+      setLoading('signupBtn','signupSpin','signupBtnLabel', true, 'Create Account');
+      try {
+        const fullName = [first, last].filter(Boolean).join(' ');
+        const { data, error } = await db.auth.signUp({
+          email,
+          password: pass,
+          options: {
+            data: { full_name: fullName, avatar_url: '' },
+            emailRedirectTo: `${SITE_BASE}/eternofashion-login.html`
+          }
+        });
+
+        if (error) {
+          const msg = error.message.toLowerCase();
+          if (msg.includes('already registered') || msg.includes('user already exists')) {
+            showSignupError('This email is already registered. Try signing in instead.');
+          } else if (msg.includes('password')) {
+            showSignupError('Password too weak. Use a mix of letters, numbers, and symbols.');
+            document.getElementById('signupPass').classList.add('error-field');
+          } else {
+            showSignupError(error.message);
+          }
+          setLoading('signupBtn','signupSpin','signupBtnLabel', false, 'Create Account');
+          return;
+        }
+
+        // Supabase may auto-confirm or require email confirmation
+        if (data.session) {
+          // Auto-confirmed — redirect immediately
+          toast('Account created! Welcome to Eterno 🎉', 'success');
+          showSignupOk('Account created! Redirecting…');
+          setTimeout(() => redirectForRole('customer'), 1000);
+        } else {
+          // Email confirmation required
+          showSignupOk('Almost there! Check your email to confirm your account 📧');
+          toast('Confirmation email sent! Check your inbox.', 'info');
+          setLoading('signupBtn','signupSpin','signupBtnLabel', false, 'Create Account');
+        }
+
+      } catch (err) {
+        console.error('[Sign Up Error]', err);
+        showSignupError('Unexpected error. Please try again.');
+        setLoading('signupBtn','signupSpin','signupBtnLabel', false, 'Create Account');
       }
     }
 
-    // ── Forgot password ──
-    async function handleForgotPassword() {
+    /* ── Enter key for sign up ── */
+    ['signupFirst','signupLast','signupEmail','signupPass','signupConfirm'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') doSignUp();
+      });
+    });
+
+    /* ══════════════════════════════════════════════
+       ADMIN: EMAIL + PASSWORD LOGIN
+    ══════════════════════════════════════════════ */
+    async function doAdminPasswordLogin() {
+      clearAdminError();
       const email = document.getElementById('adminEmail').value.trim();
+      const pass  = document.getElementById('adminPass').value;
+
       if (!email) {
-        showAdminError('Enter your email above first, then click "Forgot password?"');
+        document.getElementById('adminEmail').classList.add('error-field');
+        showAdminError('Please enter your admin email address.');
         return;
       }
+      if (!pass) {
+        document.getElementById('adminPass').classList.add('error-field');
+        showAdminError('Please enter your password.');
+        return;
+      }
+
+      setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', true, 'Sign In as Admin');
+      try {
+        const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+
+        if (error) {
+          const msg = error.message.toLowerCase();
+          if (msg.includes('invalid login') || msg.includes('invalid credentials')) {
+            showAdminError('Incorrect email or password. Please try again.');
+          } else if (msg.includes('email not confirmed')) {
+            showAdminError('Please verify your email before signing in.');
+          } else {
+            showAdminError(error.message);
+          }
+          document.getElementById('adminEmail').classList.add('error-field');
+          document.getElementById('adminPass').classList.add('error-field');
+          setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', false, 'Sign In as Admin');
+          return;
+        }
+
+        const profile = await getUserRole(data.user.id);
+        if (profile.role !== 'admin') {
+          await db.auth.signOut();
+          showAdminError('⛔ This account does not have admin privileges. Contact support.');
+          setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', false, 'Sign In as Admin');
+          return;
+        }
+
+        toast('Welcome back, Admin! 🎉', 'success');
+        showAdminOk('Login successful! Redirecting to Admin Panel…');
+        setTimeout(() => window.location.href = `${SITE_BASE}/eternofashion-admin.html`, 1000);
+
+      } catch (err) {
+        console.error('[Admin Login Error]', err);
+        showAdminError('Unexpected error. Please try again.');
+        setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', false, 'Sign In as Admin');
+      }
+    }
+
+    /* ── Enter key for admin ── */
+    ['adminEmail','adminPass'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') doAdminPasswordLogin();
+      });
+    });
+
+    /* ══════════════════════════════════════════════
+       GOOGLE OAUTH (all tabs)
+    ══════════════════════════════════════════════ */
+    async function doGoogleOAuth(context) {
+      // context: 'signin' | 'signup' | 'admin'
+      localStorage.setItem('intended_role', context === 'admin' ? 'admin' : 'customer');
+      localStorage.setItem('oauth_context', context);
+
+      const redirectTo = `${SITE_BASE}/eternofashion-login.html`;
+
+      // Show loading spinner for the clicked context
+      if (context === 'signin') {
+        document.getElementById('signinGoogleWrap').style.display = 'none';
+        document.getElementById('signinOAuthLoading').classList.add('show');
+      } else if (context === 'signup') {
+        document.getElementById('signupGoogleWrap').style.display = 'none';
+        document.getElementById('signupOAuthLoading').classList.add('show');
+      } else {
+        document.getElementById('adminGoogleWrap').style.display = 'none';
+        document.getElementById('adminOAuthLoading').classList.add('show');
+        document.getElementById('adminSubmitBtn').disabled = true;
+      }
+
+      const { error } = await db.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo }
+      });
+
+      if (error) {
+        toast('Google sign-in failed: ' + error.message, 'error');
+        // Restore UI
+        if (context === 'signin') {
+          document.getElementById('signinGoogleWrap').style.display = '';
+          document.getElementById('signinOAuthLoading').classList.remove('show');
+        } else if (context === 'signup') {
+          document.getElementById('signupGoogleWrap').style.display = '';
+          document.getElementById('signupOAuthLoading').classList.remove('show');
+        } else {
+          document.getElementById('adminGoogleWrap').style.display = '';
+          document.getElementById('adminOAuthLoading').classList.remove('show');
+          document.getElementById('adminSubmitBtn').disabled = false;
+        }
+      }
+    }
+
+    /* ══════════════════════════════════════════════
+       FORGOT PASSWORD
+    ══════════════════════════════════════════════ */
+    async function doForgotPassword(emailInputId) {
+      const email = document.getElementById(emailInputId).value.trim();
+      const isAdmin = emailInputId === 'adminEmail';
+
+      if (!email) {
+        document.getElementById(emailInputId).classList.add('error-field');
+        if (isAdmin) showAdminError('Enter your email first, then click "Forgot password?"');
+        else         showSigninError('Enter your email first, then click "Forgot password?"');
+        return;
+      }
+
       const { error } = await db.auth.resetPasswordForEmail(email, {
         redirectTo: `${SITE_BASE}/eternofashion-login.html`
       });
+
       if (error) {
-        showAdminError('Failed to send reset email: ' + error.message);
+        if (isAdmin) showAdminError('Failed to send reset email: ' + error.message);
+        else         showSigninError('Failed to send reset email: ' + error.message);
       } else {
-        showToast('Password reset email sent! Check your inbox. 📧', 'success');
+        if (isAdmin) showAdminOk('Reset email sent! Check your inbox 📧');
+        else         showSigninOk('Reset email sent! Check your inbox 📧');
+        toast('Password reset email sent!', 'info');
       }
     }
 
-    // ── Handle OAuth redirect callback ──
+    /* ══════════════════════════════════════════════
+       AUTH STATE LISTENER (OAuth callback handler)
+    ══════════════════════════════════════════════ */
     db.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) {
         const profile      = await getUserRole(session.user.id);
         const intendedRole = localStorage.getItem('intended_role') || 'customer';
-        console.log('[Eterno] Signed in via OAuth. Role:', profile.role, '| Intended:', intendedRole);
+        const oauthCtx     = localStorage.getItem('oauth_context') || 'signin';
+        localStorage.removeItem('intended_role');
+        localStorage.removeItem('oauth_context');
 
-        if (profile.role === 'admin') {
-          showToast('Welcome back, Admin! 🎉', 'success');
-          setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-admin.html`; }, 1200);
-        } else if (intendedRole === 'admin' && profile.role !== 'admin') {
-          showToast('⚠️ Your Google account is not an admin. Contact support.', 'error');
-          setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-shop.html`; }, 2500);
+        console.log('[Eterno] Signed in via OAuth. Role:', profile.role, '| Intended:', intendedRole, '| Ctx:', oauthCtx);
+
+        if (oauthCtx === 'admin' || intendedRole === 'admin') {
+          // Admin OAuth path
+          if (profile.role === 'admin') {
+            toast('Welcome back, Admin! 🎉', 'success');
+            setTimeout(() => redirectForRole('admin'), 1000);
+          } else {
+            toast('⚠️ This Google account has no admin privileges.', 'error');
+            await db.auth.signOut();
+            setTimeout(() => {
+              document.getElementById('adminGoogleWrap').style.display = '';
+              document.getElementById('adminOAuthLoading').classList.remove('show');
+              document.getElementById('adminSubmitBtn').disabled = false;
+            }, 2000);
+          }
         } else {
-          showToast('Welcome to Eterno Fashion! 🛒', 'success');
-          setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-shop.html`; }, 1200);
+          // Customer path (signin or signup via Google)
+          const isNew = oauthCtx === 'signup';
+          toast(isNew ? 'Account created! Welcome to Eterno 🎉' : 'Welcome back! 🛍️', 'success');
+          setTimeout(() => redirectForRole('customer'), 900);
         }
+      }
+
+      if (event === 'PASSWORD_RECOVERY') {
+        // User clicked reset password link — switch to sign in and show message
+        switchTab('signin');
+        showSigninOk('Enter a new password on the next screen.');
       }
     });
 
-    // ── Check existing session on load ──
+    /* ══════════════════════════════════════════════
+       CHECK EXISTING SESSION ON LOAD
+    ══════════════════════════════════════════════ */
     (async () => {
-      const { data: { session } } = await db.auth.getSession();
-      if (session) {
-        const profile = await getUserRole(session.user.id);
-        console.log('[Eterno] Existing session. Role:', profile.role);
-        if (profile.role === 'admin') {
-          window.location.href = `${SITE_BASE}/eternofashion-admin.html`;
-        } else {
-          window.location.href = `${SITE_BASE}/eternofashion-shop.html`;
+      try {
+        const { data: { session } } = await db.auth.getSession();
+        if (session) {
+          const profile = await getUserRole(session.user.id);
+          console.log('[Eterno] Existing session. Role:', profile.role);
+          redirectForRole(profile.role);
         }
+      } catch (e) {
+        console.warn('[Eterno] Session check error:', e);
       }
     })();
+
+    /* ══════════════════════════════════════════════
+       HASH-BASED DEEP LINK  (#signin | #signup | #admin)
+       Allows any page to link directly to a specific tab.
+       e.g. eternofashion-login.html#signup
+    ══════════════════════════════════════════════ */
+    const VALID_HASH_TABS = { signin: true, signup: true, admin: true };
+
+    function applyHashTab() {
+      const hash = location.hash.replace('#', '').toLowerCase();
+      if (hash && VALID_HASH_TABS[hash]) {
+        switchTab(hash);
+      }
+    }
+
+    // On page load
+    applyHashTab();
+
+    // On browser back/forward or hash change
+    window.addEventListener('hashchange', applyHashTab);
   </script>
 </body>
 </html>

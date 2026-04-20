@@ -179,19 +179,46 @@ CREATE POLICY "storage_delete_admin"
   );
 
 
--- ========================
--- 7. MAKE YOURSELF AN ADMIN
--- ========================
--- IMPORTANT: After signing in with Google for the first time,
--- run this query to make your account an admin.
--- Replace 'your@email.com' with your actual Google email address.
+-- ============================================================
+-- 7. ADMIN ACCOUNT SETUP
+-- ============================================================
+--
+-- ─────────────────────────────────────────────────
+-- OPTION A: Email + Password Admin (Recommended)
+-- ─────────────────────────────────────────────────
+-- Step 1: Go to Supabase Dashboard → Authentication → Users
+--         Click "Add User" → enter admin email + a strong password.
+--         Supabase stores the password as a bcrypt hash automatically.
+--
+-- Step 2: After the user is created, run this query to grant admin role:
 --
 -- UPDATE public.profiles
 -- SET role = 'admin'
--- WHERE email = 'your@email.com';
+-- WHERE email = 'your-admin@email.com';
 --
--- You can verify with:
--- SELECT id, email, role FROM public.profiles;
+-- Step 3: The admin can now log in at the login page using their
+--         email & password via the "⚙️ Admin" tab → "Sign In as Admin".
+--
+-- ─────────────────────────────────────────────────
+-- OPTION B: Google OAuth Admin
+-- ─────────────────────────────────────────────────
+-- Step 1: Have the admin sign in once via Google on the login page
+--         (Admin tab → "Sign in with Google").
+--         This creates their profile automatically.
+--
+-- Step 2: Run this query to elevate them to admin:
+--
+-- UPDATE public.profiles
+-- SET role = 'admin'
+-- WHERE email = 'their-google@email.com';
+--
+-- ─────────────────────────────────────────────────
+-- VERIFY with:
+-- SELECT id, email, role, created_at FROM public.profiles ORDER BY created_at DESC;
+--
+-- RESET an admin back to customer:
+-- UPDATE public.profiles SET role = 'customer' WHERE email = 'their@email.com';
+-- ─────────────────────────────────────────────────
 
 
 -- ========================

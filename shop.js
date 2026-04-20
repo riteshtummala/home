@@ -1,4 +1,4 @@
-﻿// ===========================
+// ===========================
 // Shop Page Logic — Eterno Fashion
 // ===========================
 
@@ -137,7 +137,7 @@ function clearFilters() {
 async function addToCart(productId) {
   if (!currentUser) {
     showToast('Please sign in to add items to your cart 🔒', 'error');
-    setTimeout(() => { window.location.href = `${SHOP_BASE}/login.html`; }, 1600);
+    setTimeout(() => { window.location.href = `${SHOP_BASE}/eternofashion-login.html`; }, 1600);
     return;
   }
 

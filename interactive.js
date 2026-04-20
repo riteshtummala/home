@@ -1,4 +1,4 @@
-﻿// ===========================
+// ===========================
 // Interactive UI — Eterno Fashion
 // ===========================
 
@@ -95,7 +95,8 @@ function initMobileMenu() {
           <a href="${BASE_URL}/eternofashion-index.html" class="mobile-nav-link">🏠 Home</a>
           <a href="${BASE_URL}/eternofashion-shop.html" class="mobile-nav-link">🛍️ Shop</a>
           <a href="${BASE_URL}/eternofashion-cart.html" class="mobile-nav-link">🛒 Cart</a>
-          <a href="${BASE_URL}/eternofashion-login.html" class="mobile-nav-link">👤 Sign In</a>
+          <a href="${BASE_URL}/eternofashion-login.html#signin" class="mobile-nav-link">🔓 Sign In</a>
+          <a href="${BASE_URL}/eternofashion-login.html#signup" class="mobile-nav-link">✨ Create Account</a>
         </nav>
       </div>
     `;
