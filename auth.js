@@ -64,7 +64,7 @@ async function signOut() {
 async function requireLogin() {
   const user = await getUser();
   if (!user) {
-    window.location.href = 'login.html';
+    window.location.href = 'https://www.knowyourproducts.in/eternofashion-login.html';
     return null;
   }
   return user;
@@ -73,11 +73,11 @@ async function requireLogin() {
 // --- Route Guard: Require Admin ---
 async function requireAdmin() {
   const user = await getUser();
-  if (!user) { window.location.href = 'login.html'; return null; }
+  if (!user) { window.location.href = 'https://www.knowyourproducts.in/eternofashion-login.html'; return null; }
   const profile = await getUserRole(user.id);
   if (profile.role !== 'admin') {
-    showToast('Access denied. Admin only.', 'error');
-    setTimeout(() => { window.location.href = 'shop.html'; }, 1500);
+    showToast('Access denied. Admin only. 🚫', 'error');
+    setTimeout(() => { window.location.href = 'https://www.knowyourproducts.in/eternofashion-shop.html'; }, 1500);
     return null;
   }
   return { user, profile };

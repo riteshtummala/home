@@ -92,10 +92,10 @@ function initMobileMenu() {
           <span class="logo-sub">Fashion</span>
         </div>
         <nav class="mobile-nav">
-          <a href="${BASE_URL}/" class="mobile-nav-link">🏠 Home</a>
-          <a href="${BASE_URL}/shop.html" class="mobile-nav-link">🛍️ Shop</a>
-          <a href="${BASE_URL}/cart.html" class="mobile-nav-link">🛒 Cart</a>
-          <a href="${BASE_URL}/login.html" class="mobile-nav-link">👤 Sign In</a>
+          <a href="${BASE_URL}/eternofashion-index.html" class="mobile-nav-link">🏠 Home</a>
+          <a href="${BASE_URL}/eternofashion-shop.html" class="mobile-nav-link">🛍️ Shop</a>
+          <a href="${BASE_URL}/eternofashion-cart.html" class="mobile-nav-link">🛒 Cart</a>
+          <a href="${BASE_URL}/eternofashion-login.html" class="mobile-nav-link">👤 Sign In</a>
         </nav>
       </div>
     `;
@@ -209,7 +209,7 @@ function createQuickViewModal() {
         <button class="btn btn-gold btn-large" id="qvCartBtn" style="width:100%;justify-content:center;margin-top:24px;">
           🛒 Add to Cart
         </button>
-        <a href="${BASE_URL}/shop.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:10px;">
+        <a href="${BASE_URL}/eternofashion-shop.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:10px;">
           View All Items
         </a>
       </div>
