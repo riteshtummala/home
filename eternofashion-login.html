@@ -10,11 +10,181 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Login page extras ── */
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* Input group */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+    .input-field-wrap {
+      position: relative;
+    }
+    .input-field-wrap .field-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    .input-field-wrap input {
+      width: 100%;
+      padding: 13px 14px 13px 40px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .input-field-wrap input::placeholder { color: var(--text-muted); }
+    .input-field-wrap input:focus {
+      border-color: var(--gold);
+      background: rgba(212,168,83,0.06);
+      box-shadow: 0 0 0 3px rgba(212,168,83,0.12);
+    }
+    /* Eye toggle for password */
+    .eye-toggle {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 1rem;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .eye-toggle:hover { color: var(--gold); }
+
+    /* Submit button */
+    .admin-signin-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold) 0%, #b8890f 100%);
+      border: none;
+      border-radius: 14px;
+      color: #1a1200;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .admin-signin-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(212,168,83,0.38);
+    }
+    .admin-signin-btn:active:not(:disabled) { transform: translateY(0); }
+    .admin-signin-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* Error message */
+    .form-error {
+      display: none;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239,68,68,0.35);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.83rem;
+      color: #f87171;
+      margin-top: 6px;
+      text-align: center;
+      animation: fadeIn 0.25s ease;
+    }
+    .form-error.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Forgot password */
+    .forgot-link {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 8px;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .forgot-link:hover { color: var(--gold); }
+
+    /* Admin badge */
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      background: rgba(212,168,83,0.12);
+      border: 1px solid rgba(212,168,83,0.35);
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* Panel animations */
+    .auth-panel {
+      animation: panelIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes panelIn {
+      from { opacity: 0; transform: scale(0.97) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Spinner tweak inside button */
+    .btn-spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(26,18,0,0.3);
+      border-top-color: #1a1200;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .btn-spinner.visible { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
 
   <!-- Back link -->
-  <a href="https://www.knowyourproducts.in/eternofashion-index.html" style="position:fixed;top:20px;left:24px;z-index:100;display:flex;align-items:center;gap:6px;color:var(--text-muted);font-size:0.85rem;transition:var(--t) var(--ease);" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">
+  <a href="https://www.knowyourproducts.in/eternofashion-index.html"
+     style="position:fixed;top:20px;left:24px;z-index:100;display:flex;align-items:center;gap:6px;color:var(--text-muted);font-size:0.85rem;transition:var(--t) var(--ease);"
+     onmouseover="this.style.color='var(--gold)'"
+     onmouseout="this.style.color='var(--text-muted)'">
     ← Back to Home
   </a>
 
@@ -39,7 +209,7 @@
 
       <!-- Role Toggle -->
       <div class="role-toggle" id="roleToggle">
-        <button class="role-btn active" id="roleCustomer" onclick="selectRole('customer')" id="roleCustomerBtn">
+        <button class="role-btn active" id="roleCustomer" onclick="selectRole('customer')">
           🛍️ Customer
         </button>
         <button class="role-btn" id="roleAdmin" onclick="selectRole('admin')">
@@ -47,33 +217,102 @@
         </button>
       </div>
 
-      <!-- Admin note -->
-      <div class="auth-admin-info" id="adminNote">
-        <strong style="color:var(--gold)">Admin Access</strong><br>
-        Sign in with your admin-registered Google account. Your role must be set
-        to <code style="color:var(--gold);background:rgba(212,168,83,0.1);padding:2px 6px;border-radius:4px;">admin</code> in the Supabase database.
+      <!-- ════════════════════════════════════
+           CUSTOMER PANEL
+      ════════════════════════════════════ -->
+      <div id="customerPanel" class="auth-panel">
+        <!-- Google Sign In -->
+        <button class="google-btn" id="googleSignInBtnCustomer" onclick="handleGoogleSignIn('customer')">
+          <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <!-- Loading state (customer) -->
+        <div id="loadingCustomer" style="display:none;text-align:center;padding:20px;">
+          <div class="spinner" style="margin:0 auto 12px;"></div>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Redirecting to Google...</p>
+        </div>
       </div>
 
-      <!-- Google Sign In -->
-      <button class="google-btn" id="googleSignInBtn" onclick="handleSignIn()">
-        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Continue with Google
-      </button>
+      <!-- ════════════════════════════════════
+           ADMIN PANEL
+      ════════════════════════════════════ -->
+      <div id="adminPanel" class="auth-panel" style="display:none;">
+        <div style="text-align:center;margin-bottom:6px;">
+          <span class="admin-badge">🔐 Admin Access</span>
+        </div>
 
-      <!-- Loading state -->
-      <div id="loadingState" style="display:none;text-align:center;padding:20px;">
-        <div class="spinner" style="margin:0 auto 12px;"></div>
-        <p style="font-size:0.88rem;color:var(--text-muted);">Redirecting to Google...</p>
+        <!-- Username / Password Form -->
+        <div class="input-group">
+
+          <div class="input-field-wrap">
+            <span class="field-icon">👤</span>
+            <input
+              type="email"
+              id="adminEmail"
+              placeholder="Admin email address"
+              autocomplete="username"
+              inputmode="email"
+            />
+          </div>
+
+          <div class="input-field-wrap">
+            <span class="field-icon">🔒</span>
+            <input
+              type="password"
+              id="adminPassword"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+            <button class="eye-toggle" type="button" onclick="togglePasswordVisibility()" id="eyeBtn" title="Show/hide password">👁️</button>
+          </div>
+
+        </div>
+
+        <div id="adminFormError" class="form-error">Incorrect email or password. Please try again.</div>
+
+        <div style="text-align:right;">
+          <span class="forgot-link" onclick="handleForgotPassword()">Forgot password?</span>
+        </div>
+
+        <button class="admin-signin-btn" id="adminSignInBtn" onclick="handleAdminPasswordSignIn()">
+          <span class="btn-spinner" id="adminBtnSpinner"></span>
+          <span id="adminBtnText">Sign In as Admin</span>
+        </button>
+
+        <!-- Divider -->
+        <div class="login-divider">or continue with</div>
+
+        <!-- Google Sign In for Admin -->
+        <button class="google-btn" id="googleSignInBtnAdmin" onclick="handleGoogleSignIn('admin')">
+          <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Sign in with Google (Admin)
+        </button>
+
+        <!-- Loading state (admin google) -->
+        <div id="loadingAdmin" style="display:none;text-align:center;padding:20px;">
+          <div class="spinner" style="margin:0 auto 12px;"></div>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Redirecting to Google...</p>
+        </div>
+
+        <p style="font-size:0.76rem;color:var(--text-muted);text-align:center;margin-top:14px;line-height:1.5;">
+          Your account must have <code style="color:var(--gold);background:rgba(212,168,83,0.1);padding:2px 6px;border-radius:4px;">role = admin</code> in the database to access the admin panel.
+        </p>
       </div>
 
-      <p class="auth-note">
+      <!-- Common footer note -->
+      <p class="auth-note" style="margin-top:18px;">
         By signing in, you agree to our terms of service.<br>
-        Your Google account is used for authentication.<br><br>
         <a href="https://www.knowyourproducts.in/eternofashion-shop.html" style="color:var(--gold);">Browse shop without signing in →</a>
       </p>
     </div>
@@ -85,39 +324,149 @@
   <script src="auth.js"></script>
   <script src="interactive.js"></script>
   <script>
+    // ── Role toggle ──
     let selectedRole = 'customer';
 
     function selectRole(role) {
       selectedRole = role;
       document.getElementById('roleCustomer').classList.toggle('active', role === 'customer');
       document.getElementById('roleAdmin').classList.toggle('active', role === 'admin');
-      document.getElementById('adminNote').classList.toggle('show', role === 'admin');
+      document.getElementById('customerPanel').style.display = role === 'customer' ? 'block' : 'none';
+      document.getElementById('adminPanel').style.display   = role === 'admin'    ? 'block' : 'none';
+      // Clear errors when switching
+      hideAdminError();
     }
 
-    async function handleSignIn() {
-      const btn = document.getElementById('googleSignInBtn');
-      const loading = document.getElementById('loadingState');
-      btn.style.display = 'none';
-      loading.style.display = 'block';
-      await signInWithGoogle(selectedRole);
-      setTimeout(() => {
-        btn.style.display = 'flex';
-        loading.style.display = 'none';
-      }, 6000);
+    // ── Password visibility ──
+    function togglePasswordVisibility() {
+      const input = document.getElementById('adminPassword');
+      const btn   = document.getElementById('eyeBtn');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
     }
 
-    // Handle OAuth redirect
+    // ── Error helpers ──
+    function showAdminError(msg) {
+      const el = document.getElementById('adminFormError');
+      el.textContent = msg || 'Incorrect email or password. Please try again.';
+      el.classList.add('visible');
+    }
+    function hideAdminError() {
+      document.getElementById('adminFormError').classList.remove('visible');
+    }
+
+    // ── Admin: Email + Password Sign-In ──
+    async function handleAdminPasswordSignIn() {
+      hideAdminError();
+
+      const email    = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+
+      if (!email || !password) {
+        showAdminError('Please enter both email and password.');
+        return;
+      }
+
+      // Show spinner
+      const btn     = document.getElementById('adminSignInBtn');
+      const spinner = document.getElementById('adminBtnSpinner');
+      const btnText = document.getElementById('adminBtnText');
+      btn.disabled = true;
+      spinner.classList.add('visible');
+      btnText.textContent = 'Signing in…';
+
+      try {
+        const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          showAdminError('Incorrect email or password. Please try again.');
+          return;
+        }
+
+        // Check admin role
+        const profile = await getUserRole(data.user.id);
+        if (profile.role !== 'admin') {
+          await db.auth.signOut();
+          showAdminError('⚠️ This account does not have admin privileges.');
+          return;
+        }
+
+        showToast('Welcome back, Admin! 🎉', 'success');
+        setTimeout(() => {
+          window.location.href = `${SITE_BASE}/eternofashion-admin.html`;
+        }, 1000);
+
+      } catch (err) {
+        showAdminError('An unexpected error occurred. Please try again.');
+        console.error('[Eterno Admin Login]', err);
+      } finally {
+        btn.disabled = false;
+        spinner.classList.remove('visible');
+        btnText.textContent = 'Sign In as Admin';
+      }
+    }
+
+    // ── Enter key submits admin form ──
+    ['adminEmail', 'adminPassword'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') handleAdminPasswordSignIn();
+        hideAdminError();
+      });
+    });
+
+    // ── Google Sign-In (shared for both roles) ──
+    async function handleGoogleSignIn(role) {
+      if (role === 'customer') {
+        const btn     = document.getElementById('googleSignInBtnCustomer');
+        const loading = document.getElementById('loadingCustomer');
+        btn.style.display = 'none';
+        loading.style.display = 'block';
+        await signInWithGoogle('customer');
+        setTimeout(() => { btn.style.display = 'flex'; loading.style.display = 'none'; }, 6000);
+      } else {
+        const btn     = document.getElementById('googleSignInBtnAdmin');
+        const loading = document.getElementById('loadingAdmin');
+        btn.style.display = 'none';
+        loading.style.display = 'block';
+        await signInWithGoogle('admin');
+        setTimeout(() => { btn.style.display = 'flex'; loading.style.display = 'none'; }, 6000);
+      }
+    }
+
+    // ── Forgot password ──
+    async function handleForgotPassword() {
+      const email = document.getElementById('adminEmail').value.trim();
+      if (!email) {
+        showAdminError('Enter your email above first, then click "Forgot password?"');
+        return;
+      }
+      const { error } = await db.auth.resetPasswordForEmail(email, {
+        redirectTo: `${SITE_BASE}/eternofashion-login.html`
+      });
+      if (error) {
+        showAdminError('Failed to send reset email: ' + error.message);
+      } else {
+        showToast('Password reset email sent! Check your inbox. 📧', 'success');
+      }
+    }
+
+    // ── Handle OAuth redirect callback ──
     db.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) {
-        const profile = await getUserRole(session.user.id);
+        const profile      = await getUserRole(session.user.id);
         const intendedRole = localStorage.getItem('intended_role') || 'customer';
-        console.log('[Eterno] Signed in. Role:', profile.role, '| Intended:', intendedRole);
+        console.log('[Eterno] Signed in via OAuth. Role:', profile.role, '| Intended:', intendedRole);
 
         if (profile.role === 'admin') {
           showToast('Welcome back, Admin! 🎉', 'success');
           setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-admin.html`; }, 1200);
         } else if (intendedRole === 'admin' && profile.role !== 'admin') {
-          showToast('⚠️ Your account is not set as admin. Contact support.', 'error');
+          showToast('⚠️ Your Google account is not an admin. Contact support.', 'error');
           setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-shop.html`; }, 2500);
         } else {
           showToast('Welcome to Eterno Fashion! 🛒', 'success');
@@ -126,7 +475,7 @@
       }
     });
 
-    // Check existing session on load
+    // ── Check existing session on load ──
     (async () => {
       const { data: { session } } = await db.auth.getSession();
       if (session) {
