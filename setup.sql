@@ -52,6 +52,7 @@ ALTER TABLE public.cart_items ENABLE ROW LEVEL SECURITY;
 
 -- Drop existing policies first (safe to run multiple times)
 DROP POLICY IF EXISTS "profiles_select_own"    ON public.profiles;
+DROP POLICY IF EXISTS "profiles_insert_own"    ON public.profiles;
 DROP POLICY IF EXISTS "profiles_update_own"    ON public.profiles;
 DROP POLICY IF EXISTS "profiles_admin_select"  ON public.profiles;
 DROP POLICY IF EXISTS "products_select_all"    ON public.products;
@@ -64,6 +65,10 @@ DROP POLICY IF EXISTS "cart_all_own"           ON public.cart_items;
 CREATE POLICY "profiles_select_own"
   ON public.profiles FOR SELECT
   USING (auth.uid() = id);
+
+CREATE POLICY "profiles_insert_own"
+  ON public.profiles FOR INSERT
+  WITH CHECK (auth.uid() = id);
 
 CREATE POLICY "profiles_update_own"
   ON public.profiles FOR UPDATE
@@ -125,11 +130,14 @@ BEGIN
   INSERT INTO public.profiles (id, full_name, email, avatar_url)
   VALUES (
     NEW.id,
-    NEW.raw_user_meta_data ->> 'full_name',
+    COALESCE(NEW.raw_user_meta_data ->> 'full_name', NEW.raw_user_meta_data ->> 'name', ''),
     NEW.email,
-    NEW.raw_user_meta_data ->> 'avatar_url'
+    COALESCE(NEW.raw_user_meta_data ->> 'avatar_url', NEW.raw_user_meta_data ->> 'picture', '')
   )
-  ON CONFLICT (id) DO NOTHING;
+  ON CONFLICT (id) DO UPDATE SET
+    full_name = EXCLUDED.full_name,
+    avatar_url = EXCLUDED.avatar_url,
+    email = EXCLUDED.email;
   RETURN NEW;
 END;
 $$;

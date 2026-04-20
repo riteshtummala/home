@@ -1098,35 +1098,10 @@
 
     /* -- Redirect by role -- */
     function redirectForRole(role) {
+      console.log(`[Login] Redirecting as ${role}...`);
       window.location.href = role === 'admin'
         ? `${SITE_BASE}/eternofashion-admin.html`
         : `${SITE_BASE}/eternofashion-shop.html`;
-    }
-
-    /* -- Get user role from DB -- */
-    async function getUserRole(userId) {
-      let { data, error } = await db.from('profiles')
-        .select('role, full_name, avatar_url, email')
-        .eq('id', userId)
-        .single();
-
-      if (error && error.code === 'PGRST116') {
-        const { data: ud } = await db.auth.getUser();
-        const u = ud?.user;
-        const { data: np } = await db.from('profiles')
-          .upsert({
-            id: userId,
-            email: u?.email || '',
-            full_name: u?.user_metadata?.full_name || '',
-            avatar_url: u?.user_metadata?.avatar_url || '',
-            role: 'customer'
-          }, { onConflict: 'id' })
-          .select('role, full_name, avatar_url, email')
-          .single();
-        return np || { role: 'customer' };
-      }
-      if (error) { console.error('[Eterno] getUserRole:', error.message); return { role: 'customer' }; }
-      return data || { role: 'customer' };
     }
 
     /* ══════════════════════════════════════════════
@@ -1190,8 +1165,13 @@
           return;
         }
 
+        console.log('[Login] Explicit login success. Fetching role...');
         const profile = await getUserRole(data.user.id);
-        toast('Welcome back! 🛍️', 'success');
+        if (profile.role === 'admin') {
+          toast('Welcome back, Admin! 🎉', 'success');
+        } else {
+          toast('Welcome back! 🛍️', 'success');
+        }
         showSigninOk('Signed in! Redirecting…');
         setTimeout(() => redirectForRole(profile.role), 900);
 

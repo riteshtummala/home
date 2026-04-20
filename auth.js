@@ -36,6 +36,7 @@ async function getUser() {
 
 // --- Get User Role (with auto-create profile if missing) ---
 async function getUserRole(userId) {
+  console.log(`[Eterno Auth] Fetching role for user ID: ${userId}...`);
   // Try to read the profile
   let { data, error } = await db
     .from('profiles')
@@ -45,6 +46,7 @@ async function getUserRole(userId) {
 
   // PGRST116 = no rows returned → profile doesn't exist yet, create it
   if (error && error.code === 'PGRST116') {
+    console.warn('[Eterno Auth] Profile missing, auto-creating as customer...');
     const { data: userData } = await db.auth.getUser();
     const user = userData?.user;
     const { data: newProfile, error: upsertErr } = await db
@@ -52,25 +54,27 @@ async function getUserRole(userId) {
       .upsert({
         id: userId,
         email: user?.email || '',
-        full_name: user?.user_metadata?.full_name || '',
-        avatar_url: user?.user_metadata?.avatar_url || '',
+        full_name: user?.user_metadata?.full_name || user?.user_metadata?.name || '',
+        avatar_url: user?.user_metadata?.avatar_url || user?.user_metadata?.picture || '',
         role: 'customer'
       }, { onConflict: 'id' })
       .select('role, full_name, avatar_url, email')
       .single();
 
     if (upsertErr) {
-      console.error('[Eterno] Profile upsert failed:', upsertErr.message);
+      console.error('[Eterno Auth] Profile upsert failed:', upsertErr.message);
       return { role: 'customer', full_name: '', avatar_url: '', email: '' };
     }
+    console.log('[Eterno Auth] New profile created successfully.');
     return newProfile;
   }
 
   if (error) {
-    console.error('[Eterno] getUserRole error:', error.message);
+    console.error('[Eterno Auth] getUserRole error:', error.message);
     return { role: 'customer', full_name: '', avatar_url: '', email: '' };
   }
 
+  console.log(`[Eterno Auth] Role detected: ${data?.role || 'customer'}`);
   return data || { role: 'customer', full_name: '', avatar_url: '', email: '' };
 }
 
