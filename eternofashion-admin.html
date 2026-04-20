@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Eterno Fashion</title>
+  <meta name="description" content="Eterno Fashion admin dashboard. Manage products, customers, and inventory.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body page-fade">
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-brand">
+        <div class="nav-logo">
+          <span class="logo-text">Eterno</span>
+          <span class="logo-sub">Fashion</span>
+        </div>
+        <span class="sidebar-badge">Admin Panel</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Management</span>
+        <button class="sidebar-link active" id="navDashboard" onclick="showSection('dashboard')">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </button>
+        <button class="sidebar-link" id="navProducts" onclick="showSection('products')">
+          <span class="sidebar-icon">👗</span> Products
+        </button>
+        <button class="sidebar-link" id="navCustomers" onclick="showSection('customers')">
+          <span class="sidebar-icon">👥</span> Customers
+        </button>
+
+        <span class="sidebar-section-label" style="margin-top:10px;">Quick Links</span>
+        <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="sidebar-link">
+          <span class="sidebar-icon">🛍️</span> View Shop
+        </a>
+        <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="sidebar-link">
+          <span class="sidebar-icon">🏠</span> Home Page
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="adminUserInfo">
+          <div class="avatar" id="adminAvatar">A</div>
+          <div>
+            <div class="sidebar-user-name" id="adminName">Admin</div>
+            <div class="sidebar-user-role">Administrator</div>
+          </div>
+        </div>
+        <button class="sidebar-link" onclick="signOut()" style="color:var(--danger);">
+          <span class="sidebar-icon">🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- ===================== -->
+      <!-- DASHBOARD SECTION     -->
+      <!-- ===================== -->
+      <div id="sectionDashboard">
+        <div class="admin-topbar">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Welcome back! Here's your store overview.</p>
+          </div>
+          <div style="font-size:0.85rem;color:var(--text-muted);" id="lastUpdated"></div>
+        </div>
+
+        <!-- Stats -->
+        <div class="admin-stats" id="dashboardStats">
+          <div class="stat-card">
+            <div class="stat-icon">👗</div>
+            <div>
+              <div class="stat-card-number" id="statTotalProducts">—</div>
+              <div class="stat-card-label">Total Products</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div>
+              <div class="stat-card-number" id="statTotalCustomers">—</div>
+              <div class="stat-card-label">Registered Customers</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🛒</div>
+            <div>
+              <div class="stat-card-number" id="statTotalCartItems">—</div>
+              <div class="stat-card-label">Items in Carts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Products Preview -->
+        <div class="data-table-wrap" style="margin-bottom:28px;">
+          <div class="data-table-header">
+            <h3>Recent Products</h3>
+            <button class="btn btn-gold btn-sm" onclick="showSection('products')">Manage All →</button>
+          </div>
+          <div class="data-table-overflow">
+            <table class="data-table" id="recentProductsTable">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Added</th>
+                </tr>
+              </thead>
+              <tbody id="recentProductsBody">
+                <tr><td colspan="4" style="text-align:center;padding:30px;color:var(--text-muted);">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== -->
+      <!-- PRODUCTS SECTION      -->
+      <!-- ===================== -->
+      <div id="sectionProducts" style="display:none;">
+        <div class="admin-topbar">
+          <div>
+            <h1 class="page-title">Products</h1>
+            <p class="page-subtitle">Upload new items and manage your inventory.</p>
+          </div>
+        </div>
+
+        <!-- Upload Form -->
+        <div class="upload-section">
+          <h3 class="upload-section-title">
+            <span>➕</span> Upload New Product
+          </h3>
+          <form id="uploadForm" onsubmit="uploadProduct(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="productName">Product Name *</label>
+                <input type="text" class="form-input" id="productName" placeholder="e.g. Vintage Levi's Jacket" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="productCategory">Category *</label>
+                <select class="form-input form-select" id="productCategory" required>
+                  <option value="">Select category...</option>
+                  <option value="Tops">Tops</option>
+                  <option value="Bottoms">Bottoms</option>
+                  <option value="Dresses">Dresses</option>
+                  <option value="Outerwear">Outerwear</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Shoes">Shoes</option>
+                  <option value="Bags">Bags</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="productPrice">Price (₹) *</label>
+                <input type="number" class="form-input" id="productPrice" placeholder="e.g. 499" min="1" step="1" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Image</label>
+                <div class="image-toggle">
+                  <button type="button" class="img-toggle-btn active" id="toggleUrl" onclick="setImgMode('url')">🔗 URL</button>
+                  <button type="button" class="img-toggle-btn" id="toggleFile" onclick="setImgMode('file')">📁 Upload File</button>
+                </div>
+                <div id="imgUrlInput">
+                  <input type="url" class="form-input" id="productImageUrl" placeholder="https://... or leave blank">
+                </div>
+                <div id="imgFileInput" style="display:none;">
+                  <div class="file-drop" id="fileDropZone">
+                    <input type="file" id="productImageFile" accept="image/*" onchange="previewFile(event)">
+                    <div class="file-drop-icon">📸</div>
+                    <p>Drag & drop or <span>click to browse</span></p>
+                    <p id="fileName" style="margin-top:6px;color:var(--gold);font-size:0.82rem;"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group full">
+                <label class="form-label" for="productDesc">Description</label>
+                <textarea class="form-input form-textarea" id="productDesc" placeholder="Describe the item — condition, material, size, any unique features..."></textarea>
+              </div>
+            </div>
+            <div style="margin-top:24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <button type="submit" class="btn btn-gold" id="uploadBtn">
+                Upload Product
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="resetUploadForm()">Clear Form</button>
+              <span id="uploadStatus" style="font-size:0.85rem;color:var(--text-muted);"></span>
+            </div>
+          </form>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="data-table-wrap">
+          <div class="data-table-header">
+            <h3>All Products <span id="productCount" style="font-size:0.85rem;color:var(--text-muted);font-family:var(--font-body);font-weight:400;"></span></h3>
+            <input type="search" class="data-table-search" id="adminProductSearch" placeholder="🔍 Search..." oninput="filterAdminProducts()">
+          </div>
+          <div id="adminProductsGrid" style="padding:24px;">
+            <div class="loading-state"><div class="spinner"></div><p>Loading products...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== -->
+      <!-- CUSTOMERS SECTION     -->
+      <!-- ===================== -->
+      <div id="sectionCustomers" style="display:none;">
+        <div class="admin-topbar">
+          <div>
+            <h1 class="page-title">Customers</h1>
+            <p class="page-subtitle">All registered customers on the platform.</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <div class="data-table-header">
+            <h3>Registered Users <span id="customerCount" style="font-size:0.85rem;color:var(--text-muted);font-family:var(--font-body);font-weight:400;"></span></h3>
+            <input type="search" class="data-table-search" id="customerSearch" placeholder="🔍 Search..." oninput="filterCustomers()">
+          </div>
+          <div class="data-table-overflow">
+            <table class="data-table" id="customersTable">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody">
+                <tr><td colspan="4" style="text-align:center;padding:30px;color:var(--text-muted);">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-overlay" id="deleteModal" style="display:none;">
+    <div class="modal">
+      <span class="modal-icon">🗑️</span>
+      <h2>Delete Product?</h2>
+      <p>This action cannot be undone. The product will be permanently removed from your store.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/interactive.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop')?.classList.toggle('visible', window.scrollY > 200);
+    }, { passive: true });
+  </script>
+</body>
+</html>

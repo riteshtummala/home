@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eterno Fashion — Timeless Thrift</title>
+  <meta name="description" content="Discover curated second-hand fashion at Eterno Fashion. Sustainable, stylish, and affordable clothing for every occasion.">
+  <link rel="canonical" href="https://www.knowyourproducts.in/eternofashion-index.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-fade">
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+  <!-- MOBILE FLOATING CART -->
+  <button class="float-cart" onclick="window.location.href='https://www.knowyourproducts.in/eternofashion-cart.html'">
+    🛒 <span id="floatCartCount">Cart</span>
+  </button>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="nav-logo">
+        <span class="logo-text">Eterno</span>
+        <span class="logo-sub">Fashion</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="https://www.knowyourproducts.in/eternofashion-index.html" class="nav-link active">Home</a></li>
+        <li><a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="nav-link">Shop</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="https://www.knowyourproducts.in/eternofashion-cart.html" class="nav-cart" id="cartNavLink" title="Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+        </a>
+        <a href="https://www.knowyourproducts.in/eternofashion-login.html" class="btn btn-gold" id="loginBtn">Sign In</a>
+        <button class="btn btn-outline" id="logoutBtn" style="display:none">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <span class="hero-badge">♻ Sustainable · Timeless · Affordable</span>
+      <h1 class="hero-title">
+        <span class="title-line">Fashion</span>
+        <span class="title-line gold">That Lives</span>
+        <span class="title-line title-italic">Forever.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Curated pre-loved pieces for the modern soul. Each item is hand-picked,
+        quality-checked, and ready for a beautiful second life.
+      </p>
+      <div class="hero-cta">
+        <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-gold btn-large">Explore Collection</a>
+        <a href="#featured" class="btn btn-ghost btn-large">View Featured ↓</a>
+      </div>
+    </div>
+    <div class="hero-floating">
+      <div class="hero-pill reveal">
+        <span class="hero-pill-icon">🌿</span>
+        <span>100% Sustainable</span>
+      </div>
+      <div class="hero-pill reveal">
+        <span class="hero-pill-icon">✨</span>
+        <span>Hand-Curated Pieces</span>
+      </div>
+      <div class="hero-pill reveal">
+        <span class="hero-pill-icon">💰</span>
+        <span>Affordable Luxury</span>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stats-container">
+      <div class="stat-item reveal">
+        <span class="stat-number" id="statProducts" data-count="0" data-suffix="+">—</span>
+        <span class="stat-label">Unique Pieces</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-count="100" data-suffix="%">100%</span>
+        <span class="stat-label">Sustainable</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number" id="statCustomers" data-count="0" data-suffix="+">—</span>
+        <span class="stat-label">Happy Customers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="featured" id="featured">
+    <div class="section-header reveal">
+      <span class="section-tag">— New Arrivals —</span>
+      <h2>Featured Pieces</h2>
+      <p>Hand-picked items from our latest collection, ready to find a new home.</p>
+    </div>
+    <div class="products-grid" id="featuredGrid">
+      <!-- skeleton loading -->
+    </div>
+    <div class="section-cta reveal">
+      <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-gold btn-large">View All Items →</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-content">
+      <div class="about-text reveal-left">
+        <span class="section-tag">— Our Story —</span>
+        <h2>We Believe in Fashion That Matters</h2>
+        <p>
+          Eterno Fashion was born from a passion for vintage style and sustainable living.
+          We carefully curate premium second-hand pieces that deserve a beautiful second life —
+          giving you access to unique, quality clothing without the guilt of fast fashion.
+        </p>
+        <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-gold">Start Shopping</a>
+      </div>
+      <div class="about-visual">
+        <div class="about-card reveal">
+          <span class="about-icon">🌿</span>
+          <div>
+            <h3>Eco-Friendly</h3>
+            <p>Every purchase reduces fashion waste and carbon footprint.</p>
+          </div>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">✨</span>
+          <div>
+            <h3>Carefully Curated</h3>
+            <p>Each piece is quality-checked before listing.</p>
+          </div>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">💰</span>
+          <div>
+            <h3>Affordable Luxury</h3>
+            <p>Premium style at thrift prices you'll love.</p>
+          </div>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🔄</span>
+          <div>
+            <h3>Circular Fashion</h3>
+            <p>Extend the life of every garment, season after season.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-text">Eterno</span>
+          <span class="logo-sub">Fashion</span>
+        </div>
+        <p>
+          Timeless pieces, sustainable style. We believe great fashion
+          shouldn't cost the earth — literally.
+        </p>
+      </div>
+      <div>
+        <div class="footer-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="https://www.knowyourproducts.in/eternofashion-index.html">Home</a></li>
+          <li><a href="https://www.knowyourproducts.in/eternofashion-shop.html">Shop</a></li>
+          <li><a href="https://www.knowyourproducts.in/eternofashion-cart.html">Cart</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Account</div>
+        <ul class="footer-links">
+          <li><a href="https://www.knowyourproducts.in/eternofashion-login.html">Sign In</a></li>
+          <li><a href="https://www.knowyourproducts.in/eternofashion-login.html">Register</a></li>
+          <li><a href="https://www.knowyourproducts.in/eternofashion-admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Eterno Fashion · <a href="https://www.knowyourproducts.in/eternofashion-index.html" style="color:var(--gold);">www.knowyourproducts.in</a></p>
+      <p>Crafted with 💛 for sustainable fashion.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/interactive.js"></script>
+  <script>
+    // Scroll to top visibility
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop')?.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+
+    // Init auth nav
+    updateNavAuth();
+
+    // Load skeleton then featured products
+    async function loadFeatured() {
+      const grid = document.getElementById('featuredGrid');
+      grid.innerHTML = getSkeletonCards(8);
+
+      const { data: products, error } = await db
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(8);
+
+      if (error || !products?.length) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <span class="empty-icon">🛍️</span>
+            <h3>No products yet</h3>
+            <p>Check back soon for new arrivals!</p>
+            <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-outline">Browse Shop</a>
+          </div>`;
+        return;
+      }
+
+      // Update stat counter data
+      const statEl = document.getElementById('statProducts');
+      if (statEl) { statEl.dataset.count = products.length; statEl.textContent = products.length + '+'; }
+
+      grid.innerHTML = products.map(p => `
+        <div class="product-card reveal" id="pcard-${p.id}">
+          <div class="product-img-wrap">
+            <img class="product-img"
+              src="${p.image_url || 'https://placehold.co/400x300/1a1510/d4a853?text=Eterno'}"
+              alt="${p.name}" loading="lazy"
+              onerror="this.src='https://placehold.co/400x300/1a1510/d4a853?text=Eterno'">
+            <span class="product-category-tag">${p.category || 'Fashion'}</span>
+            <div class="card-overlay">
+              <button class="overlay-btn overlay-btn-view" onclick="openQuickView(${JSON.stringify(p).replace(/"/g, '&quot;')}, addToCartHome)">👁 View</button>
+              <button class="overlay-btn overlay-btn-cart" onclick="addToCartHome('${p.id}')">🛒 Add</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-desc">${p.description || 'A unique piece waiting for you.'}</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="currency">₹</span>${Number(p.price).toLocaleString('en-IN')}</div>
+              <button class="btn-cart" onclick="addToCartHome('${p.id}')" id="cartBtn-${p.id}" title="Add to Cart">🛒</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      initReveal();
+      window.dispatchEvent(new Event('productsLoaded'));
+    }
+
+    async function addToCartHome(productId) {
+      const user = await getUser();
+      if (!user) {
+        showToast('Please sign in to add items to cart', 'error');
+        setTimeout(() => window.location.href = 'https://www.knowyourproducts.in/eternofashion-login.html', 1500);
+        return;
+      }
+      const btn = document.getElementById(`cartBtn-${productId}`);
+      if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+      const { error } = await db.from('cart_items').upsert(
+        { user_id: user.id, product_id: productId, quantity: 1 },
+        { onConflict: 'user_id,product_id', ignoreDuplicates: false }
+      );
+      if (error) {
+        showToast('Could not add to cart', 'error');
+        if (btn) { btn.textContent = '🛒'; btn.disabled = false; }
+      } else {
+        if (btn) { btn.textContent = '✓'; btn.classList.add('added'); }
+        showToast('Added to cart! 🛒', 'success');
+        pulseBadge();
+        await updateNavAuth();
+        setTimeout(() => {
+          if (btn) { btn.textContent = '🛒'; btn.classList.remove('added'); btn.disabled = false; }
+        }, 2000);
+      }
+    }
+
+    async function loadStats() {
+      const { count } = await db
+        .from('profiles')
+        .select('id', { count: 'exact', head: true })
+        .eq('role', 'customer');
+      const el = document.getElementById('statCustomers');
+      if (el && count) { el.dataset.count = count; el.textContent = count + '+'; }
+    }
+
+    loadFeatured();
+    loadStats();
+  </script>
+</body>
+</html>
