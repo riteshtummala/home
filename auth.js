@@ -78,20 +78,6 @@ async function getUserRole(userId) {
   return data || { role: 'customer', full_name: '', avatar_url: '', email: '' };
 }
 
-// --- Sign in with Google OAuth ---
-// context: 'signin' | 'signup' | 'admin'
-async function signInWithGoogle(context = 'signin') {
-  const role = context === 'admin' ? 'admin' : 'customer';
-  localStorage.setItem('intended_role', role);
-  localStorage.setItem('oauth_context', context);
-  const redirectTo = `${SITE_BASE}/eternofashion-login.html`;
-  const { error } = await db.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo }
-  });
-  if (error) showToast('Sign in failed: ' + error.message, 'error');
-}
-
 // --- Sign up with Email + Password ---
 async function signUpWithEmail({ email, password, firstName, lastName }) {
   const fullName = [firstName, lastName].filter(Boolean).join(' ');
