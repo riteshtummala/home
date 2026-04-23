@@ -3,144 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In — Eterno Fashion</title>
+  <title>Login — Eterno Fashion</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .auth-container { width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1.1fr 1fr; min-height: 700px; gap: 20px; }
+    body { 
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; 
+      background: #050508; overflow: hidden;
+    }
+    /* Centered Glass Card */
+    .login-card {
+      width: 100%; max-width: 420px;
+      padding: 40px;
+      background: rgba(15, 15, 25, 0.7);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      z-index: 10;
+      animation: fadeInUp 0.6s var(--ease) both;
+    }
+    .mesh-bg { position: fixed; inset: 0; z-index: 0; }
+    .mesh-orb {
+      position: absolute; border-radius: 50%; filter: blur(120px);
+      opacity: 0.5; animation: meshFlow 15s infinite alternate;
+    }
+    @keyframes meshFlow { 0%{transform:translate(0,0);} 100%{transform:translate(10%,10%);} }
     
-    .brand-side { 
-      position: relative; border-radius: var(--radius-xl); overflow: hidden; 
-      display: flex; flex-direction: column; justify-content: space-between; padding: 60px;
-      color: #fff; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+    .tab-nav { display: flex; gap: 4px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 12px; margin-bottom: 30px; }
+    .tab-nav button { 
+      flex: 1; padding: 10px; border-radius: 9px; cursor: pointer; border: none; background: none; 
+      color: #777; font-weight: 600; font-family: var(--font-heading); transition: 0.3s;
     }
+    .tab-nav button.active { background: var(--gradient); color: white; box-shadow: 0 10px 20px rgba(255,0,110,0.2); }
     
-    .form-side { display: flex; flex-direction: column; justify-content: center; }
-
-    /* Moving background light for brand side */
-    .brand-glow {
-      position: absolute; inset: 0; z-index: -1;
-      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,0,110,0.2) 0%, transparent 50%);
-      transition: background 0.1s;
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.8rem; color: #888; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .input-row { position: relative; }
+    .input-row input { 
+      width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); 
+      border-radius: 12px; padding: 14px 16px; color: white; transition: 0.3s;
     }
-
-    .stat-pill {
-      background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 99px;
-      font-size: 0.85rem; display: flex; align-items: center; gap: 10px; width: fit-content;
-    }
-
-    @media (max-width: 900px) {
-      .auth-container { grid-template-columns: 1fr; }
-      .brand-side { display: none; }
-    }
+    .input-row input:focus { border-color: var(--blue); outline: none; background: rgba(58,134,255,0.05); box-shadow: 0 0 15px rgba(58,134,255,0.1); }
+    
+    .panel { display: none; }
+    .panel.active { display: block; }
   </style>
 </head>
-<body onmousemove="updateGlow(event)">
+<body>
 
+  <!-- Animated Mesh -->
   <div class="mesh-bg">
-    <div class="mesh-orb orb-magenta"></div>
-    <div class="mesh-orb orb-cyan"></div>
-    <div class="mesh-orb orb-indigo"></div>
+    <div class="mesh-orb" style="background:var(--pink); width:500px; height:500px; top:-10%; left:-10%;"></div>
+    <div class="mesh-orb" style="background:var(--blue); width:400px; height:400px; bottom:-10%; right:-10%;"></div>
   </div>
 
-  <div class="auth-container">
-    <!-- BRAND SIDE -->
-    <div class="brand-side ripple-container">
-      <div class="brand-glow" id="brandGlow"></div>
-      
-      <div>
-        <a href="eternofashion-index.html" class="nav-logo">
-          <span class="logo-text" style="font-size: 2.8rem;">Eterno</span>
-          <span class="logo-sub" style="font-size: 0.8rem; letter-spacing: 0.4em;">Fashion</span>
-        </a>
-      </div>
-
-      <div style="max-width: 440px;">
-        <h1 style="font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px;">
-          The New Standard <br><span class="gradient-text">of Thrift.</span>
-        </h1>
-        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 40px;">
-          Curated pre-loved pieces with a story. Sustainable fashion that actually hits different. Join the movement.
-        </p>
-        
-        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-          <div class="stat-pill">✨ 5k+ Active Thrifters</div>
-          <div class="stat-pill">🔥 200+ New Drops Weekly</div>
-          <div class="stat-pill">🌿 100% Carbon Neutral</div>
-        </div>
-      </div>
-
-      <div style="font-size: 0.85rem; color: var(--text-muted);">
-        © 2026 Eterno Fashion Inc. All rights reserved.
-      </div>
+  <div class="login-card">
+    <div style="text-align: center; margin-bottom: 34px;">
+      <a href="eternofashion-index.html" class="nav-logo" style="justify-content: center;">
+        <span class="logo-text">Eterno</span>
+        <span class="logo-sub">Fashion</span>
+      </a>
     </div>
 
-    <!-- FORM SIDE -->
-    <div class="form-side">
-      <div class="glass-box" style="padding: 50px;">
-        
-        <div style="margin-bottom: 40px;">
-          <h2 id="formTitle" style="font-size: 2.2rem; font-weight: 700; margin-bottom: 8px;">Welcome Back</h2>
-          <p id="formSubtitle" style="color: var(--text-muted); font-size: 1rem;">Sign in to your account</p>
-        </div>
+    <div class="tab-nav">
+      <button id="btnSign" class="active" onclick="toggle('sign')">Login</button>
+      <button id="btnReg" onclick="toggle('reg')">Register</button>
+    </div>
 
-        <div class="tab-toggle" style="margin-bottom: 34px;">
-          <button class="tab-btn active" id="tabSignIn" onclick="switchMode('signin')">Login</button>
-          <button class="tab-btn" id="tabSignUp" onclick="switchMode('signup')">Sign Up</button>
-        </div>
-
-        <!-- AUTH PANELS -->
-        <div class="auth-panel-scroll">
-          
-          <div id="panelSignin" class="panel active">
-            <div class="field-wrap">
-              <span class="field-icon">✉️</span>
-              <input type="email" id="signinEmail" class="input-glass" placeholder="Email Address">
-            </div>
-            <div class="field-wrap" style="margin-bottom: 15px;">
-              <span class="field-icon">🔑</span>
-              <input type="password" id="signinPass" class="input-glass" placeholder="Password">
-            </div>
-            <div style="text-align: right; margin-bottom: 30px;">
-              <button class="text-muted" style="font-size: 0.85rem; cursor: pointer; background: none; border: none;" onclick="doForgotPassword()">Forgot password?</button>
-            </div>
-            <button class="btn btn-neon btn-large" style="width: 100%;" id="signinBtn" onclick="doSignIn()">Sign In 🚀</button>
-          </div>
-
-          <div id="panelSignup" class="panel">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-               <input type="text" id="signupFirst" class="input-glass" placeholder="First Name" style="padding: 14px 20px; border-radius: var(--radius);">
-               <input type="text" id="signupLast" class="input-glass" placeholder="Last Name" style="padding: 14px 20px; border-radius: var(--radius);">
-            </div>
-            <div class="field-wrap">
-              <span class="field-icon">✉️</span>
-              <input type="email" id="signupEmail" class="input-glass" placeholder="Email Address">
-            </div>
-            <div class="field-wrap">
-              <span class="field-icon">🔑</span>
-              <input type="password" id="signupPass" class="input-glass" placeholder="Create Password" oninput="onSignupPassInput()">
-            </div>
-            <div class="pw-strength" style="margin-bottom: 30px;">
-              <div class="pw-bar" id="pwBar1" style="height:4px; border-radius:4px; background:rgba(255,255,255,0.05);"></div>
-              <div class="pw-bar" id="pwBar2" style="height:4px; border-radius:4px; background:rgba(255,255,255,0.05);"></div>
-              <div class="pw-bar" id="pwBar3" style="height:4px; border-radius:4px; background:rgba(255,255,255,0.05);"></div>
-            </div>
-            <button class="btn btn-neon btn-large" style="width: 100%;" id="signupBtn" onclick="doSignUp()">Create Account ✨</button>
-          </div>
-
-        </div>
-
-        <div style="margin-top: 40px; text-align: center;">
-          <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Dont want to sign in? <a href="eternofashion-shop.html" class="gradient-text" style="font-weight: 700;">Browse Shop →</a>
-          </p>
-        </div>
-
+    <!-- Login Panel -->
+    <div id="panelSign" class="panel active">
+      <div class="form-group">
+        <label>Email Address</label>
+        <div class="input-row"><input type="email" id="email" placeholder="you@example.com"></div>
       </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-row"><input type="password" id="pass" placeholder="••••••••"></div>
+      </div>
+      <button class="btn btn-neon" style="width:100%; padding:14px; margin-top:10px;" onclick="handleAuth('in')">Sign In ⚡</button>
+    </div>
+
+    <!-- Register Panel -->
+    <div id="panelReg" class="panel">
+      <div class="form-group">
+        <label>Email Address</label>
+        <div class="input-row"><input type="email" id="emailReg" placeholder="you@example.com"></div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-row"><input type="password" id="passReg" placeholder="min. 8 characters"></div>
+      </div>
+      <button class="btn btn-neon" style="width:100%; padding:14px; margin-top:10px;" onclick="handleAuth('up')">Create Account ✨</button>
+    </div>
+
+    <div style="margin-top:24px; text-align:center;">
+      <a href="eternofashion-shop.html" style="font-size:0.85rem; color:#666; text-decoration:none;">Browse without an account</a>
     </div>
   </div>
 
@@ -150,95 +108,57 @@
   <script src="supabase.js"></script>
   <script src="auth.js"></script>
   <script>
-    function updateGlow(e) {
-      const rect = document.getElementById('brandGlow').getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      document.getElementById('brandGlow').style.setProperty('--x', x + '%');
-      document.getElementById('brandGlow').style.setProperty('--y', y + '%');
+    function toggle(mode) {
+      document.getElementById('btnSign').classList.toggle('active', mode === 'sign');
+      document.getElementById('btnReg').classList.toggle('active', mode === 'reg');
+      document.getElementById('panelSign').classList.toggle('active', mode === 'sign');
+      document.getElementById('panelReg').classList.toggle('active', mode === 'reg');
     }
 
-    function switchMode(mode) {
-      const isLogin = mode === 'signin';
-      document.getElementById('tabSignIn').classList.toggle('active', isLogin);
-      document.getElementById('tabSignUp').classList.toggle('active', !isLogin);
-      document.getElementById('panelSignin').classList.toggle('active', isLogin);
-      document.getElementById('panelSignup').classList.toggle('active', !isLogin);
-      document.getElementById('formTitle').textContent = isLogin ? 'Welcome Back' : 'Join the Club';
-      document.getElementById('formSubtitle').textContent = isLogin ? 'Sign in to your account' : 'Create your sustainable identity';
-    }
+    async function handleAuth(type) {
+      const isUp = type === 'up';
+      const email = document.getElementById(isUp ? 'emailReg' : 'email').value.trim();
+      const pass = document.getElementById(isUp ? 'passReg' : 'pass').value;
 
-    async function doSignIn() {
-      const email = document.getElementById('signinEmail').value.trim();
-      const pass = document.getElementById('signinPass').value;
-      if (!email || !pass) return showToast('Fill all fields fam 💀', 'error');
+      if (!email || !pass) return showToast('Please enter credentials', 'error');
 
-      const btn = document.getElementById('signinBtn');
-      btn.disabled = true; btn.textContent = 'Verifying...';
+      const btn = document.querySelector('.panel.active .btn');
+      const originalText = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Processing...';
 
-      const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
-      if (error) {
-        showToast(error.message, 'error');
-        btn.disabled = false; btn.textContent = 'Sign In 🚀';
-      } else {
-        showToast('Welcome back! ⚡', 'success');
-        const profile = await getUserRole(data.user.id);
-        setTimeout(() => {
-          window.location.href = profile.role === 'admin' ? getPath('eternofashion-admin.html') : getPath('eternofashion-shop.html');
-        }, 800);
+      try {
+        let authResult;
+        if (isUp) {
+          authResult = await window.db.auth.signUp({ 
+            email, password: pass,
+            options: { emailRedirectTo: window.location.href }
+          });
+          if (!authResult.error) {
+            // MANUALLY create profile on signup to ensure it exists
+            await window.db.from('profiles').upsert({ id: authResult.data.user.id, email: email, role: 'customer' });
+            showToast('Account created! Sign in now.', 'success');
+            toggle('sign');
+          }
+        } else {
+          authResult = await window.db.auth.signInWithPassword({ email, password: pass });
+          if (!authResult.error) {
+            showToast('Success!', 'success');
+            const user = authResult.data.user;
+            // Check role and redirect
+            const { data: profile } = await window.db.from('profiles').select('role').eq('id', user.id).single();
+            setTimeout(() => {
+              window.location.href = profile?.role === 'admin' ? getPath('eternofashion-admin.html') : getPath('eternofashion-shop.html');
+            }, 800);
+          }
+        }
+
+        if (authResult.error) showToast(authResult.error.message, 'error');
+      } catch (err) {
+        showToast('Auth error occurred', 'error');
+      } finally {
+        btn.disabled = false; btn.textContent = originalText;
       }
     }
-
-    async function doSignUp() {
-      const email = document.getElementById('signupEmail').value.trim();
-      const pass = document.getElementById('signupPass').value;
-      const first = document.getElementById('signupFirst').value.trim();
-      const last = document.getElementById('signupLast').value.trim();
-
-      if (!email || pass.length < 8) return showToast('Email + 8 chars password required 🔒', 'error');
-
-      const btn = document.getElementById('signupBtn');
-      btn.disabled = true; btn.textContent = 'Creating...';
-
-      const fullName = (first + ' ' + last).trim();
-      const { data, error } = await db.auth.signUp({
-        email, password: pass,
-        options: { data: { full_name: fullName }, emailRedirectTo: window.location.href }
-      });
-
-      if (error) {
-        showToast(error.message, 'error');
-        btn.disabled = false; btn.textContent = 'Create Account ✨';
-      } else {
-        showToast('Check your email to verify (or just log in if confirmed) ✨', 'success');
-        await getUserRole(data.user.id);
-        setTimeout(() => switchMode('signin'), 2000);
-      }
-    }
-
-    function onSignupPassInput() {
-      const val = document.getElementById('signupPass').value;
-      const bars = ['pwBar1', 'pwBar2', 'pwBar3'];
-      let score = 0;
-      if (val.length >= 8) score++;
-      if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
-      if (/[^A-Za-z0-9]/.test(val)) score++;
-
-      bars.forEach((id, i) => {
-        const el = document.getElementById(id);
-        el.style.background = i < score ? (score === 1 ? '#FF4560' : score === 2 ? '#FFD60A' : '#10D97E') : 'rgba(255,255,255,0.05)';
-        el.style.boxShadow = i < score ? `0 0 15px ${el.style.background}` : 'none';
-      });
-    }
-
-    // Auto-login check
-    (async () => {
-      const { data: { session } } = await db.auth.getSession();
-      if (session) {
-        const profile = await getUserRole(session.user.id);
-        window.location.href = profile.role === 'admin' ? getPath('eternofashion-admin.html') : getPath('eternofashion-shop.html');
-      }
-    })();
   </script>
 </body>
 </html>
