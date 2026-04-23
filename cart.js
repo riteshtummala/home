@@ -249,7 +249,7 @@ async function removeFromCart(cartItemId) {
 async function clearCart() {
   if (!confirm('Remove all items from your cart?')) return;
 
-  const { error } = await db.from('cart_items').delete().eq('user_id', currentUser.id);
+  const { error } = await window.db.from('cart_items').delete().eq('user_id', currentUser.id);
   if (error) { showToast('Could not clear cart', 'error'); return; }
 
   cartItems = [];
@@ -264,7 +264,7 @@ async function placeOrder(total) {
   document.getElementById('orderTotal').textContent = `Order Total: ₹${total.toLocaleString('en-IN')} (+ delivery charges)`;
   document.getElementById('orderModal').style.display = 'flex';
 
-  await db.from('cart_items').delete().eq('user_id', currentUser.id);
+  await window.db.from('cart_items').delete().eq('user_id', currentUser.id);
   cartItems = [];
   await updateNavAuth();
 }

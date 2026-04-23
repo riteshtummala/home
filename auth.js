@@ -32,9 +32,17 @@ function showToast(message, type = 'success') {
 
 // --- Get Current Session/User ---
 async function getUser() {
-  if (!window.db) return null;
-  const { data: { session } } = await db.auth.getSession();
-  return session?.user || null;
+  if (!window.db) {
+    console.warn('[Eterno Auth] DB not initialized yet');
+    return null;
+  }
+  try {
+    const { data: { session } } = await window.db.auth.getSession();
+    return session?.user || null;
+  } catch (e) {
+    console.error('[Eterno Auth] Session retrieval error:', e);
+    return null;
+  }
 }
 
 // --- Get User Role (with auto-create profile if missing) ---
@@ -43,7 +51,7 @@ async function getUserRole(userId) {
   console.log(`[Eterno Auth] Fetching role for user ID: ${userId}...`);
   
   try {
-    let { data, error } = await db
+    let { data, error } = await window.db
       .from('profiles')
       .select('role, full_name, email')
       .eq('id', userId)
@@ -51,10 +59,10 @@ async function getUserRole(userId) {
 
     if (error && error.code === 'PGRST116') {
       console.warn('[Eterno Auth] Profile missing, auto-creating...');
-      const { data: userData } = await db.auth.getUser();
+      const { data: userData } = await window.db.auth.getUser();
       const user = userData?.user;
       
-      const { data: newProfile, error: upsertErr } = await db
+      const { data: newProfile, error: upsertErr } = await window.db
         .from('profiles')
         .upsert({
           id: userId,
@@ -78,7 +86,7 @@ async function getUserRole(userId) {
 async function signOut() {
   if (!window.db) return;
   showToast('Signing out...', 'info');
-  await db.auth.signOut();
+  await window.db.auth.signOut();
   localStorage.removeItem('ef_cart');
   setTimeout(() => { 
     window.location.href = getPath('eternofashion-index.html'); 
@@ -89,7 +97,7 @@ async function signOut() {
 async function requireLogin() {
   const user = await getUser();
   if (!user) {
-    window.location.href = `${SITE_BASE}/eternofashion-login.html`;
+    window.location.href = getPath('eternofashion-login.html');
     return null;
   }
   return user;
@@ -99,13 +107,13 @@ async function requireLogin() {
 async function requireAdmin() {
   const user = await getUser();
   if (!user) {
-    window.location.href = `${SITE_BASE}/eternofashion-login.html`;
+    window.location.href = getPath('eternofashion-login.html');
     return null;
   }
   const profile = await getUserRole(user.id);
   if (profile.role !== 'admin') {
     showToast('Access denied — Admin only 🚫', 'error');
-    setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-shop.html`; }, 1500);
+    setTimeout(() => { window.location.href = getPath('eternofashion-shop.html'); }, 1500);
     return null;
   }
   return { user, profile };
@@ -137,7 +145,7 @@ async function updateNavAuth() {
     }
 
     if (cartBadge) {
-      const { count } = await db
+      const { count } = await window.db
         .from('cart_items')
         .select('id', { count: 'exact', head: true })
         .eq('user_id', user.id);

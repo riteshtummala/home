@@ -1,4 +1,4 @@
-﻿// ===========================
+// ===========================
 // Supabase Client
 // ===========================
 const SUPABASE_URL = 'https://bplothzhxnlzyiwfjazq.supabase.co';
@@ -6,3 +6,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const { createClient } = window.supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Attach to window so it's accessible across all files
+window.db = db;

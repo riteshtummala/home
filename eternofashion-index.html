@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eterno Fashion — Timeless Thrift</title>
   <meta name="description" content="Discover curated second-hand fashion at Eterno Fashion. Sustainable, stylish, and affordable clothing for every occasion.">
-  <link rel="canonical" href="https://www.knowyourproducts.in/eternofashion-index.html">
+  <link rel="canonical" href="eternofashion-index.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -60,7 +60,7 @@
         Curated vintage drops — affordable, fire, and planet-friendly.
       </p>
       <div class="hero-cta">
-        <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-gold btn-large">Shop the Drop 🛍️</a>
+        <a href="eternofashion-shop.html" class="btn btn-gold btn-large">Shop the Drop 🛍️</a>
         <a href="#featured" class="btn btn-ghost btn-large">See What's Hot ↓</a>
       </div>
     </div>
@@ -128,7 +128,7 @@
           on style, the planet, or their wallet. We curate fire pre-loved pieces
           so you can flex sustainably. No fast fashion. No cap.
         </p>
-        <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-gold">Cop Something 🔥</a>
+        <a href="eternofashion-shop.html" class="btn btn-gold">Cop Something 🔥</a>
       </div>
       <div class="about-visual">
         <div class="about-card reveal">
@@ -238,7 +238,7 @@
             <span class="empty-icon">🛍️</span>
             <h3>No products yet</h3>
             <p>Check back soon for new arrivals!</p>
-            <a href="https://www.knowyourproducts.in/eternofashion-shop.html" class="btn btn-outline">Browse Shop</a>
+            <a href="eternofashion-shop.html" class="btn btn-outline">Browse Shop</a>
           </div>`;
         return;
       }
@@ -279,12 +279,12 @@
       const user = await getUser();
       if (!user) {
         showToast('Please sign in to add items to cart', 'error');
-        setTimeout(() => window.location.href = 'https://www.knowyourproducts.in/eternofashion-login.html', 1500);
+        setTimeout(() => window.location.href = 'eternofashion-login.html', 1500);
         return;
       }
       const btn = document.getElementById(`cartBtn-${productId}`);
       if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
-      const { error } = await db.from('cart_items').upsert(
+      const { error } = await window.db.from('cart_items').upsert(
         { user_id: user.id, product_id: productId, quantity: 1 },
         { onConflict: 'user_id,product_id', ignoreDuplicates: false }
       );

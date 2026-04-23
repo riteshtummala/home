@@ -1,5 +1,5 @@
-﻿// ===========================
-// Admin Dashboard Logic — Eterno Fashion
+// ===========================
+// Admin Dashboard Logic � Eterno Fashion
 // ===========================
 
 let adminUser = null;
@@ -94,8 +94,8 @@ async function loadDashboard() {
               <span style="font-weight:500;color:var(--text-primary);">${p.name}</span>
             </div>
           </td>
-          <td><span class="badge badge-customer">${p.category || '—'}</span></td>
-          <td style="color:var(--gold);font-weight:600;">₹${Number(p.price).toLocaleString('en-IN')}</td>
+          <td><span class="badge badge-customer">${p.category || '�'}</span></td>
+          <td style="color:var(--gold);font-weight:600;">?${Number(p.price).toLocaleString('en-IN')}</td>
           <td>${new Date(p.created_at).toLocaleDateString('en-IN')}</td>
         </tr>
       `).join('');
@@ -120,7 +120,7 @@ async function loadAdminProducts() {
     .order('created_at', { ascending: false });
 
   if (error) {
-    container.innerHTML = `<div class="empty-state"><span class="empty-icon">⚠️</span><h3>Error</h3><p>${error.message}</p></div>`;
+    container.innerHTML = `<div class="empty-state"><span class="empty-icon">??</span><h3>Error</h3><p>${error.message}</p></div>`;
     return;
   }
 
@@ -137,7 +137,7 @@ function renderAdminProducts(products) {
   if (!products.length) {
     container.innerHTML = `
       <div class="empty-state">
-        <span class="empty-icon">👗</span>
+        <span class="empty-icon">??</span>
         <h3>No products yet</h3>
         <p>Use the form above to upload your first item.</p>
       </div>`;
@@ -156,11 +156,11 @@ function renderAdminProducts(products) {
           >
           <div class="product-admin-body">
             <div class="product-admin-name">${p.name}</div>
-            <div class="product-admin-cat">${p.category || '—'}</div>
-            <div class="product-admin-price">₹${Number(p.price).toLocaleString('en-IN')}</div>
+            <div class="product-admin-cat">${p.category || '�'}</div>
+            <div class="product-admin-price">?${Number(p.price).toLocaleString('en-IN')}</div>
             <div class="product-admin-actions">
               <button class="btn btn-danger btn-sm" onclick="confirmDelete('${p.id}', '${p.name.replace(/'/g, "\\'")}')">
-                🗑 Delete
+                ?? Delete
               </button>
             </div>
           </div>
@@ -193,7 +193,7 @@ function setImgMode(mode) {
 function previewFile(event) {
   selectedFile = event.target.files[0];
   if (selectedFile) {
-    document.getElementById('fileName').textContent = `✓ ${selectedFile.name}`;
+    document.getElementById('fileName').textContent = `? ${selectedFile.name}`;
   }
 }
 
@@ -226,13 +226,13 @@ async function uploadProduct(e) {
       const fileExt = selectedFile.name.split('.').pop();
       const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`;
 
-      const { error: storageError } = await db.storage
+      const { error: storageError } = await window.db.storage
         .from('product-images')
         .upload(fileName, selectedFile, { cacheControl: '3600', upsert: false });
 
       if (storageError) throw new Error('Image upload failed: ' + storageError.message);
 
-      const { data: urlData } = db.storage
+      const { data: urlData } = window.db.storage
         .from('product-images')
         .getPublicUrl(fileName);
       imageUrl = urlData.publicUrl;
@@ -242,7 +242,7 @@ async function uploadProduct(e) {
     }
 
     // Insert product
-    const { error: insertError } = await db.from('products').insert({
+    const { error: insertError } = await window.db.from('products').insert({
       name,
       category,
       price,
@@ -252,7 +252,7 @@ async function uploadProduct(e) {
 
     if (insertError) throw new Error(insertError.message);
 
-    showToast(`"${name}" uploaded successfully! 🎉`, 'success');
+    showToast(`"${name}" uploaded successfully! ??`, 'success');
     resetUploadForm();
     await loadAdminProducts();
     await loadDashboard();
@@ -291,9 +291,9 @@ async function deleteProduct(productId) {
   if (card) { card.style.opacity = '0.4'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
 
   // Delete from cart_items first (FK constraint)
-  await db.from('cart_items').delete().eq('product_id', productId);
+  await window.db.from('cart_items').delete().eq('product_id', productId);
 
-  const { error } = await db.from('products').delete().eq('id', productId);
+  const { error } = await window.db.from('products').delete().eq('id', productId);
 
   if (error) {
     showToast('Could not delete product: ' + error.message, 'error');
@@ -347,13 +347,13 @@ function renderCustomers(customers) {
           <span style="font-weight:500;color:var(--text-primary);">${c.full_name || 'No name'}</span>
         </div>
       </td>
-      <td>${c.email || '—'}</td>
+      <td>${c.email || '�'}</td>
       <td>
         <span class="badge ${c.role === 'admin' ? 'badge-admin' : 'badge-customer'}">
-          ${c.role === 'admin' ? '⚙️ Admin' : '🛍️ Customer'}
+          ${c.role === 'admin' ? '?? Admin' : '??? Customer'}
         </span>
       </td>
-      <td>${c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '—'}</td>
+      <td>${c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '�'}</td>
     </tr>
   `).join('');
 }
