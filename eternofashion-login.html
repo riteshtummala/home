@@ -3,187 +3,216 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In / Sign Up — Eterno Fashion</title>
-  <meta name="description" content="Sign in or create your Eterno Fashion account." />
-  <link rel="canonical" href="https://www.knowyourproducts.in/eternofashion-login.html" />
+  <title>Sign In — Eterno Fashion</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="page-fade">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .auth-container { width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1.1fr 1fr; min-height: 700px; gap: 20px; }
+    
+    .brand-side { 
+      position: relative; border-radius: var(--radius-xl); overflow: hidden; 
+      display: flex; flex-direction: column; justify-content: space-between; padding: 60px;
+      color: #fff; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-side { display: flex; flex-direction: column; justify-content: center; }
 
-  <div class="login-split">
-    <!-- LEFT: BRANDING -->
-    <div class="login-brand">
-      <div class="orb orb-pink"></div>
-      <div class="orb orb-blue"></div>
+    /* Moving background light for brand side */
+    .brand-glow {
+      position: absolute; inset: 0; z-index: -1;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,0,110,0.2) 0%, transparent 50%);
+      transition: background 0.1s;
+    }
+
+    .stat-pill {
+      background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 99px;
+      font-size: 0.85rem; display: flex; align-items: center; gap: 10px; width: fit-content;
+    }
+
+    @media (max-width: 900px) {
+      .auth-container { grid-template-columns: 1fr; }
+      .brand-side { display: none; }
+    }
+  </style>
+</head>
+<body onmousemove="updateGlow(event)">
+
+  <div class="mesh-bg">
+    <div class="mesh-orb orb-magenta"></div>
+    <div class="mesh-orb orb-cyan"></div>
+    <div class="mesh-orb orb-indigo"></div>
+  </div>
+
+  <div class="auth-container">
+    <!-- BRAND SIDE -->
+    <div class="brand-side ripple-container">
+      <div class="brand-glow" id="brandGlow"></div>
       
-      <div style="position:relative; z-index:1; text-align:center;">
-        <a href="eternofashion-index.html" class="nav-logo" style="margin-bottom:40px; display:inline-flex;">
-          <span class="logo-text" style="font-size:3rem;">Eterno</span>
-          <span class="logo-sub" style="font-size:0.8rem;">Fashion</span>
+      <div>
+        <a href="eternofashion-index.html" class="nav-logo">
+          <span class="logo-text" style="font-size: 2.8rem;">Eterno</span>
+          <span class="logo-sub" style="font-size: 0.8rem; letter-spacing: 0.4em;">Fashion</span>
         </a>
-        <h2 style="font-size:2.4rem; margin-bottom:20px; line-height:1.2;">Wear Stories,<br><span class="gradient-text">Not Fast Fashion.</span></h2>
-        <p style="color:var(--text-secondary); max-width:380px; margin:0 auto 40px;">Curated pre-loved pieces for the generation that gives a damn. Flex sustainably.</p>
+      </div>
+
+      <div style="max-width: 440px;">
+        <h1 style="font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px;">
+          The New Standard <br><span class="gradient-text">of Thrift.</span>
+        </h1>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 40px;">
+          Curated pre-loved pieces with a story. Sustainable fashion that actually hits different. Join the movement.
+        </p>
         
-        <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
-          <div class="hero-pill" style="background:rgba(255,0,110,0.1); border-color:var(--border-pink);"><span>🌿 100% Sustainable Thrift</span></div>
-          <div class="hero-pill"><span>✨ Hand-Curated Drop</span></div>
-          <div class="hero-pill"><span>🚀 Fast Carbon-Neutral Shipping</span></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <div class="stat-pill">✨ 5k+ Active Thrifters</div>
+          <div class="stat-pill">🔥 200+ New Drops Weekly</div>
+          <div class="stat-pill">🌿 100% Carbon Neutral</div>
         </div>
+      </div>
+
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        © 2026 Eterno Fashion Inc. All rights reserved.
       </div>
     </div>
 
-    <!-- RIGHT: FORM AREA -->
-    <div class="login-form-area">
-      <div class="auth-card">
-        <div style="text-align:center; margin-bottom:30px;">
-          <h1 id="formTitle" style="font-size:1.8rem; margin-bottom:8px;">Welcome back 👋</h1>
-          <p id="formSubtitle" style="font-size:0.9rem; color:var(--text-muted);">Sign in to continue your journey.</p>
+    <!-- FORM SIDE -->
+    <div class="form-side">
+      <div class="glass-box" style="padding: 50px;">
+        
+        <div style="margin-bottom: 40px;">
+          <h2 id="formTitle" style="font-size: 2.2rem; font-weight: 700; margin-bottom: 8px;">Welcome Back</h2>
+          <p id="formSubtitle" style="color: var(--text-muted); font-size: 1rem;">Sign in to your account</p>
         </div>
 
-        <div class="tab-toggle">
-          <button class="tab-btn active" id="tabSignIn" onclick="switchTab('signin')">🔓 Login</button>
-          <button class="tab-btn" id="tabSignUp" onclick="switchTab('signup')">✨ Sign Up</button>
+        <div class="tab-toggle" style="margin-bottom: 34px;">
+          <button class="tab-btn active" id="tabSignIn" onclick="switchMode('signin')">Login</button>
+          <button class="tab-btn" id="tabSignUp" onclick="switchMode('signup')">Sign Up</button>
         </div>
 
-        <!-- SIGN IN PANEL -->
-        <div id="panelSignin" class="panel active">
-          <div class="field-wrap">
-            <span class="field-icon">✉️</span>
-            <input type="email" id="signinEmail" placeholder="Email address" autocomplete="email">
-          </div>
-          <div class="field-wrap">
-            <span class="field-icon">🔑</span>
-            <input type="password" id="signinPass" placeholder="Password" autocomplete="current-password">
-            <button class="eye-btn" style="position:absolute; right:12px; top:50%; transform:translateY(-50%);" onclick="toggleEye('signinPass', this)">👁</button>
-          </div>
-          <div style="text-align:right; margin-bottom:20px;">
-            <button class="text-muted" style="font-size:0.8rem; cursor:pointer;" onclick="doForgotPassword('signinEmail')">Forgot password?</button>
-          </div>
-          <button class="btn btn-gold btn-large" id="signinBtn" style="width:100%; justify-content:center;" onclick="doSignIn()">
-            <span id="signinBtnLabel">Sign In</span>
-          </button>
-        </div>
-
-        <!-- SIGN UP PANEL -->
-        <div id="panelSignup" class="panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <!-- AUTH PANELS -->
+        <div class="auth-panel-scroll">
+          
+          <div id="panelSignin" class="panel active">
             <div class="field-wrap">
-              <span class="field-icon">👤</span>
-              <input type="text" id="signupFirst" placeholder="First">
+              <span class="field-icon">✉️</span>
+              <input type="email" id="signinEmail" class="input-glass" placeholder="Email Address">
+            </div>
+            <div class="field-wrap" style="margin-bottom: 15px;">
+              <span class="field-icon">🔑</span>
+              <input type="password" id="signinPass" class="input-glass" placeholder="Password">
+            </div>
+            <div style="text-align: right; margin-bottom: 30px;">
+              <button class="text-muted" style="font-size: 0.85rem; cursor: pointer; background: none; border: none;" onclick="doForgotPassword()">Forgot password?</button>
+            </div>
+            <button class="btn btn-neon btn-large" style="width: 100%;" id="signinBtn" onclick="doSignIn()">Sign In 🚀</button>
+          </div>
+
+          <div id="panelSignup" class="panel">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+               <input type="text" id="signupFirst" class="input-glass" placeholder="First Name" style="padding: 14px 20px; border-radius: var(--radius);">
+               <input type="text" id="signupLast" class="input-glass" placeholder="Last Name" style="padding: 14px 20px; border-radius: var(--radius);">
             </div>
             <div class="field-wrap">
-              <span class="field-icon">👤</span>
-              <input type="text" id="signupLast" placeholder="Last">
+              <span class="field-icon">✉️</span>
+              <input type="email" id="signupEmail" class="input-glass" placeholder="Email Address">
             </div>
+            <div class="field-wrap">
+              <span class="field-icon">🔑</span>
+              <input type="password" id="signupPass" class="input-glass" placeholder="Create Password" oninput="onSignupPassInput()">
+            </div>
+            <div class="pw-strength" style="margin-bottom: 30px;">
+              <div class="pw-bar" id="pwBar1" style="height:4px; border-radius:4px; background:rgba(255,255,255,0.05);"></div>
+              <div class="pw-bar" id="pwBar2" style="height:4px; border-radius:4px; background:rgba(255,255,255,0.05);"></div>
+              <div class="pw-bar" id="pwBar3" style="height:4px; border-radius:4px; background:rgba(255,255,255,0.05);"></div>
+            </div>
+            <button class="btn btn-neon btn-large" style="width: 100%;" id="signupBtn" onclick="doSignUp()">Create Account ✨</button>
           </div>
-          <div class="field-wrap">
-            <span class="field-icon">✉️</span>
-            <input type="email" id="signupEmail" placeholder="Email address">
-          </div>
-          <div class="field-wrap">
-            <span class="field-icon">🔑</span>
-            <input type="password" id="signupPass" placeholder="Password (8+ chars)" oninput="onSignupPassInput()">
-          </div>
-          <!-- strength meter -->
-          <div class="pw-strength" style="margin-bottom:20px;">
-            <div class="pw-bar" id="pwBar1" style="height:4px; border-radius:10px; background:rgba(255,255,255,0.1);"></div>
-            <div class="pw-bar" id="pwBar2" style="height:4px; border-radius:10px; background:rgba(255,255,255,0.1);"></div>
-            <div class="pw-bar" id="pwBar3" style="height:4px; border-radius:10px; background:rgba(255,255,255,0.1);"></div>
-          </div>
-          <button class="btn btn-gold btn-large" id="signupBtn" style="width:100%; justify-content:center;" onclick="doSignUp()">
-            <span id="signupBtnLabel">Create Account</span>
-          </button>
+
         </div>
 
-        <p style="text-align:center; margin-top:30px; font-size:0.85rem; color:var(--text-muted);">
-          By continuing, you agree to our <a href="#" class="gradient-text" style="font-weight:600;">Terms & Privacy</a>.
-        </p>
+        <div style="margin-top: 40px; text-align: center;">
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Dont want to sign in? <a href="eternofashion-shop.html" class="gradient-text" style="font-weight: 700;">Browse Shop →</a>
+          </p>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- Toast wrapper -->
   <div id="toastWrap"></div>
 
-  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
   <script src="auth.js"></script>
   <script>
-    const tabMeta = {
-      signin: { title: 'Welcome back 👋', subtitle: 'Sign in to continue your journey.', tabId: 'tabSignIn', panelId: 'panelSignin' },
-      signup: { title: 'Join the Drop ✨', subtitle: 'Create your account and start thrifting.', tabId: 'tabSignUp', panelId: 'panelSignup' }
-    };
-
-    function switchTab(tab) {
-      Object.keys(tabMeta).forEach(k => {
-        document.getElementById(tabMeta[k].tabId).classList.toggle('active', k === tab);
-        document.getElementById(tabMeta[k].panelId).classList.toggle('active', k === tab);
-      });
-      document.getElementById('formTitle').textContent = tabMeta[tab].title;
-      document.getElementById('formSubtitle').textContent = tabMeta[tab].subtitle;
+    function updateGlow(e) {
+      const rect = document.getElementById('brandGlow').getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      document.getElementById('brandGlow').style.setProperty('--x', x + '%');
+      document.getElementById('brandGlow').style.setProperty('--y', y + '%');
     }
 
-    function toggleEye(id, btn) {
-      const inp = document.getElementById(id);
-      inp.type = inp.type === 'password' ? 'text' : 'password';
-      btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+    function switchMode(mode) {
+      const isLogin = mode === 'signin';
+      document.getElementById('tabSignIn').classList.toggle('active', isLogin);
+      document.getElementById('tabSignUp').classList.toggle('active', !isLogin);
+      document.getElementById('panelSignin').classList.toggle('active', isLogin);
+      document.getElementById('panelSignup').classList.toggle('active', !isLogin);
+      document.getElementById('formTitle').textContent = isLogin ? 'Welcome Back' : 'Join the Club';
+      document.getElementById('formSubtitle').textContent = isLogin ? 'Sign in to your account' : 'Create your sustainable identity';
     }
 
     async function doSignIn() {
       const email = document.getElementById('signinEmail').value.trim();
       const pass = document.getElementById('signinPass').value;
-      if (!email || !pass) return showToast('Please fill all fields', 'error');
+      if (!email || !pass) return showToast('Fill all fields fam 💀', 'error');
 
       const btn = document.getElementById('signinBtn');
-      const label = document.getElementById('signinBtnLabel');
-      btn.disabled = true; label.textContent = 'Verifying...';
+      btn.disabled = true; btn.textContent = 'Verifying...';
 
-      try {
-        const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
-        if (error) throw error;
-
-        showToast('Access Granted! 🚀', 'success');
+      const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+      if (error) {
+        showToast(error.message, 'error');
+        btn.disabled = false; btn.textContent = 'Sign In 🚀';
+      } else {
+        showToast('Welcome back! ⚡', 'success');
         const profile = await getUserRole(data.user.id);
         setTimeout(() => {
           window.location.href = profile.role === 'admin' ? getPath('eternofashion-admin.html') : getPath('eternofashion-shop.html');
-        }, 1000);
-      } catch (err) {
-        showToast(err.message, 'error');
-        btn.disabled = false; label.textContent = 'Sign In';
+        }, 800);
       }
     }
 
     async function doSignUp() {
-      const first = document.getElementById('signupFirst').value.trim();
-      const last = document.getElementById('signupLast').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
       const pass = document.getElementById('signupPass').value;
-      if (!email || pass.length < 8) return showToast('Check your email and password (min 8 chars)', 'error');
+      const first = document.getElementById('signupFirst').value.trim();
+      const last = document.getElementById('signupLast').value.trim();
+
+      if (!email || pass.length < 8) return showToast('Email + 8 chars password required 🔒', 'error');
 
       const btn = document.getElementById('signupBtn');
-      const label = document.getElementById('signupBtnLabel');
-      btn.disabled = true; label.textContent = 'Creating...';
+      btn.disabled = true; btn.textContent = 'Creating...';
 
-      try {
-        const fullName = [first, last].filter(Boolean).join(' ');
-        const { data, error } = await db.auth.signUp({
-          email, password: pass,
-          options: { data: { full_name: fullName }, emailRedirectTo: window.location.href }
-        });
-        if (error) throw error;
+      const fullName = (first + ' ' + last).trim();
+      const { data, error } = await db.auth.signUp({
+        email, password: pass,
+        options: { data: { full_name: fullName }, emailRedirectTo: window.location.href }
+      });
 
-        if (data.user) {
-          showToast('Account Created! Welcome to the family ✨', 'success');
-          await getUserRole(data.user.id);
-          setTimeout(() => switchTab('signin'), 1500);
-        }
-      } catch (err) {
-        showToast(err.message, 'error');
-        btn.disabled = false; label.textContent = 'Create Account';
+      if (error) {
+        showToast(error.message, 'error');
+        btn.disabled = false; btn.textContent = 'Create Account ✨';
+      } else {
+        showToast('Check your email to verify (or just log in if confirmed) ✨', 'success');
+        await getUserRole(data.user.id);
+        setTimeout(() => switchMode('signin'), 2000);
       }
     }
 
@@ -197,19 +226,12 @@
 
       bars.forEach((id, i) => {
         const el = document.getElementById(id);
-        el.style.background = i < score ? (score === 1 ? '#FF4560' : score === 2 ? '#FFD60A' : '#10D97E') : 'rgba(255,255,255,0.1)';
-        el.style.boxShadow = i < score ? `0 0 10px ${el.style.background}` : 'none';
+        el.style.background = i < score ? (score === 1 ? '#FF4560' : score === 2 ? '#FFD60A' : '#10D97E') : 'rgba(255,255,255,0.05)';
+        el.style.boxShadow = i < score ? `0 0 15px ${el.style.background}` : 'none';
       });
     }
 
-    // Auth state listener
-    db.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        console.log('[Eterno] User signed in automatically');
-      }
-    });
-
-    // Check existing session
+    // Auto-login check
     (async () => {
       const { data: { session } } = await db.auth.getSession();
       if (session) {
