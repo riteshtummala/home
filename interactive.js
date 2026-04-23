@@ -2,7 +2,8 @@
 // Interactive UI — Eterno Fashion
 // ===========================
 
-const BASE_URL = 'https://www.knowyourproducts.in';
+// BASE_URL is now handled via relative paths or from auth.js if needed.
+// const BASE_URL = ''; 
 
 // ===========================
 // 1. SCROLL REVEAL (IntersectionObserver)
@@ -92,11 +93,11 @@ function initMobileMenu() {
           <span class="logo-sub">Fashion</span>
         </div>
         <nav class="mobile-nav">
-          <a href="${BASE_URL}/eternofashion-index.html" class="mobile-nav-link">🏠 Home</a>
-          <a href="${BASE_URL}/eternofashion-shop.html" class="mobile-nav-link">🛍️ Shop</a>
-          <a href="${BASE_URL}/eternofashion-cart.html" class="mobile-nav-link">🛒 Cart</a>
-          <a href="${BASE_URL}/eternofashion-login.html#signin" class="mobile-nav-link">🔓 Sign In</a>
-          <a href="${BASE_URL}/eternofashion-login.html#signup" class="mobile-nav-link">✨ Create Account</a>
+          <a href="eternofashion-index.html" class="mobile-nav-link">🏠 Home</a>
+          <a href="eternofashion-shop.html" class="mobile-nav-link">🛍️ Shop</a>
+          <a href="eternofashion-cart.html" class="mobile-nav-link">🛒 Cart</a>
+          <a href="eternofashion-login.html#signin" class="mobile-nav-link">🔓 Sign In</a>
+          <a href="eternofashion-login.html#signup" class="mobile-nav-link">✨ Create Account</a>
         </nav>
       </div>
     `;
@@ -210,7 +211,7 @@ function createQuickViewModal() {
         <button class="btn btn-gold btn-large" id="qvCartBtn" style="width:100%;justify-content:center;margin-top:24px;">
           🛒 Add to Cart
         </button>
-        <a href="${BASE_URL}/eternofashion-shop.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:10px;">
+        <a href="eternofashion-shop.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:10px;">
           View All Items
         </a>
       </div>

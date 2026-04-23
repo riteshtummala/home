@@ -1,25 +1,27 @@
-// ===========================
-// Auth Utilities — Eterno Fashion
-// ===========================
+// --- Context-aware base URL ---
+const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
 
-// --- Context-aware base URL (works locally AND on production) ---
-const SITE_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? `${window.location.protocol}//${window.location.host}`
-  : 'https://www.knowyourproducts.in';
+// For local file testing, we use empty string or relative path, otherwise the full domain
+const SITE_BASE = IS_LOCAL ? '' : 'https://www.knowyourproducts.in';
+
+// Helper for local file paths
+function getPath(filename) {
+  if (IS_LOCAL) return filename; // Just 'eternofashion-login.html'
+  return `${SITE_BASE}/${filename}`;
+}
 
 // --- Toast Notification ---
 function showToast(message, type = 'success') {
-  let container = document.getElementById('toastContainer');
+  let container = document.getElementById('toastWrap') || document.getElementById('toastContainer');
   if (!container) {
     container = document.createElement('div');
-    container.id = 'toastContainer';
-    container.className = 'toast-container';
+    container.id = 'toastWrap';
     document.body.appendChild(container);
   }
   const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
   const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-msg">${message}</span>`;
+  toast.className = `toast-item ${type}`;
+  toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
   container.appendChild(toast);
   setTimeout(() => {
     toast.style.opacity = '0';
@@ -30,81 +32,57 @@ function showToast(message, type = 'success') {
 
 // --- Get Current Session/User ---
 async function getUser() {
+  if (!window.db) return null;
   const { data: { session } } = await db.auth.getSession();
   return session?.user || null;
 }
 
 // --- Get User Role (with auto-create profile if missing) ---
 async function getUserRole(userId) {
+  if (!userId || !window.db) return { role: 'customer' };
   console.log(`[Eterno Auth] Fetching role for user ID: ${userId}...`);
-  // Try to read the profile
-  let { data, error } = await db
-    .from('profiles')
-    .select('role, full_name, avatar_url, email')
-    .eq('id', userId)
-    .single();
-
-  // PGRST116 = no rows returned → profile doesn't exist yet, create it
-  if (error && error.code === 'PGRST116') {
-    console.warn('[Eterno Auth] Profile missing, auto-creating as customer...');
-    const { data: userData } = await db.auth.getUser();
-    const user = userData?.user;
-    const { data: newProfile, error: upsertErr } = await db
+  
+  try {
+    let { data, error } = await db
       .from('profiles')
-      .upsert({
-        id: userId,
-        email: user?.email || '',
-        full_name: user?.user_metadata?.full_name || user?.user_metadata?.name || '',
-        avatar_url: user?.user_metadata?.avatar_url || user?.user_metadata?.picture || '',
-        role: 'customer'
-      }, { onConflict: 'id' })
-      .select('role, full_name, avatar_url, email')
+      .select('role, full_name, email')
+      .eq('id', userId)
       .single();
 
-    if (upsertErr) {
-      console.error('[Eterno Auth] Profile upsert failed:', upsertErr.message);
-      return { role: 'customer', full_name: '', avatar_url: '', email: '' };
+    if (error && error.code === 'PGRST116') {
+      console.warn('[Eterno Auth] Profile missing, auto-creating...');
+      const { data: userData } = await db.auth.getUser();
+      const user = userData?.user;
+      
+      const { data: newProfile, error: upsertErr } = await db
+        .from('profiles')
+        .upsert({
+          id: userId,
+          email: user?.email || '',
+          full_name: user?.user_metadata?.full_name || '',
+          role: 'customer'
+        })
+        .select('role, full_name, email')
+        .single();
+
+      if (upsertErr) return { role: 'customer' };
+      return newProfile;
     }
-    console.log('[Eterno Auth] New profile created successfully.');
-    return newProfile;
+    return data || { role: 'customer' };
+  } catch (e) {
+    return { role: 'customer' };
   }
-
-  if (error) {
-    console.error('[Eterno Auth] getUserRole error:', error.message);
-    return { role: 'customer', full_name: '', avatar_url: '', email: '' };
-  }
-
-  console.log(`[Eterno Auth] Role detected: ${data?.role || 'customer'}`);
-  return data || { role: 'customer', full_name: '', avatar_url: '', email: '' };
-}
-
-// --- Sign up with Email + Password ---
-async function signUpWithEmail({ email, password, firstName, lastName }) {
-  const fullName = [firstName, lastName].filter(Boolean).join(' ');
-  const { data, error } = await db.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: fullName, avatar_url: '' },
-      emailRedirectTo: `${SITE_BASE}/eternofashion-login.html`
-    }
-  });
-  return { data, error };
-}
-
-// --- Sign in with Email + Password ---
-async function signInWithEmail({ email, password }) {
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
-  return { data, error };
 }
 
 // --- Sign Out ---
 async function signOut() {
+  if (!window.db) return;
   showToast('Signing out...', 'info');
   await db.auth.signOut();
-  localStorage.removeItem('intended_role');
   localStorage.removeItem('ef_cart');
-  setTimeout(() => { window.location.href = `${SITE_BASE}/eternofashion-index.html`; }, 800);
+  setTimeout(() => { 
+    window.location.href = getPath('eternofashion-index.html'); 
+  }, 800);
 }
 
 // --- Route Guard: Require Login ---
@@ -139,6 +117,7 @@ async function updateNavAuth() {
   const loginBtn  = document.getElementById('loginBtn');
   const logoutBtn = document.getElementById('logoutBtn');
   const cartBadge = document.getElementById('cartBadge');
+  const navLinks  = document.querySelector('.nav-links');
 
   if (user) {
     if (loginBtn)  loginBtn.style.display  = 'none';
@@ -146,6 +125,17 @@ async function updateNavAuth() {
       logoutBtn.style.display = 'inline-flex';
       logoutBtn.onclick = signOut;
     }
+
+    // Check role and add admin link if not present
+    const profile = await getUserRole(user.id);
+    if (profile.role === 'admin' && navLinks) {
+      if (!document.getElementById('navAdminLink')) {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="eternofashion-admin.html" class="nav-link" id="navAdminLink" style="color:var(--pink);font-weight:700;">Admin Hub</a>`;
+        navLinks.appendChild(li);
+      }
+    }
+
     if (cartBadge) {
       const { count } = await db
         .from('cart_items')
@@ -157,6 +147,8 @@ async function updateNavAuth() {
   } else {
     if (loginBtn)  loginBtn.style.display  = 'inline-flex';
     if (logoutBtn) logoutBtn.style.display = 'none';
+    const adminLink = document.getElementById('navAdminLink');
+    if (adminLink) adminLink.parentElement.remove();
     if (cartBadge) { cartBadge.textContent = '0'; cartBadge.style.display = 'none'; }
   }
 }

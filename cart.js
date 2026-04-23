@@ -1,8 +1,8 @@
-﻿// ===========================
+// ===========================
 // Cart Page Logic — Eterno Fashion
 // ===========================
 
-const CART_BASE = 'https://www.knowyourproducts.in';
+// CART_BASE is managed via relative paths or auth.js getPath()
 let cartItems = [];
 let currentUser = null;
 
@@ -46,7 +46,7 @@ async function loadCart() {
         <span class="empty-icon">🛒</span>
         <h3>Your cart is empty</h3>
         <p>Discover our curated drops and find your next fire piece.</p>
-        <a href="${CART_BASE}/eternofashion-shop.html" class="btn btn-gold btn-large">Shop the Drop 🛍️</a>
+        <a href="eternofashion-shop.html" class="btn btn-gold btn-large">Shop the Drop 🛍️</a>
       </div>`;
     return;
   }
@@ -92,7 +92,7 @@ function renderCart() {
         </div>
 
         <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="${CART_BASE}/eternofashion-shop.html" class="btn btn-outline">← Keep Shopping</a>
+          <a href="eternofashion-shop.html" class="btn btn-outline">← Keep Shopping</a>
           <button class="btn btn-danger btn-sm" onclick="clearCart()">🗑 Clear All</button>
         </div>
       </div>
@@ -271,7 +271,7 @@ async function placeOrder(total) {
 
 function closeOrderModal() {
   document.getElementById('orderModal').style.display = 'none';
-  window.location.href = `${CART_BASE}/eternofashion-shop.html`;
+  window.location.href = "eternofashion-shop.html";
 }
 
 // Start

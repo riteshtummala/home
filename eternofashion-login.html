@@ -4,1378 +4,219 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign In / Sign Up — Eterno Fashion</title>
-  <meta name="description" content="Sign in or create your Eterno Fashion account to shop sustainable thrift fashion or manage your store." />
+  <meta name="description" content="Sign in or create your Eterno Fashion account." />
   <link rel="canonical" href="https://www.knowyourproducts.in/eternofashion-login.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ─── Reset & tokens ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --gold:        #D4A853;
-      --gold-light:  #f0c96b;
-      --gold-dark:   #a07820;
-      --bg:          #0b0a09;
-      --surface:     #131210;
-      --card:        rgba(20,18,14,0.82);
-      --border:      rgba(212,168,83,0.18);
-      --border-dim:  rgba(255,255,255,0.07);
-      --text:        #f0ece4;
-      --text-muted:  #8a8070;
-      --red:         #f87171;
-      --red-bg:      rgba(239,68,68,0.08);
-      --red-border:  rgba(239,68,68,0.28);
-      --green:       #4ade80;
-      --font-head:   'Space Grotesk', sans-serif;
-      --font-body:   'Inter', sans-serif;
-      --ease:        cubic-bezier(0.34,1.56,0.64,1);
-      --ease-out:    cubic-bezier(0.22,1,0.36,1);
-      --transition:  0.22s ease;
-    }
-
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ─── Page layout ─── */
-    .page {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    /* ─── LEFT BRAND PANEL ─── */
-    .brand-panel {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 48px;
-      overflow: hidden;
-      background: linear-gradient(145deg, #0e0b06 0%, #1a1308 50%, #0e0b06 100%);
-    }
-    .brand-panel::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 30% 30%, rgba(212,168,83,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(160,120,32,0.08) 0%, transparent 55%);
-      pointer-events: none;
-    }
-    .brand-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(212,168,83,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(212,168,83,0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-    }
-
-    /* floating orbs */
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      pointer-events: none;
-      animation: drift 8s ease-in-out infinite alternate;
-    }
-    .orb-1 { width:280px;height:280px;background:rgba(212,168,83,0.1);top:-80px;right:-80px;animation-delay:0s; }
-    .orb-2 { width:200px;height:200px;background:rgba(160,80,20,0.12);bottom:-60px;left:-60px;animation-delay:-3s; }
-    .orb-3 { width:160px;height:160px;background:rgba(212,168,83,0.06);top:50%;left:10%;transform:translateY(-50%);animation-delay:-5s; }
-    @keyframes drift {
-      from { transform: translate(0,0) scale(1); }
-      to   { transform: translate(12px,20px) scale(1.08); }
-    }
-
-    .brand-content { position: relative; z-index: 1; text-align: center; }
-
-    .brand-logo {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      margin-bottom: 40px;
-      text-decoration: none;
-    }
-    .brand-logo-e {
-      font-family: var(--font-head);
-      font-size: 3.4rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
-    .brand-logo-sub {
-      font-family: var(--font-head);
-      font-size: 0.75rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .brand-tagline {
-      font-family: var(--font-head);
-      font-size: 1.75rem;
-      font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 18px;
-      color: var(--text);
-    }
-    .brand-tagline span {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .brand-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      max-width: 320px;
-      margin: 0 auto 40px;
-    }
-
-    /* feature pills */
-    .brand-pills {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
-      text-align: left;
-    }
-    .pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
-      background: rgba(212,168,83,0.07);
-      border: 1px solid rgba(212,168,83,0.15);
-      border-radius: 40px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      transition: background var(--transition), color var(--transition);
-    }
-    .pill:hover { background: rgba(212,168,83,0.13); color: var(--text); }
-    .pill-icon { font-size: 0.95rem; }
-
-    /* ─── RIGHT FORM PANEL ─── */
-    .form-panel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 40px;
-      background: var(--surface);
-      position: relative;
-      overflow-y: auto;
-    }
-    .form-panel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: 0.3;
-    }
-
-    .form-box {
-      width: 100%;
-      max-width: 420px;
-      animation: slideUp 0.5s var(--ease-out) both;
-    }
-    @keyframes slideUp {
-      from { opacity:0; transform:translateY(24px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
-    /* ─── Form head ─── */
-    .form-head {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    .form-head h1 {
-      font-family: var(--font-head);
-      font-size: 1.85rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      letter-spacing: -0.02em;
-    }
-    .form-head p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-    }
-
-    /* ─── THREE-TAB Toggle ─── */
-    .tab-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border-dim);
-      border-radius: 16px;
-      padding: 4px;
-      margin-bottom: 28px;
-      gap: 3px;
-    }
-    .tab-btn {
-      padding: 10px 8px;
-      border: none;
-      border-radius: 12px;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      white-space: nowrap;
-    }
-    .tab-btn.active {
-      background: linear-gradient(135deg, rgba(212,168,83,0.22), rgba(160,120,32,0.1));
-      color: var(--gold);
-      border: 1px solid rgba(212,168,83,0.3);
-      box-shadow: 0 2px 12px rgba(212,168,83,0.1);
-    }
-    .tab-btn:not(.active):hover { background: rgba(255,255,255,0.05); color: var(--text); }
-
-    /* ─── Panels ─── */
-    .panel { display: none; }
-    .panel.active {
-      display: block;
-      animation: fadePanel 0.28s ease both;
-    }
-    @keyframes fadePanel {
-      from { opacity:0; transform:translateY(8px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
-    /* ─── Google Button ─── */
-    .google-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 13px 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background var(--transition), border-color var(--transition), transform 0.15s, box-shadow var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    .google-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
-      opacity: 0;
-      transition: opacity var(--transition);
-    }
-    .google-btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.22); transform:translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
-    .google-btn:hover:not(:disabled)::after { opacity: 1; }
-    .google-btn:active:not(:disabled) { transform:translateY(0); }
-    .google-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
-    .google-icon { width: 20px; height: 20px; flex-shrink: 0; }
-
-    /* ─── Divider ─── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 18px 0;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border-dim);
-    }
-
-    /* ─── Input fields ─── */
-    .field-wrap {
-      position: relative;
-      margin-bottom: 13px;
-    }
-    .field-label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .field-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.9rem;
-      pointer-events: none;
-      line-height: 1;
-    }
-    .field-wrap input {
-      width: 100%;
-      padding: 12px 14px 12px 40px;
-      background: rgba(255,255,255,0.04);
-      border: 1.5px solid var(--border-dim);
-      border-radius: 12px;
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
-    }
-    .field-wrap input::placeholder { color: var(--text-muted); }
-    .field-wrap input:focus {
-      border-color: var(--gold);
-      background: rgba(212,168,83,0.05);
-      box-shadow: 0 0 0 3px rgba(212,168,83,0.1);
-    }
-    .field-wrap input.error-field { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
-    .eye-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      padding: 4px 6px;
-      border-radius: 6px;
-      transition: color var(--transition), background var(--transition);
-      line-height: 1;
-    }
-    .eye-btn:hover { color: var(--gold); background: rgba(212,168,83,0.08); }
-
-    /* ─── Name row (two fields side by side) ─── */
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    /* ─── Password strength ─── */
-    .pw-strength {
-      margin-top: 6px;
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
-    .pw-bar {
-      height: 3px;
-      flex: 1;
-      border-radius: 99px;
-      background: rgba(255,255,255,0.08);
-      transition: background 0.3s;
-    }
-    .pw-bar.weak   { background: #f87171; }
-    .pw-bar.fair   { background: #fb923c; }
-    .pw-bar.strong { background: var(--green); }
-    .pw-label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      min-width: 44px;
-      text-align: right;
-    }
-
-    /* ─── Checkbox ─── */
-    .check-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin: 12px 0 16px;
-    }
-    .check-row input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      accent-color: var(--gold);
-      cursor: pointer;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    .check-row label {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-      cursor: pointer;
-    }
-    .check-row label a { color: var(--gold); text-decoration: none; }
-    .check-row label a:hover { text-decoration: underline; }
-
-    /* ─── Error / Success banners ─── */
-    .err-box, .ok-box {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 0.82rem;
-      margin-bottom: 14px;
-      animation: shake 0.35s ease;
-    }
-    .err-box { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); }
-    .ok-box  { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: var(--green); animation: none; }
-    .err-box.show, .ok-box.show { display: flex; }
-    @keyframes shake {
-      0%,100%{ transform:translateX(0); }
-      20%{ transform:translateX(-6px); }
-      40%{ transform:translateX(6px); }
-      60%{ transform:translateX(-4px); }
-      80%{ transform:translateX(4px); }
-    }
-
-    /* ─── Row: forgot link ─── */
-    .form-row-between {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-bottom: 14px;
-    }
-    .forgot-link {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color var(--transition);
-      background: none;
-      border: none;
-      font-family: var(--font-body);
-      padding: 0;
-    }
-    .forgot-link:hover { color: var(--gold); }
-
-    /* ─── Primary submit button ─── */
-    .submit-btn {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, var(--gold-dark) 100%);
-      border: none;
-      border-radius: 14px;
-      color: #160f00;
-      font-family: var(--font-head);
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.03em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.15s, box-shadow var(--transition), opacity var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    .submit-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-      opacity: 0;
-      transition: opacity var(--transition);
-    }
-    .submit-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow: 0 10px 30px rgba(212,168,83,0.4); }
-    .submit-btn:hover:not(:disabled)::after { opacity: 1; }
-    .submit-btn:active:not(:disabled) { transform:translateY(0); }
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    /* btn spinner */
-    .btn-spin {
-      display: none;
-      width: 16px; height: 16px;
-      border: 2px solid rgba(22,15,0,0.3);
-      border-top-color: #160f00;
-      border-radius: 50%;
-      animation: spin 0.65s linear infinite;
-    }
-    .btn-spin.on { display: inline-block; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ─── OAuth loading overlay ─── */
-    .oauth-loading {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      padding: 20px;
-      text-align: center;
-    }
-    .oauth-loading.show { display: flex; }
-    .oauth-spinner {
-      width: 32px; height: 32px;
-      border: 3px solid rgba(212,168,83,0.15);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    .oauth-loading p { font-size: 0.84rem; color: var(--text-muted); }
-
-    /* ─── Footer / switch links ─── */
-    .form-footer {
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 20px;
-      line-height: 1.7;
-    }
-    .form-footer a { color: var(--gold); text-decoration: none; cursor: pointer; }
-    .form-footer a:hover { text-decoration: underline; }
-    .switch-link {
-      background: none;
-      border: none;
-      color: var(--gold);
-      font-family: var(--font-body);
-      font-size: 0.78rem;
-      cursor: pointer;
-      padding: 0;
-      text-decoration: underline;
-    }
-    .switch-link:hover { opacity: 0.8; }
-
-    /* ─── Admin badge ─── */
-    .admin-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 12px;
-      background: rgba(212,168,83,0.1);
-      border: 1px solid rgba(212,168,83,0.28);
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    /* ─── Back link ─── */
-    .back-link {
-      position: fixed;
-      top: 22px;
-      left: 28px;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      text-decoration: none;
-      transition: color var(--transition);
-      background: rgba(11,10,9,0.7);
-      padding: 7px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border-dim);
-      backdrop-filter: blur(8px);
-    }
-    .back-link:hover { color: var(--gold); border-color: rgba(212,168,83,0.25); }
-
-    /* ─── Toast ─── */
-    #toastWrap {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    }
-    .toast-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-family: var(--font-body);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      animation: toastIn 0.35s var(--ease) both;
-      max-width: 320px;
-    }
-    .toast-item.success { background:#1a2e1a; border:1px solid rgba(74,222,128,0.3); color:#4ade80; }
-    .toast-item.error   { background:#2e1a1a; border:1px solid rgba(239,68,68,0.3);  color:#f87171; }
-    .toast-item.info    { background:#1a1e2e; border:1px solid rgba(96,165,250,0.3); color:#93c5fd; }
-    @keyframes toastIn {
-      from{ opacity:0; transform:translateX(20px); }
-      to  { opacity:1; transform:translateX(0); }
-    }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 768px) {
-      .page { grid-template-columns: 1fr; }
-      .brand-panel { display: none; }
-      .form-panel { padding: 36px 20px; }
-      .back-link { top: 14px; left: 14px; font-size: 0.76rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-fade">
 
-  <!-- Back link -->
-  <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="back-link" id="backHome">← Home</a>
-
-  <!-- Toast container -->
-  <div id="toastWrap"></div>
-
-  <div class="page">
-
-    <!-- ═══════════ LEFT BRAND PANEL ═══════════ -->
-    <div class="brand-panel">
-      <div class="brand-grid"></div>
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-
-      <div class="brand-content">
-        <a href="https://www.knowyourproducts.in/eternofashion-index.html" class="brand-logo">
-          <span class="brand-logo-e">Eterno</span>
-          <span class="brand-logo-sub">Fashion</span>
+  <div class="login-split">
+    <!-- LEFT: BRANDING -->
+    <div class="login-brand">
+      <div class="orb orb-pink"></div>
+      <div class="orb orb-blue"></div>
+      
+      <div style="position:relative; z-index:1; text-align:center;">
+        <a href="eternofashion-index.html" class="nav-logo" style="margin-bottom:40px; display:inline-flex;">
+          <span class="logo-text" style="font-size:3rem;">Eterno</span>
+          <span class="logo-sub" style="font-size:0.8rem;">Fashion</span>
         </a>
-
-        <h2 class="brand-tagline">Wear Stories,<br><span>Not Fast Fashion.</span></h2>
-        <p class="brand-desc">Curated second-hand pieces with soul. Every item has a history — give it a future.</p>
-
-        <div class="brand-pills">
-          <div class="pill"><span class="pill-icon">♻️</span> 100% Sustainable Thrift</div>
-          <div class="pill"><span class="pill-icon">✨</span> Curated &amp; Quality Checked</div>
-          <div class="pill"><span class="pill-icon">🔒</span> Secure Checkout</div>
-          <div class="pill"><span class="pill-icon">🚀</span> Fast Delivery</div>
+        <h2 style="font-size:2.4rem; margin-bottom:20px; line-height:1.2;">Wear Stories,<br><span class="gradient-text">Not Fast Fashion.</span></h2>
+        <p style="color:var(--text-secondary); max-width:380px; margin:0 auto 40px;">Curated pre-loved pieces for the generation that gives a damn. Flex sustainably.</p>
+        
+        <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+          <div class="hero-pill" style="background:rgba(255,0,110,0.1); border-color:var(--border-pink);"><span>🌿 100% Sustainable Thrift</span></div>
+          <div class="hero-pill"><span>✨ Hand-Curated Drop</span></div>
+          <div class="hero-pill"><span>🚀 Fast Carbon-Neutral Shipping</span></div>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════ RIGHT FORM PANEL ═══════════ -->
-    <div class="form-panel">
-      <div class="form-box">
-
-        <div class="form-head" id="formHead">
-          <h1 id="formTitle">Welcome back 👋</h1>
-          <p id="formSubtitle">Sign in to continue your sustainable journey.</p>
+    <!-- RIGHT: FORM AREA -->
+    <div class="login-form-area">
+      <div class="auth-card">
+        <div style="text-align:center; margin-bottom:30px;">
+          <h1 id="formTitle" style="font-size:1.8rem; margin-bottom:8px;">Welcome back 👋</h1>
+          <p id="formSubtitle" style="font-size:0.9rem; color:var(--text-muted);">Sign in to continue your journey.</p>
         </div>
 
-        <!-- THREE-TAB Toggle -->
-        <div class="tab-toggle" role="tablist" aria-label="Authentication mode">
-          <button class="tab-btn active" id="tabSignIn"  onclick="switchTab('signin')"  role="tab" aria-selected="true">🔓 Sign In</button>
-          <button class="tab-btn"        id="tabSignUp"  onclick="switchTab('signup')"  role="tab" aria-selected="false">✨ Sign Up</button>
-          <button class="tab-btn"        id="tabAdmin"   onclick="switchTab('admin')"   role="tab" aria-selected="false">⚙️ Admin</button>
+        <div class="tab-toggle">
+          <button class="tab-btn active" id="tabSignIn" onclick="switchTab('signin')">🔓 Login</button>
+          <button class="tab-btn" id="tabSignUp" onclick="switchTab('signup')">✨ Sign Up</button>
         </div>
 
-
-        <!-- ════════════════════════════════════
-             SIGN IN PANEL
-        ════════════════════════════════════ -->
-        <div id="panelSignin" class="panel active" role="tabpanel">
-
-          <!-- Error / Success -->
-          <div class="err-box" id="signinErr">
-            <span>⚠️</span>
-            <span id="signinErrMsg">Incorrect email or password.</span>
-          </div>
-          <div class="ok-box" id="signinOk">
-            <span>✓</span>
-            <span id="signinOkMsg">Signed in!</span>
-          </div>
-
-          <!-- Email -->
+        <!-- SIGN IN PANEL -->
+        <div id="panelSignin" class="panel active">
           <div class="field-wrap">
             <span class="field-icon">✉️</span>
-            <input type="email" id="signinEmail" placeholder="Email address"
-              autocomplete="email" inputmode="email" oninput="clearSigninError()" />
+            <input type="email" id="signinEmail" placeholder="Email address" autocomplete="email">
           </div>
-
-          <!-- Password -->
           <div class="field-wrap">
             <span class="field-icon">🔑</span>
-            <input type="password" id="signinPass" placeholder="Password"
-              autocomplete="current-password" oninput="clearSigninError()" />
-            <button class="eye-btn" type="button" onclick="toggleEye('signinPass', this)" title="Show/hide password">👁</button>
+            <input type="password" id="signinPass" placeholder="Password" autocomplete="current-password">
+            <button class="eye-btn" style="position:absolute; right:12px; top:50%; transform:translateY(-50%);" onclick="toggleEye('signinPass', this)">👁</button>
           </div>
-
-          <!-- Forgot password -->
-          <div class="form-row-between">
-            <button class="forgot-link" type="button" onclick="doForgotPassword('signinEmail')">Forgot password?</button>
+          <div style="text-align:right; margin-bottom:20px;">
+            <button class="text-muted" style="font-size:0.8rem; cursor:pointer;" onclick="doForgotPassword('signinEmail')">Forgot password?</button>
           </div>
-
-          <!-- Submit -->
-          <button class="submit-btn" id="signinBtn" onclick="doSignIn()">
-            <span class="btn-spin" id="signinSpin"></span>
+          <button class="btn btn-gold btn-large" id="signinBtn" style="width:100%; justify-content:center;" onclick="doSignIn()">
             <span id="signinBtnLabel">Sign In</span>
           </button>
-
-          <p class="form-footer" style="margin-top:18px;">
-            Don't have an account?
-            <button class="switch-link" onclick="switchTab('signup')">Create one free →</button>
-          </p>
-          <p class="form-footer">
-            <a href="https://www.knowyourproducts.in/eternofashion-shop.html">Browse without signing in →</a>
-          </p>
         </div>
 
-
-        <!-- ════════════════════════════════════
-             SIGN UP PANEL
-        ════════════════════════════════════ -->
-        <div id="panelSignup" class="panel" role="tabpanel">
-
-          <!-- Error / Success -->
-          <div class="err-box" id="signupErr">
-            <span>⚠️</span>
-            <span id="signupErrMsg">Something went wrong.</span>
-          </div>
-          <div class="ok-box" id="signupOk">
-            <span>✓</span>
-            <span id="signupOkMsg">Account created!</span>
-          </div>
-
-          <!-- Full name row -->
-          <div class="field-row">
+        <!-- SIGN UP PANEL -->
+        <div id="panelSignup" class="panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
             <div class="field-wrap">
               <span class="field-icon">👤</span>
-              <input type="text" id="signupFirst" placeholder="First name"
-                autocomplete="given-name" oninput="clearSignupError()" />
+              <input type="text" id="signupFirst" placeholder="First">
             </div>
             <div class="field-wrap">
               <span class="field-icon">👤</span>
-              <input type="text" id="signupLast" placeholder="Last name"
-                autocomplete="family-name" oninput="clearSignupError()" />
+              <input type="text" id="signupLast" placeholder="Last">
             </div>
           </div>
-
-          <!-- Email -->
           <div class="field-wrap">
             <span class="field-icon">✉️</span>
-            <input type="email" id="signupEmail" placeholder="Email address"
-              autocomplete="email" inputmode="email" oninput="clearSignupError()" />
+            <input type="email" id="signupEmail" placeholder="Email address">
           </div>
-
-          <!-- Password -->
           <div class="field-wrap">
             <span class="field-icon">🔑</span>
-            <input type="password" id="signupPass" placeholder="Create password (min. 8 chars)"
-              autocomplete="new-password" oninput="onSignupPassInput()" />
-            <button class="eye-btn" type="button" onclick="toggleEye('signupPass', this)" title="Show/hide password">👁</button>
+            <input type="password" id="signupPass" placeholder="Password (8+ chars)" oninput="onSignupPassInput()">
           </div>
-          <!-- Password strength meter -->
-          <div class="pw-strength">
-            <div class="pw-bar" id="pwBar1"></div>
-            <div class="pw-bar" id="pwBar2"></div>
-            <div class="pw-bar" id="pwBar3"></div>
-            <span class="pw-label" id="pwLabel"></span>
+          <!-- strength meter -->
+          <div class="pw-strength" style="margin-bottom:20px;">
+            <div class="pw-bar" id="pwBar1" style="height:4px; border-radius:10px; background:rgba(255,255,255,0.1);"></div>
+            <div class="pw-bar" id="pwBar2" style="height:4px; border-radius:10px; background:rgba(255,255,255,0.1);"></div>
+            <div class="pw-bar" id="pwBar3" style="height:4px; border-radius:10px; background:rgba(255,255,255,0.1);"></div>
           </div>
-
-          <!-- Confirm password -->
-          <div class="field-wrap" style="margin-top:10px;">
-            <span class="field-icon">🔒</span>
-            <input type="password" id="signupConfirm" placeholder="Confirm password"
-              autocomplete="new-password" oninput="clearSignupError()" />
-            <button class="eye-btn" type="button" onclick="toggleEye('signupConfirm', this)" title="Show/hide password">👁</button>
-          </div>
-
-          <!-- Terms checkbox -->
-          <div class="check-row">
-            <input type="checkbox" id="agreeTerms" />
-            <label for="agreeTerms">
-              I agree to the <a href="#" onclick="return false;">Terms of Service</a> and
-              <a href="#" onclick="return false;">Privacy Policy</a>
-            </label>
-          </div>
-
-          <!-- Submit -->
-          <button class="submit-btn" id="signupBtn" onclick="doSignUp()">
-            <span class="btn-spin" id="signupSpin"></span>
+          <button class="btn btn-gold btn-large" id="signupBtn" style="width:100%; justify-content:center;" onclick="doSignUp()">
             <span id="signupBtnLabel">Create Account</span>
           </button>
-
-          <p class="form-footer" style="margin-top:18px;">
-            Already have an account?
-            <button class="switch-link" onclick="switchTab('signin')">Sign in instead →</button>
-          </p>
         </div>
 
+        <p style="text-align:center; margin-top:30px; font-size:0.85rem; color:var(--text-muted);">
+          By continuing, you agree to our <a href="#" class="gradient-text" style="font-weight:600;">Terms & Privacy</a>.
+        </p>
+      </div>
+    </div>
+  </div>
 
-        <!-- ════════════════════════════════════
-             ADMIN PANEL
-        ════════════════════════════════════ -->
-        <div id="panelAdmin" class="panel" role="tabpanel">
-          <div style="text-align:center;margin-bottom:16px;">
-            <span class="admin-badge">🔐 Admin Portal</span>
-          </div>
+  <!-- Toast wrapper -->
+  <div id="toastWrap"></div>
 
-          <!-- Error / Success -->
-          <div class="err-box" id="adminErr">
-            <span>⚠️</span>
-            <span id="adminErrMsg">Incorrect email or password.</span>
-          </div>
-          <div class="ok-box" id="adminOk">
-            <span>✓</span>
-            <span id="adminOkMsg">Success!</span>
-          </div>
-
-          <!-- Email -->
-          <div class="field-wrap">
-            <span class="field-icon">✉️</span>
-            <input type="email" id="adminEmail" placeholder="Admin email address"
-              autocomplete="username" inputmode="email" oninput="clearAdminError()" />
-          </div>
-
-          <!-- Password -->
-          <div class="field-wrap">
-            <span class="field-icon">🔑</span>
-            <input type="password" id="adminPass" placeholder="Password"
-              autocomplete="current-password" oninput="clearAdminError()" />
-            <button class="eye-btn" type="button" id="adminEyeBtn" onclick="toggleEye('adminPass', this)" title="Toggle password visibility">👁</button>
-          </div>
-
-          <!-- Forgot password -->
-          <div class="form-row-between">
-            <button class="forgot-link" type="button" onclick="doForgotPassword('adminEmail')">Forgot password?</button>
-          </div>
-
-          <!-- Submit -->
-          <button class="submit-btn" id="adminSubmitBtn" onclick="doAdminPasswordLogin()">
-            <span class="btn-spin" id="adminSpin"></span>
-            <span id="adminBtnLabel">Sign In as Admin</span>
-          </button>
-
-            </button>
-          </div>
-          <div id="adminOAuthLoading" class="oauth-loading">
-            <div class="oauth-spinner"></div>
-            <p>Redirecting to Google…</p>
-          </div>
-
-          <p class="form-footer" style="margin-top:18px;">
-            Your account must have <code style="background:rgba(212,168,83,0.12);color:var(--gold);padding:2px 6px;border-radius:4px;">role = admin</code> in the database.
-          </p>
-        </div>
-
-        <!-- Bottom terms line -->
-        <div class="form-footer" style="margin-top:20px;">
-          By continuing you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.
-        </div>
-
-      </div><!-- /form-box -->
-    </div><!-- /form-panel -->
-  </div><!-- /page -->
-
-
-  <!-- ═══════════ SCRIPTS ═══════════ -->
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="auth.js"></script>
   <script>
-    /* ══════════════════════════════════════════════
-       Supabase init
-    ══════════════════════════════════════════════ */
-    const SUPABASE_URL      = 'https://bplothzhxnlzyiwfjazq.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbG90aHpoeG5senlpd2ZqYXpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODg3ODUsImV4cCI6MjA5MjE2NDc4NX0.NJZz6mzjczwpo_5QUlkwiKUFX8duBQsQtLl00ohEIXU';
-    const { createClient } = window.supabase;
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    /* ── Site base ── */
-    const SITE_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-      ? `${location.protocol}//${location.host}`
-      : 'https://www.knowyourproducts.in';
-
-    /* ══════════════════════════════════════════════
-       TOAST
-    ══════════════════════════════════════════════ */
-    function toast(msg, type = 'success') {
-      const wrap = document.getElementById('toastWrap');
-      const t = document.createElement('div');
-      t.className = `toast-item ${type}`;
-      const icons = { success: '✓', error: '✕', info: 'ℹ' };
-      t.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${msg}</span>`;
-      wrap.appendChild(t);
-      setTimeout(() => {
-        t.style.opacity = '0';
-        t.style.transform = 'translateX(20px)';
-        t.style.transition = '0.3s ease';
-        setTimeout(() => t.remove(), 320);
-      }, 3500);
-    }
-
-    /* ══════════════════════════════════════════════
-       TAB SWITCHING
-    ══════════════════════════════════════════════ */
     const tabMeta = {
-      signin: {
-        title:    'Welcome back 👋',
-        subtitle: 'Sign in to continue your sustainable journey.',
-        tabId:    'tabSignIn',
-        panelId:  'panelSignin',
-      },
-      signup: {
-        title:    'Join Eterno Fashion ✨',
-        subtitle: 'Create your free account and start shopping sustainably.',
-        tabId:    'tabSignUp',
-        panelId:  'panelSignup',
-      },
-      admin: {
-        title:    'Admin Access 🔐',
-        subtitle: 'Restricted area — authorised personnel only.',
-        tabId:    'tabAdmin',
-        panelId:  'panelAdmin',
-      },
+      signin: { title: 'Welcome back 👋', subtitle: 'Sign in to continue your journey.', tabId: 'tabSignIn', panelId: 'panelSignin' },
+      signup: { title: 'Join the Drop ✨', subtitle: 'Create your account and start thrifting.', tabId: 'tabSignUp', panelId: 'panelSignup' }
     };
 
-    let currentTab = 'signin';
-
     function switchTab(tab) {
-      if (tab === currentTab) return;
-      currentTab = tab;
-
-      // Tabs
       Object.keys(tabMeta).forEach(k => {
         document.getElementById(tabMeta[k].tabId).classList.toggle('active', k === tab);
-        document.getElementById(tabMeta[k].tabId).setAttribute('aria-selected', k === tab);
         document.getElementById(tabMeta[k].panelId).classList.toggle('active', k === tab);
       });
-
-      // Header
-      document.getElementById('formTitle').textContent    = tabMeta[tab].title;
+      document.getElementById('formTitle').textContent = tabMeta[tab].title;
       document.getElementById('formSubtitle').textContent = tabMeta[tab].subtitle;
-
-      // Clear all errors
-      clearSigninError();
-      clearSignupError();
-      clearAdminError();
     }
 
-    /* ══════════════════════════════════════════════
-       HELPERS
-    ══════════════════════════════════════════════ */
-    function toggleEye(inputId, btn) {
-      const inp = document.getElementById(inputId);
+    function toggleEye(id, btn) {
+      const inp = document.getElementById(id);
       inp.type = inp.type === 'password' ? 'text' : 'password';
       btn.textContent = inp.type === 'password' ? '👁' : '🙈';
     }
 
-    function setLoading(btnId, spinId, labelId, on, offText) {
-      document.getElementById(btnId).disabled = on;
-      document.getElementById(spinId).classList.toggle('on', on);
-      document.getElementById(labelId).textContent = on ? 'Please wait…' : offText;
-    }
-
-    /* -- Banner helpers -- */
-    function showBanner(errId, okId, msgId, msg, type) {
-      const isErr = type === 'error';
-      document.getElementById(errId).classList.toggle('show', isErr);
-      document.getElementById(okId).classList.toggle('show', !isErr);
-      document.getElementById(msgId).textContent = msg;
-    }
-
-    // Sign in
-    function clearSigninError() {
-      document.getElementById('signinErr').classList.remove('show');
-      document.getElementById('signinOk').classList.remove('show');
-      document.getElementById('signinEmail').classList.remove('error-field');
-      document.getElementById('signinPass').classList.remove('error-field');
-    }
-    function showSigninError(msg) {
-      document.getElementById('signinErr').classList.add('show');
-      document.getElementById('signinOk').classList.remove('show');
-      document.getElementById('signinErrMsg').textContent = msg;
-    }
-    function showSigninOk(msg) {
-      document.getElementById('signinOk').classList.add('show');
-      document.getElementById('signinErr').classList.remove('show');
-      document.getElementById('signinOkMsg').textContent = msg;
-    }
-
-    // Sign up
-    function clearSignupError() {
-      document.getElementById('signupErr').classList.remove('show');
-      document.getElementById('signupOk').classList.remove('show');
-      ['signupFirst','signupLast','signupEmail','signupPass','signupConfirm'].forEach(id => {
-        document.getElementById(id).classList.remove('error-field');
-      });
-    }
-    function showSignupError(msg) {
-      document.getElementById('signupErr').classList.add('show');
-      document.getElementById('signupOk').classList.remove('show');
-      document.getElementById('signupErrMsg').textContent = msg;
-    }
-    function showSignupOk(msg) {
-      document.getElementById('signupOk').classList.add('show');
-      document.getElementById('signupErr').classList.remove('show');
-      document.getElementById('signupOkMsg').textContent = msg;
-    }
-
-    // Admin
-    function clearAdminError() {
-      document.getElementById('adminErr').classList.remove('show');
-      document.getElementById('adminOk').classList.remove('show');
-      document.getElementById('adminEmail').classList.remove('error-field');
-      document.getElementById('adminPass').classList.remove('error-field');
-    }
-    function showAdminError(msg) {
-      document.getElementById('adminErr').classList.add('show');
-      document.getElementById('adminOk').classList.remove('show');
-      document.getElementById('adminErrMsg').textContent = msg;
-    }
-    function showAdminOk(msg) {
-      document.getElementById('adminOk').classList.add('show');
-      document.getElementById('adminErr').classList.remove('show');
-      document.getElementById('adminOkMsg').textContent = msg;
-    }
-
-    /* -- Redirect by role -- */
-    function redirectForRole(role) {
-      console.log(`[Login] Redirecting as ${role}...`);
-      window.location.href = role === 'admin'
-        ? `${SITE_BASE}/eternofashion-admin.html`
-        : `${SITE_BASE}/eternofashion-shop.html`;
-    }
-
-    /* ══════════════════════════════════════════════
-       PASSWORD STRENGTH METER
-    ══════════════════════════════════════════════ */
-    function onSignupPassInput() {
-      clearSignupError();
-      const val = document.getElementById('signupPass').value;
-      let score = 0;
-      if (val.length >= 8) score++;
-      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
-      if (/[0-9]/.test(val) || /[^A-Za-z0-9]/.test(val)) score++;
-
-      const bars  = ['pwBar1','pwBar2','pwBar3'];
-      const labels = ['','Weak','Fair','Strong'];
-      const classes = ['','weak','fair','strong'];
-
-      bars.forEach((id, i) => {
-        const el = document.getElementById(id);
-        el.className = 'pw-bar';
-        if (i < score) el.classList.add(classes[score]);
-      });
-      document.getElementById('pwLabel').textContent = val.length ? labels[score] : '';
-    }
-
-    /* ══════════════════════════════════════════════
-       SIGN IN (email + password)
-    ══════════════════════════════════════════════ */
     async function doSignIn() {
-      clearSigninError();
       const email = document.getElementById('signinEmail').value.trim();
-      const pass  = document.getElementById('signinPass').value;
+      const pass = document.getElementById('signinPass').value;
+      if (!email || !pass) return showToast('Please fill all fields', 'error');
 
-      if (!email) {
-        document.getElementById('signinEmail').classList.add('error-field');
-        showSigninError('Please enter your email address.');
-        return;
-      }
-      if (!pass) {
-        document.getElementById('signinPass').classList.add('error-field');
-        showSigninError('Please enter your password.');
-        return;
-      }
+      const btn = document.getElementById('signinBtn');
+      const label = document.getElementById('signinBtnLabel');
+      btn.disabled = true; label.textContent = 'Verifying...';
 
-      setLoading('signinBtn','signinSpin','signinBtnLabel', true, 'Sign In');
       try {
         const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+        if (error) throw error;
 
-        if (error) {
-          const msg = error.message.toLowerCase();
-          if (msg.includes('invalid login') || msg.includes('invalid credentials')) {
-            showSigninError('Incorrect email or password. Please try again.');
-          } else if (msg.includes('email not confirmed')) {
-            showSigninError('Please verify your email before signing in. Check your inbox.');
-          } else {
-            showSigninError(error.message);
-          }
-          document.getElementById('signinEmail').classList.add('error-field');
-          document.getElementById('signinPass').classList.add('error-field');
-          setLoading('signinBtn','signinSpin','signinBtnLabel', false, 'Sign In');
-          return;
-        }
-
-        console.log('[Login] Explicit login success. Fetching role...');
+        showToast('Access Granted! 🚀', 'success');
         const profile = await getUserRole(data.user.id);
-        if (profile.role === 'admin') {
-          toast('Welcome back, Admin! 🎉', 'success');
-        } else {
-          toast('Welcome back! 🛍️', 'success');
-        }
-        showSigninOk('Signed in! Redirecting…');
-        setTimeout(() => redirectForRole(profile.role), 900);
-
+        setTimeout(() => {
+          window.location.href = profile.role === 'admin' ? getPath('eternofashion-admin.html') : getPath('eternofashion-shop.html');
+        }, 1000);
       } catch (err) {
-        console.error('[Sign In Error]', err);
-        showSigninError('Unexpected error. Please try again.');
-        setLoading('signinBtn','signinSpin','signinBtnLabel', false, 'Sign In');
+        showToast(err.message, 'error');
+        btn.disabled = false; label.textContent = 'Sign In';
       }
     }
 
-    /* ── Enter key for sign in ── */
-    ['signinEmail','signinPass'].forEach(id => {
-      document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') doSignIn();
-      });
-    });
-
-    /* ══════════════════════════════════════════════
-       SIGN UP (email + password)
-    ══════════════════════════════════════════════ */
     async function doSignUp() {
-      clearSignupError();
-      const first   = document.getElementById('signupFirst').value.trim();
-      const last    = document.getElementById('signupLast').value.trim();
-      const email   = document.getElementById('signupEmail').value.trim();
-      const pass    = document.getElementById('signupPass').value;
-      const confirm = document.getElementById('signupConfirm').value;
-      const agreed  = document.getElementById('agreeTerms').checked;
+      const first = document.getElementById('signupFirst').value.trim();
+      const last = document.getElementById('signupLast').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const pass = document.getElementById('signupPass').value;
+      if (!email || pass.length < 8) return showToast('Check your email and password (min 8 chars)', 'error');
 
-      if (!first) {
-        document.getElementById('signupFirst').classList.add('error-field');
-        showSignupError('Please enter your first name.');
-        return;
-      }
-      if (!email) {
-        document.getElementById('signupEmail').classList.add('error-field');
-        showSignupError('Please enter your email address.');
-        return;
-      }
-      if (pass.length < 8) {
-        document.getElementById('signupPass').classList.add('error-field');
-        showSignupError('Password must be at least 8 characters long.');
-        return;
-      }
-      if (pass !== confirm) {
-        document.getElementById('signupConfirm').classList.add('error-field');
-        showSignupError('Passwords do not match. Please double-check.');
-        return;
-      }
-      if (!agreed) {
-        showSignupError('Please agree to the Terms & Privacy Policy to continue.');
-        return;
-      }
+      const btn = document.getElementById('signupBtn');
+      const label = document.getElementById('signupBtnLabel');
+      btn.disabled = true; label.textContent = 'Creating...';
 
-      setLoading('signupBtn','signupSpin','signupBtnLabel', true, 'Create Account');
       try {
         const fullName = [first, last].filter(Boolean).join(' ');
         const { data, error } = await db.auth.signUp({
-          email,
-          password: pass,
-          options: {
-            data: { full_name: fullName, avatar_url: '' },
-            emailRedirectTo: `${SITE_BASE}/eternofashion-login.html`
-          }
+          email, password: pass,
+          options: { data: { full_name: fullName }, emailRedirectTo: window.location.href }
         });
+        if (error) throw error;
 
-        if (error) {
-          const msg = error.message.toLowerCase();
-          if (msg.includes('already registered') || msg.includes('user already exists')) {
-            showSignupError('This email is already registered. Try signing in instead.');
-          } else if (msg.includes('password')) {
-            showSignupError('Password too weak. Use a mix of letters, numbers, and symbols.');
-            document.getElementById('signupPass').classList.add('error-field');
-          } else {
-            showSignupError(error.message);
-          }
-          setLoading('signupBtn','signupSpin','signupBtnLabel', false, 'Create Account');
-          return;
+        if (data.user) {
+          showToast('Account Created! Welcome to the family ✨', 'success');
+          await getUserRole(data.user.id);
+          setTimeout(() => switchTab('signin'), 1500);
         }
-
-        // If session exists (Email Confirmation is OFF in Supabase), log in immediately
-        if (data.session) {
-          toast('Account created! Welcome to Eterno 🎉', 'success');
-          showSignupOk('Welcome to the family! Redirecting…');
-          
-          // Profile creation is handled by the trigger, but we fetch to be sure
-          const profile = await getUserRole(data.user.id);
-          setTimeout(() => redirectForRole(profile.role), 1000);
-        } else {
-          // If session is null (Email Confirmation is still ON in Supabase)
-          showSignupOk('Success! Please check your email to confirm your account 📧');
-          toast('Check your inbox to confirm!', 'info');
-          setLoading('signupBtn','signupSpin','signupBtnLabel', false, 'Create Account');
-        }
-
       } catch (err) {
-        console.error('[Sign Up Error]', err);
-        showSignupError('Unexpected error. Please try again.');
-        setLoading('signupBtn','signupSpin','signupBtnLabel', false, 'Create Account');
+        showToast(err.message, 'error');
+        btn.disabled = false; label.textContent = 'Create Account';
       }
     }
 
-    /* ── Enter key for sign up ── */
-    ['signupFirst','signupLast','signupEmail','signupPass','signupConfirm'].forEach(id => {
-      document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') doSignUp();
+    function onSignupPassInput() {
+      const val = document.getElementById('signupPass').value;
+      const bars = ['pwBar1', 'pwBar2', 'pwBar3'];
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      bars.forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.style.background = i < score ? (score === 1 ? '#FF4560' : score === 2 ? '#FFD60A' : '#10D97E') : 'rgba(255,255,255,0.1)';
+        el.style.boxShadow = i < score ? `0 0 10px ${el.style.background}` : 'none';
       });
-    });
-
-    /* ══════════════════════════════════════════════
-       ADMIN: EMAIL + PASSWORD LOGIN
-    ══════════════════════════════════════════════ */
-    async function doAdminPasswordLogin() {
-      clearAdminError();
-      const email = document.getElementById('adminEmail').value.trim();
-      const pass  = document.getElementById('adminPass').value;
-
-      if (!email) {
-        document.getElementById('adminEmail').classList.add('error-field');
-        showAdminError('Please enter your admin email address.');
-        return;
-      }
-      if (!pass) {
-        document.getElementById('adminPass').classList.add('error-field');
-        showAdminError('Please enter your password.');
-        return;
-      }
-
-      setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', true, 'Sign In as Admin');
-      try {
-        const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
-
-        if (error) {
-          const msg = error.message.toLowerCase();
-          if (msg.includes('invalid login') || msg.includes('invalid credentials')) {
-            showAdminError('Incorrect email or password. Please try again.');
-          } else if (msg.includes('email not confirmed')) {
-            showAdminError('Please verify your email before signing in.');
-          } else {
-            showAdminError(error.message);
-          }
-          document.getElementById('adminEmail').classList.add('error-field');
-          document.getElementById('adminPass').classList.add('error-field');
-          setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', false, 'Sign In as Admin');
-          return;
-        }
-
-        const profile = await getUserRole(data.user.id);
-        if (profile.role !== 'admin') {
-          await db.auth.signOut();
-          showAdminError('⛔ This account does not have admin privileges. Contact support.');
-          setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', false, 'Sign In as Admin');
-          return;
-        }
-
-        toast('Welcome back, Admin! 🎉', 'success');
-        showAdminOk('Login successful! Redirecting to Admin Panel…');
-        setTimeout(() => window.location.href = `${SITE_BASE}/eternofashion-admin.html`, 1000);
-
-      } catch (err) {
-        console.error('[Admin Login Error]', err);
-        showAdminError('Unexpected error. Please try again.');
-        setLoading('adminSubmitBtn','adminSpin','adminBtnLabel', false, 'Sign In as Admin');
-      }
     }
 
-    /* ── Enter key for admin ── */
-    ['adminEmail','adminPass'].forEach(id => {
-      document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') doAdminPasswordLogin();
-      });
-    });
-
-
-    /* ══════════════════════════════════════════════
-       FORGOT PASSWORD
-    ══════════════════════════════════════════════ */
-    async function doForgotPassword(emailInputId) {
-      const email = document.getElementById(emailInputId).value.trim();
-      const isAdmin = emailInputId === 'adminEmail';
-
-      if (!email) {
-        document.getElementById(emailInputId).classList.add('error-field');
-        if (isAdmin) showAdminError('Enter your email first, then click "Forgot password?"');
-        else         showSigninError('Enter your email first, then click "Forgot password?"');
-        return;
-      }
-
-      const { error } = await db.auth.resetPasswordForEmail(email, {
-        redirectTo: `${SITE_BASE}/eternofashion-login.html`
-      });
-
-      if (error) {
-        if (isAdmin) showAdminError('Failed to send reset email: ' + error.message);
-        else         showSigninError('Failed to send reset email: ' + error.message);
-      } else {
-        if (isAdmin) showAdminOk('Reset email sent! Check your inbox 📧');
-        else         showSigninOk('Reset email sent! Check your inbox 📧');
-        toast('Password reset email sent!', 'info');
-      }
-    }
-
-    /* ══════════════════════════════════════════════
-       AUTH STATE LISTENER (OAuth callback handler)
-    ══════════════════════════════════════════════ */
+    // Auth state listener
     db.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) {
-        // Redirection for password login is handled by explicit functions,
-        // but this handles cases where session is refreshed or auto-detected.
-        const profile = await getUserRole(session.user.id);
-        console.log('[Eterno] Auth state changed: SIGNED_IN. Role:', profile.role);
-      }
-
-      if (event === 'PASSWORD_RECOVERY') {
-        // User clicked reset password link — switch to sign in and show message
-        switchTab('signin');
-        showSigninOk('Enter a new password on the next screen.');
+        console.log('[Eterno] User signed in automatically');
       }
     });
 
-    /* ══════════════════════════════════════════════
-       CHECK EXISTING SESSION ON LOAD
-    ══════════════════════════════════════════════ */
+    // Check existing session
     (async () => {
-      try {
-        const { data: { session } } = await db.auth.getSession();
-        if (session) {
-          const profile = await getUserRole(session.user.id);
-          console.log('[Eterno] Existing session. Role:', profile.role);
-          redirectForRole(profile.role);
-        }
-      } catch (e) {
-        console.warn('[Eterno] Session check error:', e);
+      const { data: { session } } = await db.auth.getSession();
+      if (session) {
+        const profile = await getUserRole(session.user.id);
+        window.location.href = profile.role === 'admin' ? getPath('eternofashion-admin.html') : getPath('eternofashion-shop.html');
       }
     })();
-
-    /* ══════════════════════════════════════════════
-       HASH-BASED DEEP LINK  (#signin | #signup | #admin)
-       Allows any page to link directly to a specific tab.
-       e.g. eternofashion-login.html#signup
-    ══════════════════════════════════════════════ */
-    const VALID_HASH_TABS = { signin: true, signup: true, admin: true };
-
-    function applyHashTab() {
-      const hash = location.hash.replace('#', '').toLowerCase();
-      if (hash && VALID_HASH_TABS[hash]) {
-        switchTab(hash);
-      }
-    }
-
-    // On page load
-    applyHashTab();
-
-    // On browser back/forward or hash change
-    window.addEventListener('hashchange', applyHashTab);
   </script>
 </body>
 </html>

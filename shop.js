@@ -2,7 +2,7 @@
 // Shop Page Logic — Eterno Fashion
 // ===========================
 
-const SHOP_BASE = 'https://www.knowyourproducts.in';
+// SHOP_BASE is managed via relative paths or auth.js getPath()
 let allProducts = [];
 let currentUser = null;
 let activeCategory = '';
@@ -137,7 +137,7 @@ function clearFilters() {
 async function addToCart(productId) {
   if (!currentUser) {
     showToast('Please sign in to add items to your cart 🔒', 'error');
-    setTimeout(() => { window.location.href = `${SHOP_BASE}/eternofashion-login.html`; }, 1600);
+    setTimeout(() => { window.location.href = getPath('eternofashion-login.html'); }, 1600);
     return;
   }
 
