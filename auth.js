@@ -2,7 +2,7 @@
 const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
 
 // For local file testing, we use empty string or relative path, otherwise the full domain
-const SITE_BASE = IS_LOCAL ? '' : 'https://www.knowyourproducts.in';
+const SITE_BASE = 'https://www.knowyourproducts.in';
 
 // Helper for local file paths
 function getPath(filename) {

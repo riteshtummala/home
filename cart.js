@@ -271,7 +271,7 @@ async function placeOrder(total) {
 
 function closeOrderModal() {
   document.getElementById('orderModal').style.display = 'none';
-  window.location.href = "eternofashion-shop.html";
+  window.location.href = getPath("eternofashion-shop.html");
 }
 
 // Start

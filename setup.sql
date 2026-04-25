@@ -127,26 +127,25 @@ SECURITY DEFINER
 SET search_path = public, auth
 AS $$
 BEGIN
-  -- 1. Auto-confirm the user in auth.users table (bypasses click-to-verify requirement)
-  -- Note: This requires the trigger to have enough permissions (SECURITY DEFINER)
-  UPDATE auth.users 
-  SET email_confirmed_at = COALESCE(email_confirmed_at, NOW()),
-      last_sign_in_at = COALESCE(last_sign_in_at, NOW())
-  WHERE id = NEW.id;
-
-  -- 2. Insert into profiles table
-  INSERT INTO public.profiles (id, full_name, email, avatar_url, role)
-  VALUES (
-    NEW.id,
-    COALESCE(NEW.raw_user_meta_data ->> 'full_name', NEW.raw_user_meta_data ->> 'name', ''),
-    NEW.email,
-    COALESCE(NEW.raw_user_meta_data ->> 'avatar_url', NEW.raw_user_meta_data ->> 'picture', ''),
-    'customer'
-  )
-  ON CONFLICT (id) DO UPDATE SET
-    full_name = EXCLUDED.full_name,
-    avatar_url = EXCLUDED.avatar_url,
-    email = EXCLUDED.email;
+  BEGIN
+    -- Insert into profiles table
+    INSERT INTO public.profiles (id, full_name, email, avatar_url, role)
+    VALUES (
+      NEW.id,
+      COALESCE(NEW.raw_user_meta_data ->> 'full_name', NEW.raw_user_meta_data ->> 'name', ''),
+      NEW.email,
+      COALESCE(NEW.raw_user_meta_data ->> 'avatar_url', NEW.raw_user_meta_data ->> 'picture', ''),
+      'customer'
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      full_name = EXCLUDED.full_name,
+      avatar_url = EXCLUDED.avatar_url,
+      email = EXCLUDED.email;
+  EXCEPTION WHEN OTHERS THEN
+    -- If profile creation fails, we don't want to block the user signup.
+    -- The frontend has a backup profile creation step.
+    RETURN NEW;
+  END;
 
   RETURN NEW;
 END;
